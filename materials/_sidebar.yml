@@ -1,0 +1,9 @@
+website:
+  sidebar:
+    - title: "Materials"
+      contents:
+        - materials.md
+        # Only edit from this line down
+        - section: "Unix"
+          contents:
+            - materials/template_file.md
