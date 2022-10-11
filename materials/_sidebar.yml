@@ -4,6 +4,46 @@ website:
       contents:
         - materials.md
         # Only edit from this line down
-        - section: "Unix"
+        - section: "Introduction to WGS"
           contents:
-            - materials/template_file.md
+            - materials/01-intro_wgs/01-intro_wgs.md
+        - section: "Introduction to Unix"
+          contents:
+            - materials/02-unix_intro/01-unix_overview.md
+            - materials/02-unix_intro/02-files_directories.md
+            - materials/02-unix_intro/03-text_manipulation.md
+            - materials/02-unix_intro/04-combining_commands.md
+        - section: "Common File Formats"
+          contents:
+            - materials/03-file_formats/01-file_formats.md
+        - section: "Sequencing QC"
+          contents:
+            - materials/04-sequence_qc/01-sequence_qc.md
+        - section: "Short Read Mapping"
+          contents:
+            - materials/05-short_read_mapping/01-short_read_mapping.md
+        - section: "Software Management"
+          contents:
+            - materials/06-software_management/01-software_management.md
+        - section: "Workflow Managers"
+          contents:
+            - materials/07-workflow_managers/01-workflow_managers.md
+        - section: "The nf-core/bactmap Pipeline"
+          contents:
+            - materials/08-bactmap/01-bactmap_run.md
+            - materials/08-bactmap/02-bactmap_results.md
+        - section: "Assembly and Annotation"
+          contents:
+            - materials/10-assembly_annotation/01-assembly_annotation.md
+        - section: "Introduction to Phylogenetics"
+          contents:
+            - materials/11-intro_phylogenetics/01-intro_phylogenetics.md
+        - section: "Bacterial Genotyping"
+          contents:
+            - materials/12-genotyping/01-genotyping.md
+        - section: "AMR Prediction"
+          contents:
+            - materials/13-amr_prediction/01-amr_prediction.md
+        - section: "Introduction to HPC"
+          contents:
+            - materials/14-intro_hpc/01-intro_hpc.md

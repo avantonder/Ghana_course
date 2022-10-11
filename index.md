@@ -1,14 +1,16 @@
 ---
-title: "Course Title"
-author: "Hugo Tavares, Martin van Rongen"
+title: "Introduction to Bacterial Genomics"
+author: "Andries van Tonder, Prince Asare"
 date: today
 ---
 
 :::{.panel-tabset}
 
+# Introduction to Bacterial Genomics
+
 ## Overview 
 
-Include a one-paragraph summary of the course here. 
+This course will teach you how to analyse sequencing data from bacterial isolates. 
 
 ::: {.callout-tip}
 ### Learning Objectives
@@ -22,30 +24,26 @@ Include a one-paragraph summary of the course here.
 
 ### Target Audience
 
-Brief description of target audience here.
-
+This course is aimed at life scientists interested in the bioinformatic analysis of bacterial genomes.
 
 ### Prerequisites
 
-Detail any prerequisite skills needed to attend this course, with links to other relevant materials/courses if possible.
+We assume no prior bioinformatics experience or experience with the tools introduced in this course.  An elementary knowledge of molecular and bacterial biology is assumed (concepts such as: DNA, RNA, SNPs).
 
 
 ## Authors
-<!-- 
-The listing below shows an example of how you can give more details about yourself.
-These examples include icons with links to GitHub and Orcid. 
--->
 
 About the authors:
 
-- **Hugo Tavares **
-  <a href="https://orcid.org/0000-0001-9373-2726" target="_blank"><i class="fa-brands fa-orcid" style="color:#a6ce39"></i></a> 
-  <a href="https://github.com/tavareshugo" target="_blank"><i class="fa-brands fa-github" style="color:#4078c0"></i></a>  
-  _Affiliation_: Bioinformatics Training Facility, University of Cambridge  
+- **Andries van Tonder**
+  <a href="https://orcid.org/0000-0002-4380-5250" target="_blank"><i class="fa-brands fa-orcid" style="color:#a6ce39"></i></a> 
+  <a href="https://github.com/avantonder" target="_blank"><i class="fa-brands fa-github" style="color:#4078c0"></i></a>  
+  _Affiliation_: Department of Veterinary Medicine, University of Cambridge  
   _Roles_: writing - original draft; conceptualisation; coding
-- **Martin van Rongen**
-  <a href="https://github.com/mvanrongen" target="_blank"><i class="fa-brands fa-github" style="color:#4078c0"></i></a>  
-  _Affiliation_: Bioinformatics Training Facility, University of Cambridge  
+- **Prince Asare**
+  <a href="https://orcid.org/0000-0003-0673-5967" target="_blank"><i class="fa-brands fa-orcid" style="color:#a6ce39"></i></a>
+  <a href="https://github.com/princeasregh" target="_blank"><i class="fa-brands fa-github" style="color:#4078c0"></i></a>  
+  _Affiliation_: Noguchi Memorial Institute for Medical Research, University of Ghana  
   _Roles_: writing - review & editing; conceptualisation; coding
 
 
