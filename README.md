@@ -1,1 +1,2 @@
 Ghana course
+new text
