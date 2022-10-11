@@ -1,2 +1,2 @@
-Ghana course
+# Ghana course
 new text
