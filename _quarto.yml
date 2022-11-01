@@ -12,6 +12,7 @@ project:
     - materials.md
     - materials/*
     - "!materials/*/no_render"
+    - unix_cheat_sheet.md
 
 format: courseformat-html
 
@@ -37,7 +38,7 @@ website:
       Bioinformatics Training Facility
   navbar:
     pinned: true
-    logo: "_extensions/cambiotraining/courseformat/img/university_crest_reversed.png"
+    logo: "_extensions/cambiotraining/courseformat/img/NMIMR_Logo_whitebg.png"
     left:
       - text: "Home"
         href: index.md
@@ -45,6 +46,8 @@ website:
         href: setup.md
       - text: "Materials"
         href: materials.md
+      - text: "Unix-Cheat-Sheet"
+        href: unix_cheat_sheet.md
     right:
       - icon: github
         href: https://github.com/cambiotraining/

@@ -4,31 +4,36 @@ website:
       contents:
         - materials.md
         # Only edit from this line down
-        - section: "Introduction to WGS"
+        - section: "1. Introduction to WGS"
           contents:
-            - materials/01-intro_wgs/01-intro_wgs.md
-        - section: "Introduction to Unix"
+            - materials/01-intro_wgs/1.1-intro_wgs.md
+        - section: "2. Introduction to Unix"
           contents:
-            - materials/02-unix_intro/01-unix_overview.md
-            - materials/02-unix_intro/02-files_directories.md
-            - materials/02-unix_intro/03-text_manipulation.md
-            - materials/02-unix_intro/04-combining_commands.md
-        - section: "Common File Formats"
+            - materials/02-unix_intro/2.1-unix_overview.md
+            - materials/02-unix_intro/2.2-files_directories.md
+            - materials/02-unix_intro/2.3-text_manipulation.md
+            - materials/02-unix_intro/2.4-combining_commands.md
+            - materials/02-unix_intro/2.5-using_remote_resources.md
+            - materials/02-unix_intro/2.6-vscode_overview.md
+            - materials/02-unix_intro/2.7-bonus_find_and_grep.md
+            - materials/02-unix_intro/2.8-bonus_loops.md
+            - materials/02-unix_intro/2.9-bonus_shell_scripts.md
+        - section: "3. Common File Formats"
           contents:
-            - materials/03-file_formats/01-file_formats.md
-        - section: "Sequencing QC"
+            - materials/03-file_formats/3.1-file_formats.md
+        - section: "4. Sequencing QC"
           contents:
             - materials/04-sequence_qc/01-sequence_qc.md
-        - section: "Short Read Mapping"
+        - section: "5. Short Read Mapping"
           contents:
             - materials/05-short_read_mapping/01-short_read_mapping.md
-        - section: "Software Management"
+        - section: "6. Software Management"
           contents:
             - materials/06-software_management/01-software_management.md
-        - section: "Workflow Managers"
+        - section: "7. Workflow Managers"
           contents:
             - materials/07-workflow_managers/01-workflow_managers.md
-        - section: "The nf-core/bactmap Pipeline"
+        - section: "8. The nf-core/bactmap Pipeline"
           contents:
             - materials/08-bactmap/01-bactmap_run.md
             - materials/08-bactmap/02-bactmap_results.md
