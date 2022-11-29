@@ -23,10 +23,10 @@ website:
             - materials/03-file_formats/3.1-file_formats.md
         - section: "4. Sequencing QC"
           contents:
-            - materials/04-sequence_qc/01-sequence_qc.md
+            - materials/04-sequence_qc/4.1-sequence_qc.md
         - section: "5. Short Read Mapping"
           contents:
-            - materials/05-short_read_mapping/01-short_read_mapping.md
+            - materials/05-short_read_mapping/5.1-short_read_mapping.md
         - section: "6. Software Management"
           contents:
             - materials/06-software_management/01-software_management.md
