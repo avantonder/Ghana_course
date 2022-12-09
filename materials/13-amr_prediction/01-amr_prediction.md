@@ -28,6 +28,9 @@ title: "Antimicrobial Resistance Prediction"
 
 
 
+AMR prediction (Lecture/practical)
+	ariba
+	TBprofiler
 
 
 
