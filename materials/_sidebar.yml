@@ -29,26 +29,24 @@ website:
             - materials/05-short_read_mapping/5.1-short_read_mapping.md
         - section: "6. Software Management"
           contents:
-            - materials/06-software_management/01-software_management.md
+            - materials/06-software_management/6.1-software_management.md
         - section: "7. Workflow Managers"
           contents:
-            - materials/07-workflow_managers/01-workflow_managers.md
+            - materials/07-workflow_managers/7.1-workflow_managers.md
+            - materials/07-workflow_managers/7.2-nfcore.md
         - section: "8. The nf-core/bactmap Pipeline"
           contents:
-            - materials/08-bactmap/01-bactmap_run.md
-            - materials/08-bactmap/02-bactmap_results.md
-        - section: "Assembly and Annotation"
+            - materials/08-bactmap/8.1-bactmap_run.md
+            - materials/08-bactmap/8.2-bactmap_results.md
+        - section: "9. Assembly and Annotation"
           contents:
-            - materials/10-assembly_annotation/01-assembly_annotation.md
-        - section: "Introduction to Phylogenetics"
+            - materials/09-assembly_annotation/9.1-assembly_annotation.md
+        - section: "10. Introduction to Phylogenetics"
           contents:
-            - materials/11-intro_phylogenetics/01-intro_phylogenetics.md
-        - section: "Bacterial Genotyping"
+            - materials/10-intro_phylogenetics/10.1-intro_phylogenetics.md
+        - section: "11. Bacterial Genotyping and AMR prediction"
           contents:
-            - materials/12-genotyping/01-genotyping.md
-        - section: "AMR Prediction"
+            - materials/11-genotyping/11.1-genotyping.md
+        - section: "12. Introduction to HPC"
           contents:
-            - materials/13-amr_prediction/01-amr_prediction.md
-        - section: "Introduction to HPC"
-          contents:
-            - materials/14-intro_hpc/01-intro_hpc.md
+            - materials/12-intro_hpc/12.1-intro_hpc.md
