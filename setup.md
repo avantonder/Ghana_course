@@ -393,6 +393,13 @@ mamba create -n mapping bwa=0.7.17 samtools=1.15 bcftools=1.14 pysam=0.16.0.1 bi
 
 This creates an environment called `mapping` with the specified package versions and their dependencies.
 
+**NB.** Creating the pseudogenomes step runs python scripts which require some python libraries.  
+Use the below command to install the packages in the `mapping` environment:
+
+```bash
+conda install pandas -n qc -c conda-forge 
+```
+
 We will activate and use this environment in [chapter 5](./materials/05-short_read_mapping/5.1-short_read_mapping.md) --- [Short Read Mapping](./materials/05-short_read_mapping/5.1-short_read_mapping.md).
 :::
 
