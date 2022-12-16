@@ -44,7 +44,7 @@ About the authors:
   <a href="https://orcid.org/0000-0003-0673-5967" target="_blank"><i class="fa-brands fa-orcid" style="color:#a6ce39"></i></a>
   <a href="https://github.com/princeasregh" target="_blank"><i class="fa-brands fa-github" style="color:#4078c0"></i></a>  
   _Affiliation_: Noguchi Memorial Institute for Medical Research, University of Ghana  
-  _Roles_: writing - review & editing; conceptualisation; coding
+  _Roles_: writing - original draft; conceptualisation; coding
 
 
 ## Citation

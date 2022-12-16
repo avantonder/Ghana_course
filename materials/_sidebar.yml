@@ -27,28 +27,26 @@ website:
         - section: "5. Short Read Mapping"
           contents:
             - materials/05-short_read_mapping/5.1-short_read_mapping.md
-        - section: "6. Software Management"
+        - section: "6. Assembly and Annotation"
           contents:
-            - materials/06-software_management/01-software_management.md
-        - section: "7. Workflow Managers"
+            - materials/06-assembly_annotation/6.1-assembly_annotation.md
+        - section: "7. Software Management"
           contents:
-            - materials/07-workflow_managers/01-workflow_managers.md
-        - section: "8. The nf-core/bactmap Pipeline"
+            - materials/07-software_management/7.1-software_management.md
+        - section: "8. Workflow Managers"
           contents:
-            - materials/08-bactmap/01-bactmap_run.md
-            - materials/08-bactmap/02-bactmap_results.md
-        - section: "Assembly and Annotation"
+            - materials/08-workflow_managers/8.1-workflow_managers.md
+            - materials/08-workflow_managers/8.2-nfcore.md
+        - section: "9. The nf-core/bactmap Pipeline"
           contents:
-            - materials/10-assembly_annotation/01-assembly_annotation.md
-        - section: "Introduction to Phylogenetics"
+            - materials/09-bactmap/9.1-bactmap_run.md
+            - materials/09-bactmap/9.2-bactmap_results.md
+        - section: "10. Introduction to Phylogenetics"
           contents:
-            - materials/11-intro_phylogenetics/01-intro_phylogenetics.md
-        - section: "Bacterial Genotyping"
+            - materials/10-intro_phylogenetics/10.1-intro_phylogenetics.md
+        - section: "11. Bacterial Genotyping and AMR prediction"
           contents:
-            - materials/12-genotyping/01-genotyping.md
-        - section: "AMR Prediction"
+            - materials/11-genotyping/11.1-genotyping.md
+        - section: "12. Introduction to HPC"
           contents:
-            - materials/13-amr_prediction/01-amr_prediction.md
-        - section: "Introduction to HPC"
-          contents:
-            - materials/14-intro_hpc/01-intro_hpc.md
+            - materials/12-intro_hpc/12.1-intro_hpc.md
