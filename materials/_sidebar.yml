@@ -27,20 +27,20 @@ website:
         - section: "5. Short Read Mapping"
           contents:
             - materials/05-short_read_mapping/5.1-short_read_mapping.md
-        - section: "6. Software Management"
+        - section: "6. Assembly and Annotation"
           contents:
-            - materials/06-software_management/6.1-software_management.md
-        - section: "7. Workflow Managers"
+            - materials/06-assembly_annotation/6.1-assembly_annotation.md
+        - section: "7. Software Management"
           contents:
-            - materials/07-workflow_managers/7.1-workflow_managers.md
-            - materials/07-workflow_managers/7.2-nfcore.md
-        - section: "8. The nf-core/bactmap Pipeline"
+            - materials/07-software_management/7.1-software_management.md
+        - section: "8. Workflow Managers"
           contents:
-            - materials/08-bactmap/8.1-bactmap_run.md
-            - materials/08-bactmap/8.2-bactmap_results.md
-        - section: "9. Assembly and Annotation"
+            - materials/08-workflow_managers/8.1-workflow_managers.md
+            - materials/08-workflow_managers/8.2-nfcore.md
+        - section: "9. The nf-core/bactmap Pipeline"
           contents:
-            - materials/09-assembly_annotation/9.1-assembly_annotation.md
+            - materials/09-bactmap/9.1-bactmap_run.md
+            - materials/09-bactmap/9.2-bactmap_results.md
         - section: "10. Introduction to Phylogenetics"
           contents:
             - materials/10-intro_phylogenetics/10.1-intro_phylogenetics.md
