@@ -297,6 +297,39 @@ This creates an environment called `mapping` with the specified package versions
 We will activate and use this environment in [chapter 5](./materials/05-short_read_mapping/5.1-short_read_mapping.md) --- [Short Read Mapping](./materials/05-short_read_mapping/5.1-short_read_mapping.md).
 :::
 
+:::{.callout}
+### Installing required packages for [Assembly and Annotation](./materials/06-assembly_annotation/6.1-assembly_annotation.md)
+
+**NB.** For the Assembly and Annotation module, we will create three different environments because there are conflicts in the conda recipes and it'll be tricky to get all the tools working in a single environment.
+
+We will thus, create each environment seperately with the following names:
+
+```bash
+mamba create -n shovill -c bioconda shovill=1.1.0 
+
+mamba create -n quast -c bioconda quast=5.2.0 
+
+mamba create -n bakta -c bioconda bakta=1.6.1
+```
+
+We will activate and use these environments in [Chapter 6](./materials/06-assembly_annotation/6.1-assembly_annotation.md) --- [Assembly and Annotation](./materials/06-assembly_annotation/6.1-assembly_annotation.md).
+:::
+
+:::{.callout}
+### creating the `phylogenetics` environment and installing required packages
+
+run this command to install all required packages and their dependencies:
+
+```bash
+mamba create -n phylogenetics -c bioconda iqtree=2.2.0.3 snp-sites=2.5.1
+```
+
+This creates an environment called `phylogenetics` with the specified package versions and their dependencies.
+
+We will activate and use this environment in [Chapter 10](./materials/10-intro_phylogenetics/10.1-intro_phylogenetics.md) --- [Introduction to Phylogenetics](./materials/10-intro_phylogenetics/10.1-intro_phylogenetics.md).
+:::
+
+
 
 :::{.callout}
 ### creating the `genotyping` environments and installing required packages
