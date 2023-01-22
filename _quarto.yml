@@ -50,10 +50,10 @@ website:
         href: unix_cheat_sheet.md
     right:
       - icon: github
-        href: https://github.com/cambiotraining/
-        aria-label: Bioinformatics Training Facility GitHub
+        href: https://github.com/avantonder/Ghana_course
+        aria-label: Introduction to bacterial genomics GitHub
       - icon: twitter
-        href: https://twitter.com/bioinfocambs
-        aria-label: Bioinformatics Training Facility Twitter
+        href: https://twitter.com/NMIMR_UG
+        aria-label: Noguchi Memorial Institute for Medical Research Twitter
   sidebar:
     - title: "Home"

@@ -10,15 +10,24 @@ date: today
 
 ## Overview 
 
-This course will teach you how to analyse sequencing data from bacterial isolates. 
+This course will teach you how to begin analysing whole genome sequencing data from bacterial isolates. We will introduce many of the software tools commonly used when analysing bacterial genomes and provide an outline of workflows such as quality control, short read mapping and phylogenetic tree inference. Along the way, you will gain foundational bioinformatic skills, including the use of the Unix command line and learn to write simple scripts to ensure your analysis is reproducible.
 
 ::: {.callout-tip}
-### Learning Objectives
 
-- List course learning objectives here.
-- These describe concepts the learners should grasp and techniques they should be able to use by the end of the course.
-- You can think of these as completing the phrase "after this course, the participant should be able to..."
-- They are not supposed to be as detailed as the learning objectives of each section, but more high-level.
+### Learning Objectives:
+
+By the end of this course, learners should be able to:
+
+- Understand what the main technologies used for high throughput sequencing are.
+- Use the Unix command line to navigate a filesystem, manipulate files, launch programs and write scripts for reproducible analysis.
+- Recognise the structure of common sequence file formats in bioinformatics and run basic quality control tools on them.
+- Use mapping tools to map short read sequence data to a reference genome, call variants and visualize the results of the mapping process.
+- Understand how to create a *de novo* assembly, assess the quality of the assembly and annotate the genome using a pre-compiled database of annotations.
+- Manage and install bioinformatics software using _Conda_ and set up _Nextflow_ workflows.
+- Use Nextflow pipelines from the nf-core community and map sequence data from several isolates to a reference genome with the bactmap pipeline.
+- Understand the different approaches to constructing a phylogenetic tree as well build and visualize a phylogeny.
+- Run different genotyping tools to predict characteristics such as serotypes and antimicrobial resistance.
+- Understand what high performance computing is and how this can be used to analyse large numbers of genomes efficiently and quickly.
 :::
 
 
@@ -49,35 +58,30 @@ About the authors:
 
 ## Citation
 
-<!-- We can do this at the end -->
-
-Please cite these materials if:
-
-- You adapted or used any of them in your own teaching.
-- These materials were useful for your research work. For example, you can cite us in the methods section of your paper: "We carried our analyses based on the recommendations in _TODO_.".
-
 You can cite these materials as:
 
-> TODO
+Asare P and van Tonder A. (2023) "Introduction to bacterial genomics", https://avantonder.github.io/Ghana_course/
 
 Or in BibTeX format:
 
 ```
 @Misc{,
-  author = {},
-  title = {},
-  month = {},
-  year = {},
-  url = {},
-  doi = {}
+  author = {Asare, Prince and van Tonder, Andries},
+  title = {avantonder.github.io/Ghana_course/: Introduction to bacterial genomics},
+  month = {January},
+  year = {2023},
+  url = {https://avantonder.github.io/Ghana_course/},
 }
 ```
 
 
 ## Acknowledgements
 
-<!-- if there are no acknowledgements we can delete this section -->
+These materials have been developed as a collaboration between the [Department of Veterinary Medicine](https://www.vet.cam.ac.uk/) at the University of Cambridge and the [Noguchi Memorial Institute for Medical Research](https://noguchi.org.gh/) at the University of Ghana.
 
-- List any other sources of materials that were used.
-- Or other people that may have advised during the material development (but are not authors).
+We also thank the wider community for publicly sharing training resources, including: 
+
+- The excellent training courses put together by University of [Cambridge Bioinformatics Training Facility](https://github.com/cambiotraining/)
+- The [Carpentries](https://carpentries.org/) project
+
 :::
