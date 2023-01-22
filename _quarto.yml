@@ -35,7 +35,7 @@ website:
     center: |
       Licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 
       ![](https://creativecommons.org/images/deed/cc_icon_black_x2.png){width=25px} 
-      Bioinformatics Training Facility
+      Dr Prince Asare and Dr Andries van Tonder
   navbar:
     pinned: true
     logo: "_extensions/cambiotraining/courseformat/img/NMIMR_Logo_whitebg.png"
