@@ -46,6 +46,8 @@ mamba create -n artemis -c bioconda artemis
 
 mamba create -n figtree -c bioconda figtree
 
+mamba create -n prokka -c bioconda prokka
+
 mv bact_gen_workshop2023 workshop_files_Bact_Genomics_2023
 
  
