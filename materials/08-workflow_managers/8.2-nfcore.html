@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.112">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>8.2 nf-core pipelines</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../materials/09-bactmap/9.1-bactmap_run.html" rel="next">
+<link href="../../materials/08-workflow_managers/8.1-workflow_managers.html" rel="prev">
+<link href="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university-of-cambridge-favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/NMIMR_Logo_whitebg.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../setup.html">Setup</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../materials.html" aria-current="page">Materials</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../unix_cheat_sheet.html">Unix-Cheat-Sheet</a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/avantonder/Ghana_course"><i class="bi bi-github" role="img" aria-label="Introduction to bacterial genomics GitHub">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/NMIMR_UG"><i class="bi bi-twitter" role="img" aria-label="Noguchi Memorial Institute for Medical Research Twitter">
+</i> 
+ </a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">8.2 nf-core pipelines</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials.html" class="sidebar-item-text sidebar-link">Materials</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">1. Introduction to WGS</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro_wgs/1.1-intro_wgs.html" class="sidebar-item-text sidebar-link">1.1 Introduction to Whole Genome Sequencing (WGS)</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">2. Introduction to Unix</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.1-unix_overview.html" class="sidebar-item-text sidebar-link">2.1 The Unix Shell</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.2-files_directories.html" class="sidebar-item-text sidebar-link">2.2 Navigating Files and Directories</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.3-text_manipulation.html" class="sidebar-item-text sidebar-link">2.3 Text Manipulation</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.4-combining_commands.html" class="sidebar-item-text sidebar-link">2.4 Combining Commands</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.5-using_remote_resources.html" class="sidebar-item-text sidebar-link">2.5 Using remote resources</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.6-vscode_overview.html" class="sidebar-item-text sidebar-link">2.6 Visual Studio Code</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.7-bonus_find_and_grep.html" class="sidebar-item-text sidebar-link">2.7 <em>Bonus</em> : Finding Things</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.8-bonus_loops.html" class="sidebar-item-text sidebar-link">2.8 <em>Bonus</em>: Loops</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.9-bonus_shell_scripts.html" class="sidebar-item-text sidebar-link">2.9 <em>Bonus</em>: Shell Scripts</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">3. Common File Formats</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-file_formats/3.1-file_formats.html" class="sidebar-item-text sidebar-link">3.1 Common File Formats</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">4. Sequencing QC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-sequence_qc/4.1-sequence_qc.html" class="sidebar-item-text sidebar-link">4.1 Sequencing Quality Control</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">5. Short Read Mapping</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-short_read_mapping/5.1-short_read_mapping.html" class="sidebar-item-text sidebar-link">5.1 Short Read Mapping</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">6. Assembly and Annotation</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/06-assembly_annotation/6.1-assembly_annotation.html" class="sidebar-item-text sidebar-link">6.1 Assembly and Annotation</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">7. Software Management</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/07-software_management/7.1-software_management.html" class="sidebar-item-text sidebar-link">7.1 Managing Software</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">8. Workflow Managers</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.1-workflow_managers.html" class="sidebar-item-text sidebar-link">8.1 Workflow Managers</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.2-nfcore.html" class="sidebar-item-text sidebar-link active">8.2 nf-core pipelines</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">9. The nf-core/bactmap Pipeline</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.1-bactmap_run.html" class="sidebar-item-text sidebar-link">9.1 The nf-core/bactmap pipeline</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.2-bactmap_results.html" class="sidebar-item-text sidebar-link">9.2 nf-core/bactmap Results</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">10. Introduction to Phylogenetics</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/10-intro_phylogenetics/10.1-intro_phylogenetics.html" class="sidebar-item-text sidebar-link">10.1 Introduction to Phylogenetics</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">11. Bacterial Genotyping and AMR prediction</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/11-genotyping/11.1-genotyping.html" class="sidebar-item-text sidebar-link">11.1 Bacterial Genotyping and Drug Resistance Prediction</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">12. Introduction to HPC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/12-intro_hpc/12.1-intro_hpc.html" class="sidebar-item-text sidebar-link">12.1 Introduction to High Performance Computing</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#what-is-nf-core" id="toc-what-is-nf-core" class="nav-link" data-scroll-target="#what-is-nf-core">8.1 What is nf-core?</a></li>
+  <li><a href="#what-are-nf-core-pipelines" id="toc-what-are-nf-core-pipelines" class="nav-link" data-scroll-target="#what-are-nf-core-pipelines">8.2 What are nf-core pipelines?</a></li>
+  <li><a href="#running-nf-core-pipelines" id="toc-running-nf-core-pipelines" class="nav-link" data-scroll-target="#running-nf-core-pipelines">8.3 Running nf-core pipelines</a>
+  <ul class="collapse">
+  <li><a href="#software-requirements-for-nf-core-pipelines" id="toc-software-requirements-for-nf-core-pipelines" class="nav-link" data-scroll-target="#software-requirements-for-nf-core-pipelines">Software requirements for nf-core pipelines</a></li>
+  <li><a href="#fetching-pipeline-code" id="toc-fetching-pipeline-code" class="nav-link" data-scroll-target="#fetching-pipeline-code">Fetching pipeline code</a></li>
+  </ul></li>
+  <li><a href="#usage-instructions-and-documentation" id="toc-usage-instructions-and-documentation" class="nav-link" data-scroll-target="#usage-instructions-and-documentation">8.4 Usage instructions and documentation</a>
+  <ul class="collapse">
+  <li><a href="#the-nf-core-launch-command" id="toc-the-nf-core-launch-command" class="nav-link" data-scroll-target="#the-nf-core-launch-command">The nf-core launch command</a></li>
+  <li><a href="#config-files" id="toc-config-files" class="nav-link" data-scroll-target="#config-files">Config files</a></li>
+  <li><a href="#config-profiles" id="toc-config-profiles" class="nav-link" data-scroll-target="#config-profiles">Config Profiles</a></li>
+  <li><a href="#multiple-nextflow-configuration-locations" id="toc-multiple-nextflow-configuration-locations" class="nav-link" data-scroll-target="#multiple-nextflow-configuration-locations">Multiple Nextflow configuration locations</a></li>
+  <li><a href="#running-pipelines-with-test-data" id="toc-running-pipelines-with-test-data" class="nav-link" data-scroll-target="#running-pipelines-with-test-data">Running pipelines with test data</a></li>
+  </ul></li>
+  <li><a href="#using-nf-core-pipelines-offline" id="toc-using-nf-core-pipelines-offline" class="nav-link" data-scroll-target="#using-nf-core-pipelines-offline">8.5 Using nf-core pipelines offline</a></li>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">8.6 Troubleshooting</a>
+  <ul class="collapse">
+  <li><a href="#extra-resources-and-getting-help" id="toc-extra-resources-and-getting-help" class="nav-link" data-scroll-target="#extra-resources-and-getting-help">Extra resources and getting help</a></li>
+  </ul></li>
+  <li><a href="#referencing-a-pipeline" id="toc-referencing-a-pipeline" class="nav-link" data-scroll-target="#referencing-a-pipeline">8.7 Referencing a Pipeline</a>
+  <ul class="collapse">
+  <li><a href="#publications" id="toc-publications" class="nav-link" data-scroll-target="#publications">Publications</a></li>
+  <li><a href="#dois" id="toc-dois" class="nav-link" data-scroll-target="#dois">DOIs</a></li>
+  </ul></li>
+  <li><a href="#credit" id="toc-credit" class="nav-link" data-scroll-target="#credit">Credit</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">8.2 nf-core pipelines</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p><strong>Teaching: 45 min</strong> || <strong>Exercises: 15 min</strong></p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Questions:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Where can I find best-practice Nextflow bioinformatic pipelines?</li>
+<li>How do I run nf-core pipelines?</li>
+<li>How do I configure nf-core pipelines to use my data?</li>
+<li>How do I reference nf-core pipelines?</li>
+</ul>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Learning Objectives:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Understand what nf-core is and how it relates to Nextflow.</li>
+<li>Use the nf-core helper tool to find nf-core pipelines.</li>
+<li>Understand how to configuration nf-core pipelines.</li>
+<li>Run a small nf-core pipeline using a test dataset.</li>
+</ul>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Keypoints:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>nf-core is a community-led project to develop a set of best-practice pipelines built using the Nextflow workflow management system.</li>
+<li>The nf-core tool (<code>nf-core</code>) is a suite of helper tools that aims to help people run and develop nf-core pipelines.</li>
+<li>nf-core pipelines can be found using <code>nf-core list</code>, or by checking the nf-core website.</li>
+<li><code>nf-core launch nf-core/&lt;pipeline&gt;</code> can be used to write a parameter file for an nf-core pipeline. This can be supplied to the pipeline using the <code>-params-file</code> option.</li>
+<li>An nf-core workflow is run using <code>nextflow run nf-core/&lt;pipeline&gt;</code> syntax.</li>
+<li>nf-core pipelines can be reconfigured by using custom config files and/or adding command line parameters.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="what-is-nf-core" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-nf-core">8.1 What is nf-core?</h2>
+<p>nf-core is a community-led project to develop a set of best-practice pipelines built using Nextflow workflow management system. Pipelines are governed by a set of guidelines, enforced by community code reviews and automatic code testing.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/nf-core.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">nf-core</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="what-are-nf-core-pipelines" class="level2">
+<h2 class="anchored" data-anchor-id="what-are-nf-core-pipelines">8.2 What are nf-core pipelines?</h2>
+<p>nf-core pipelines are an organised collection of Nextflow scripts, other non-nextflow scripts (written in any language), configuration files, software specifications, and documentation hosted on <a href="https://github.com/nf-core">GitHub</a>. There is generally a single pipeline for a given data and analysis type e.g.&nbsp;There is a single pipeline for bulk RNA-Seq. All nf-core pipelines are distributed under the, permissive free software, <a href="https://en.wikipedia.org/wiki/MIT_License">MIT licences</a>.</p>
+</section>
+<section id="running-nf-core-pipelines" class="level2">
+<h2 class="anchored" data-anchor-id="running-nf-core-pipelines">8.3 Running nf-core pipelines</h2>
+<section id="software-requirements-for-nf-core-pipelines" class="level3">
+<h3 class="anchored" data-anchor-id="software-requirements-for-nf-core-pipelines">Software requirements for nf-core pipelines</h3>
+<p>nf-core pipeline software dependencies are specified using either Docker, Singularity or Conda. It is Nextflow that handles the downloading of containers and creation of conda environments. In theory it is possible to run the pipelines with software installed by other methods (e.g.&nbsp;environment modules, or manual installation), but this is not recommended.</p>
+</section>
+<section id="fetching-pipeline-code" class="level3">
+<h3 class="anchored" data-anchor-id="fetching-pipeline-code">Fetching pipeline code</h3>
+<p>Unless you are actively developing pipeline code, you should use Nextflow’s <a href="https://www.nextflow.io/docs/latest/sharing.html">built-in functionality</a> to fetch nf-core pipelines. You can use the following command to pull the latest version of a remote workflow from the nf-core github site.;</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> pull nf-core/<span class="op">&lt;</span>PIPELINE<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Nextflow will also automatically fetch the pipeline code when you run</p>
+<p>`<code>bash nextflow run nf-core/&lt;pipeline&gt;</code>.</p>
+<pre><code>
+For the best reproducibility, it is good to explicitly reference the pipeline version number that you wish to use with the `-revision`/`-r` flag.
+
+In the example below we are pulling the rnaseq pipeline version 3.0
+
+```bash
+$ nextflow pull nf-core/rnaseq -revision 3.0</code></pre>
+</section>
+</section>
+<section id="usage-instructions-and-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="usage-instructions-and-documentation">8.4 Usage instructions and documentation</h2>
+<p>You can find general documentation and instructions for Nextflow and nf-core on the <a href="https://nf-co.re/">nf-core website</a> . Pipeline-specific documentation is bundled with each pipeline in the /docs folder. This can be read either locally, on GitHub, or on the nf-core website.</p>
+<p>Each pipeline has its own webpage e.g.&nbsp;<a href="https://nf-co.re/rnaseq/usage">nf-co.re/rnaseq</a>.</p>
+<p>In addition to this documentation, each pipeline comes with basic command line reference. This can be seen by running the pipeline with the parameter <code>--help</code> , for example:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run <span class="at">-r</span> 3.4 nf-core/rnaseq <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>N E X T F L O W  <span class="op">~</span>  version <span class="fl">20.10.0</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Launching `nf<span class="op">-</span>core<span class="op">/</span>rnaseq` <span class="op">[</span>silly_miescher<span class="op">]</span> <span class="op">-</span> revision<span class="op">:</span> <span class="er">964425</span>e3fd <span class="op">[</span><span class="fl">3.4</span><span class="op">]</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="op">------------------------------------------------------</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                                        <span class="op">,--.</span><span class="st">/,-.</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="st">        ___     __   __   __   ___     /</span><span class="op">,-.</span>_<span class="op">.--~</span><span class="st">'</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">|</span>\ <span class="op">|</span> <span class="op">|</span>__  __ <span class="op">/</span>  ` <span class="op">/</span>  \ <span class="op">|</span>__<span class="op">)</span> <span class="op">|</span>__         <span class="op">}</span>  <span class="op">{</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">|</span> \<span class="op">|</span> <span class="op">|</span>       \__<span class="op">,</span> \__<span class="op">/</span> <span class="op">|</span>  \ <span class="op">|</span>___     \`<span class="op">-.</span>_<span class="op">,-</span>`<span class="op">-,</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                                        `<span class="op">.</span>_<span class="op">,.</span>_<span class="op">,</span><span class="st">'</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  nf<span class="op">-</span>core<span class="op">/</span>rnaseq v3<span class="fl">.0</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="op">------------------------------------------------------</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>Typical pipeline command<span class="op">:</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    nextflow run nf<span class="op">-</span>core<span class="op">/</span>rnaseq <span class="op">--</span>input samplesheet<span class="op">.</span>csv <span class="op">--</span>genome GRCh37 <span class="op">-</span>profile docker</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>Input<span class="op">/</span>output options</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">--</span>input                             <span class="op">[</span>string<span class="op">]</span>  Path to comma<span class="op">-</span>separated file containing information about the samples <span class="kw">in</span> the experiment<span class="op">.</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">--</span>outdir                            <span class="op">[</span>string<span class="op">]</span>  Path to the output directory where the results will be saved<span class="op">.</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">--</span>public_data_ids                   <span class="op">[</span>string<span class="op">]</span>  <span class="bu">File</span> containing SRA<span class="op">/</span>ENA<span class="op">/</span>GEO identifiers one per line <span class="kw">in</span> order to download their associated FastQ files<span class="op">.</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">--</span>email                             <span class="op">[</span>string<span class="op">]</span>  Email address <span class="cf">for</span> completion summary<span class="op">.</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">--</span>multiqc_title                     <span class="op">[</span>string<span class="op">]</span>  MultiQC report title<span class="op">.</span> Printed <span class="kw">as</span> page header<span class="op">,</span> used <span class="cf">for</span> filename <span class="cf">if</span> not otherwise specified<span class="op">.</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">--</span>skip_sra_fastq_download           <span class="op">[</span><span class="dt">boolean</span><span class="op">]</span> Only download metadata <span class="cf">for</span> public data database ids and don<span class="st">'t download the FastQ files.</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">--</span>save_merged_fastq                 <span class="op">[</span><span class="dt">boolean</span><span class="op">]</span> Save FastQ files after merging re<span class="op">-</span>sequenced libraries <span class="kw">in</span> the results directory<span class="op">.</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="op">..</span>truncated<span class="op">..</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="the-nf-core-launch-command" class="level3">
+<h3 class="anchored" data-anchor-id="the-nf-core-launch-command">The nf-core launch command</h3>
+<p>As can be seen from the output of the help option nf-core pipelines have a number of flags that need to be passed on the command line: some mandatory, some optional.</p>
+<p>To make it easier to launch pipelines, these parameters are described in a JSON file, <code>nextflow_schema.json</code> bundled with the pipeline.</p>
+<p>The <code>nf-core launch</code> command uses this to build an interactive command-line wizard which walks through the different options with descriptions of each, showing the default value and prompting for values.</p>
+<p>Once all prompts have been answered, non-default values are saved to a <code>params.json</code> file which can be supplied to Nextflow using the <code>-params-file</code> option. Optionally, the Nextflow command can be launched there and then.</p>
+<p>To use the launch feature, just specify the pipeline name:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nf-core</span> launch <span class="at">-r</span> 3.0 rnaseq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 8.2.1:</em></strong> Run a Nextflow script
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the <code>nf-core launch</code> command to create a params file named <code>nf-params.json</code>. 1. Use the <code>nf-core launch</code> command to launch the interactive command-line wizard. 1. Add an input file name <code>samples.csv</code> 1. Add a genome <code>GRCh38</code> <strong>Note</strong> : Do not run the command now.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nf-core</span> launch rnaseq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The contents of the <code>nf-params.json</code> file should be</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"input"</span><span class="op">:</span> <span class="st">"samples.csv"</span><span class="op">,</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"genome"</span><span class="op">:</span> <span class="st">"GRCh38"</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="config-files" class="level3">
+<h3 class="anchored" data-anchor-id="config-files">Config files</h3>
+<p>nf-core pipelines make use of Nextflow’s configuration files to specify how the pipelines runs, define custom parameters and what software management system to use e.g.&nbsp;docker, singularity or conda.</p>
+<p>Nextflow can load pipeline configurations from multiple locations. nf-core pipelines load configuration in the following order:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/nfcore_config.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">config</figcaption><p></p>
+</figure>
+</div>
+<ol type="1">
+<li>Pipeline: Default ‘base’ config</li>
+</ol>
+<ul>
+<li>Always loaded. Contains pipeline-specific parameters and “sensible defaults” for things like computational requirements</li>
+<li>Does not specify any method for software packaging. If nothing else is specified, Nextflow will expect all software to be available on the command line.</li>
+</ul>
+<ol start="2" type="1">
+<li>Core config profiles</li>
+</ol>
+<ul>
+<li>All nf-core pipelines come with some generic config profiles. The most commonly used ones are for software packaging: docker, singularity and conda</li>
+<li>Other core profiles are debug and two test profiles. There two test profile, a small test profile (nf-core/test-datasets) for quick test and a full test profile which provides the path to full sized data from public repositories.</li>
+</ul>
+<ol start="3" type="1">
+<li>Server profiles</li>
+</ol>
+<ul>
+<li>At run time, nf-core pipelines fetch configuration profiles from the <a href="https://github.com/nf-core/configs">configs remote repository</a>. The profiles here are specific to clusters at different institutions.</li>
+<li>Because this is loaded at run time, anyone can add a profile here for their system and it will be immediately available for all nf-core pipelines.</li>
+</ul>
+<ol start="4" type="1">
+<li>Local config files given to Nextflow with the <code>-c</code> flag</li>
+</ol>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/rnaseq <span class="at">-r</span> 3.0 <span class="at">-c</span> mylocal.config</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>Command line configuration: pipeline parameters can be passed on the command line using the <code>--&lt;parameter&gt;</code> syntax.</li>
+</ol>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/rnaseq <span class="at">-r</span> 3.0 <span class="at">--email</span> <span class="st">"my@email.com"</span><span class="kw">`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="config-profiles" class="level3">
+<h3 class="anchored" data-anchor-id="config-profiles">Config Profiles</h3>
+<p>nf-core makes use of Nextflow configuration <code>profiles</code> to make it easy to apply a group of options on the command line.</p>
+<p>Configuration files can contain the definition of one or more profiles. A profile is a set of configuration attributes that can be activated/chosen when launching a pipeline execution by using the <code>-profile</code> command line option. Common profiles are <code>conda</code>, <code>singularity</code> and <code>docker</code> that specify which software manager to use.</p>
+<p>Multiple profiles are comma-separated. When there are differing configuration settings provided by different profiles, the right-most profile takes priority.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/rnaseq <span class="at">-r</span> 3.0 <span class="at">-profile</span> test,conda</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/rnaseq <span class="at">-r</span> 3.0 <span class="at">-profile</span> <span class="op">&lt;</span>institutional_config_profile<span class="op">&gt;</span>, test, conda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Note</strong> The order in which config profiles are specified matters. Their priority increases from left to right.</p>
+</section>
+<section id="multiple-nextflow-configuration-locations" class="level3">
+<h3 class="anchored" data-anchor-id="multiple-nextflow-configuration-locations">Multiple Nextflow configuration locations</h3>
+<p>Be clever with multiple Nextflow configuration locations. For example, use <code>-profile</code> for your cluster configuration, the file <code>$HOME/.nextflow/config</code> for your personal config such as <code>params.email</code> and a working directory &gt;<code>nextflow.config</code> file for reproducible run-specific configuration.</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 8.2.2:</em></strong> create a custom config
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Add the <code>params.email</code> to a file called <code>nfcore-custom.config</code></p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A line similar to one below in the file custom.config</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>email <span class="op">=</span> <span class="st">"myemail@address.com"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="running-pipelines-with-test-data" class="level3">
+<h3 class="anchored" data-anchor-id="running-pipelines-with-test-data">Running pipelines with test data</h3>
+<p>The nf-core config profile <code>test</code> is special profile, which defines a minimal data set and configuration, that runs quickly and tests the workflow from beginning to end. Since the data is minimal, the output is often nonsense. Real world example output are instead linked on the nf-core pipeline web page, where the workflow has been run with a full size data set:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run nf-core/<span class="op">&lt;</span>pipeline_name-profile test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Software configuration profile
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that you will typically still need to combine this with a software configuration profile for your system - e.g. <code>-profile test,conda</code>. Running with the test profile is a great way to confirm that you have Nextflow configured properly for your system before attempting to run with real data</p>
+</div>
+</div>
+</section>
+</section>
+<section id="using-nf-core-pipelines-offline" class="level2">
+<h2 class="anchored" data-anchor-id="using-nf-core-pipelines-offline">8.5 Using nf-core pipelines offline</h2>
+<p>Many of the techniques and resources described above require an active internet connection at run time - pipeline files, configuration profiles and software containers are all dynamically fetched when the pipeline is launched. This can be a problem for people using secure computing resources that do not have connections to the internet.</p>
+<p>To help with this, the <code>nf-core download</code> command automates the fetching of required files for running nf-core pipelines offline. The command can download a specific release of a pipeline with <code>-r</code>/<code>--release</code> .<br>
+By default, the pipeline will download the pipeline code and the institutional nf-core/configs files.</p>
+<p>If you specify the flag <code>--singularity</code>, it will also download any singularity image files that are required (this needs Singularity to be installed). All files are saved to a single directory, ready to be transferred to the cluster where the pipeline will be executed.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nf-core download nf-core/rnaseq <span class="at">-r</span> 3.4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                                          <span class="op">,--.</span><span class="st">/,-.</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="st">          ___     __   __   __   ___     /</span><span class="op">,-.</span>_<span class="op">.--~</span>\</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span>\ <span class="op">|</span> <span class="op">|</span>__  __ <span class="op">/</span>  ` <span class="op">/</span>  \ <span class="op">|</span>__<span class="op">)</span> <span class="op">|</span>__         <span class="op">}</span>  <span class="op">{</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> \<span class="op">|</span> <span class="op">|</span>       \__<span class="op">,</span> \__<span class="op">/</span> <span class="op">|</span>  \ <span class="op">|</span>___     \`<span class="op">-.</span>_<span class="op">,-</span>`<span class="op">-,</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                                          `<span class="op">.</span>_<span class="op">,.</span>_<span class="op">,</span><span class="st">'</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    nf<span class="op">-</span>core<span class="op">/</span>tools version <span class="fl">2.1</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>INFO     Saving nf<span class="op">-</span>core<span class="op">/</span>rnaseq                                                                                                                                                                                                                                         download<span class="op">.</span>py<span class="op">:</span><span class="dv">148</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>          Pipeline release<span class="op">:</span> <span class="st">'3.4'</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>          Pull singularity containers<span class="op">:</span> <span class="st">'No'</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>          Output file<span class="op">:</span> <span class="st">'nf-core-rnaseq-3.4.tar.gz'</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>INFO     Downloading workflow files from GitHub                                                                                                                                                                                                                        download<span class="op">.</span>py<span class="op">:</span><span class="dv">151</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>INFO     Downloading centralised configs from GitHub                                                                                                                                                                                                                   download<span class="op">.</span>py<span class="op">:</span><span class="dv">155</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>INFO     Compressing download<span class="op">..</span>                                                                                                                                                                                                                                        download<span class="op">.</span>py<span class="op">:</span><span class="dv">166</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>INFO     Command to extract files<span class="op">:</span> tar <span class="op">-</span>xzf nf<span class="op">-</span>core<span class="op">-</span>rnaseq<span class="op">-</span><span class="fl">3.4</span><span class="op">.</span>tar<span class="op">.</span>gz                                                                                                                                                                                                  download<span class="op">.</span>py<span class="op">:</span><span class="dv">653</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>INFO     MD5 checksum <span class="cf">for</span> nf<span class="op">-</span>core<span class="op">-</span>rnaseq<span class="op">-</span><span class="fl">3.4</span><span class="op">.</span>tar<span class="op">.</span>gz<span class="op">:</span> f0e0c239bdb39c613d6a080f1dee88e9</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 7.2.2:</em></strong> Run a test nf-core pipeline
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Run the nf-core/hlatyping pipeline release 1.2.0 with the provided test data using the profile <code>test</code> and <code>conda</code>. Add the parameter <code>--max_memory 3G</code> on the command line. Include the config file, <code>nfcore-custom.config</code>, from the previous exercise using the option <code>-c</code>, to send an email when your pipeline finishes.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run nf-core/hlatyping <span class="at">-r</span> 1.2.0 <span class="at">-profile</span> test,conda  <span class="at">--max_memory</span> 3G <span class="at">-c</span> nfcore-custom.config</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The pipeline does next-generation sequencing-based Human Leukozyte Antigen (HLA) typing and should run quickly.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run nf-core/hlatyping <span class="at">-r</span> 1.2.0 <span class="at">-profile</span> test,conda  <span class="at">--max_memory</span> 3G</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a> N E X T F L O W  <span class="op">~</span>  version <span class="fl">21.04.0</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Launching `nf<span class="op">-</span>core<span class="op">/</span>hlatyping` <span class="op">[</span>pedantic_engelbart<span class="op">]</span> <span class="op">-</span> revision<span class="op">:</span> <span class="dv">6998794795</span> <span class="op">[</span><span class="fl">1.2.0</span><span class="op">]</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>BAM file format detected<span class="op">.</span> Initiate remapping to HLA alleles with yara mapper<span class="op">.</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="op">----------------------------------------------------</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                                       <span class="op">,--.</span><span class="st">/,-.</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="st">       ___     __   __   __   ___     /</span><span class="op">,-.</span>_<span class="op">.--~</span><span class="st">'</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a> <span class="op">|</span>\ <span class="op">|</span> <span class="op">|</span>__  __ <span class="op">/</span>  ` <span class="op">/</span>  \ <span class="op">|</span>__<span class="op">)</span> <span class="op">|</span>__         <span class="op">}</span>  <span class="op">{</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a> <span class="op">|</span> \<span class="op">|</span> <span class="op">|</span>       \__<span class="op">,</span> \__<span class="op">/</span> <span class="op">|</span>  \ <span class="op">|</span>___     \`<span class="op">-.</span>_<span class="op">,-</span>`<span class="op">-,</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>                                       `<span class="op">.</span>_<span class="op">,.</span>_<span class="op">,</span><span class="st">'</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>nf<span class="op">-</span>core<span class="op">/</span>hlatyping v1<span class="fl">.2.0</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="op">----------------------------------------------------</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Pipeline Release  <span class="op">:</span> <span class="fl">1.2.0</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Run <span class="bu">Name</span>          <span class="op">:</span> pedantic_engelbart</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span><span class="bu">File</span> <span class="bu">Type</span>         <span class="op">:</span> BAM</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Seq <span class="bu">Type</span>          <span class="op">:</span> dna</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Index <span class="bu">Location</span>    <span class="op">:</span> <span class="st">/home/</span>training<span class="op">/.</span>nextflow<span class="op">/</span>assets<span class="op">/</span>nf<span class="op">-</span>core<span class="op">/</span>hlatyping<span class="op">/</span>data<span class="op">/</span>indices<span class="op">/</span>yara<span class="op">/</span>hla_reference_dna</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>IP Solver         <span class="op">:</span> glpk</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Enumerations      <span class="op">:</span> <span class="dv">1</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Beta              <span class="op">:</span> <span class="fl">0.009</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Max Memory        <span class="op">:</span> <span class="fl">3G</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Max CPUs          <span class="op">:</span> <span class="dv">2</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Max <span class="bu">Time</span>          <span class="op">:</span> <span class="fl">2d</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Input             <span class="op">:</span> https<span class="op">:</span><span class="co">//github.com/nf-core/test-datasets/raw/hlatyping/bam/example_pe.bam</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span><span class="bu">Data</span> <span class="bu">Type</span>         <span class="op">:</span> Paired<span class="op">-</span>End</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Output Dir        <span class="op">:</span> results</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Launch Dir        <span class="op">:</span> <span class="st">/home/</span>training</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Working Dir       <span class="op">:</span> <span class="st">/home/</span>training<span class="op">/</span>work</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Script Dir        <span class="op">:</span> <span class="st">/home/</span>training<span class="op">/.</span>nextflow<span class="op">/</span>assets<span class="op">/</span>nf<span class="op">-</span>core<span class="op">/</span>hlatyping</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>User              <span class="op">:</span> training</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Max <span class="bu">Resources</span>     <span class="op">:</span> <span class="fl">3G</span> memory<span class="op">,</span> <span class="dv">2</span> cpus<span class="op">,</span> <span class="fl">2d</span> time per job</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Config Profile    <span class="op">:</span> conda<span class="op">,</span>test</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Config Profile Description<span class="op">:</span> Minimal test dataset to check pipeline function</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Config Files      <span class="op">:</span> <span class="st">/home/</span>training<span class="op">/.</span>nextflow<span class="op">/</span>assets<span class="op">/</span>nf<span class="op">-</span>core<span class="op">/</span>hlatyping<span class="op">/</span>nextflow<span class="op">.</span>config<span class="op">,</span> <span class="st">/home/</span>training<span class="op">/</span>nextflow<span class="op">.</span>config<span class="op">,</span> <span class="st">/home/</span>training<span class="op">/.</span>nextflow<span class="op">/</span>assets<span class="op">/</span>nf<span class="op">-&gt;</span>core<span class="op">/</span>hlatyping<span class="op">/</span>nextflow<span class="op">.</span>config</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;----------------------------------------------------</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>BAM file format detected<span class="op">.</span> Initiate remapping to HLA alleles with yara mapper<span class="op">.</span></span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;[-</span>        <span class="op">]</span> process remap_to_hla          <span class="op">-</span></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>executor <span class="fu">local</span> <span class="op">(</span><span class="dv">6</span><span class="op">)</span></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;[</span><span class="bn">05</span><span class="op">/</span><span class="dv">0</span><span class="er">84</span>b41<span class="op">]</span> process <span class="fu">remap_to_hla</span> <span class="op">(</span><span class="dv">1</span><span class="op">)</span>      <span class="op">[</span><span class="dv">100</span><span class="op">%]</span> <span class="dv">1</span> of <span class="dv">1</span> ✔</span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;[</span><span class="dv">5</span>a<span class="op">/</span><span class="dv">9</span>bec8b<span class="op">]</span> process make_ot_config        <span class="op">[</span><span class="dv">100</span><span class="op">%]</span> <span class="dv">1</span> of <span class="dv">1</span> ✔</span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;[</span><span class="dv">54</span><span class="op">/</span><span class="dv">8</span>bc5d7<span class="op">]</span> process <span class="fu">run_optitype</span> <span class="op">(</span><span class="dv">1</span><span class="op">)</span>      <span class="op">[</span><span class="dv">100</span><span class="op">%]</span> <span class="dv">1</span> of <span class="dv">1</span> ✔</span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;[</span>a9<span class="op">/</span><span class="dv">2</span>cbea8<span class="op">]</span> process output_documentation  <span class="op">[</span><span class="dv">100</span><span class="op">%]</span> <span class="dv">1</span> of <span class="dv">1</span> ✔</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;[</span>df<span class="op">/</span>d3dac5<span class="op">]</span> process get_software_versions <span class="op">[</span><span class="dv">100</span><span class="op">%]</span> <span class="dv">1</span> of <span class="dv">1</span> ✔</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;[</span>e1<span class="op">/</span><span class="er">903</span>ed9<span class="op">]</span> process <span class="fu">multiqc</span> <span class="op">(</span><span class="dv">1</span><span class="op">)</span>           <span class="op">[</span><span class="dv">100</span><span class="op">%]</span> <span class="dv">1</span> of <span class="dv">1</span> ✔</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;-[</span>nf<span class="op">-</span>core<span class="op">/</span>hlatyping<span class="op">]</span> Pipeline completed successfully<span class="op">-</span></span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>WARN<span class="op">:</span> To render the execution DAG <span class="kw">in</span> the required format it is required to install Graphviz <span class="op">--</span> See http<span class="op">:</span><span class="co">//www.graphviz.org for more info.</span></span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Completed at<span class="op">:</span> <span class="dv">26</span><span class="op">-</span>Oct<span class="op">-</span><span class="dv">2021</span> <span class="dv">10</span><span class="op">:</span><span class="bn">07</span><span class="op">:</span><span class="dv">27</span></span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span><span class="bu">Duration</span>    <span class="op">:</span> <span class="dv">4</span>m <span class="er">14</span>s</span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>CPU hours   <span class="op">:</span> <span class="op">(</span>a few seconds<span class="op">)</span></span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Succeeded   <span class="op">:</span> <span class="dv">6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="troubleshooting" class="level2">
+<h2 class="anchored" data-anchor-id="troubleshooting">8.6 Troubleshooting</h2>
+<p>If you run into issues running your pipeline you can you the nf-core website to troubleshoot common mistakes and issues <a href="https://nf-co.re/usage/troubleshooting">https://nf-co.re/usage/troubleshooting</a> .</p>
+<section id="extra-resources-and-getting-help" class="level3">
+<h3 class="anchored" data-anchor-id="extra-resources-and-getting-help">Extra resources and getting help</h3>
+<p>If you still have an issue with running the pipeline then feel free to contact the nf-core community via the Slack channel . The nf-core Slack organisation has channels dedicated for each pipeline, as well as specific topics (eg. <code>#help</code>, <code>#pipelines</code>, <code>#tools</code>, <code>#configs</code> and much more). The nf-core Slack can be found at https://nfcore.slack.com (NB: no hyphen in nfcore!). To join you will need an invite, which you can get at https://nf-co.re/join/slack.</p>
+<p>You can also get help by opening an issue in the respective pipeline repository on GitHub asking for help.</p>
+<p>If you have problems that are directly related to Nextflow and not our pipelines or the nf-core framework tools then check out the <a href="https://gitter.im/nextflow-io/nextflow">Nextflow gitter channel</a> or the <a href="https://groups.google.com/forum/#!forum/nextflow">google group</a>.</p>
+</section>
+</section>
+<section id="referencing-a-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="referencing-a-pipeline">8.7 Referencing a Pipeline</h2>
+<section id="publications" class="level3">
+<h3 class="anchored" data-anchor-id="publications">Publications</h3>
+<p>If you use an nf-core pipeline in your work you should cite the main publication for the main nf-core paper, describing the community and framework, as follows:</p>
+<p><strong>The nf-core framework for community-curated bioinformatics pipelines.</strong> Philip Ewels, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso &amp; Sven Nahnsen. Nat Biotechnol. 2020 Feb 13. doi: <a href="https://dx.doi.org/10.1038/s41587-020-0439-x">10.1038/s41587-020-0439-x</a>. ReadCube: <a href="https://rdcu.be/b1GjZ">Full Access Link</a></p>
+<p>Many of the pipelines have a publication listed on the nf-core website that can be found <a href="https://nf-co.re/publications">here</a>.</p>
+</section>
+<section id="dois" class="level3">
+<h3 class="anchored" data-anchor-id="dois">DOIs</h3>
+<p>In addition, each release of an nf-core pipeline has a digital object identifiers (DOIs) for easy referencing in literature The DOIs are generated by Zenodo from the pipeline’s github repository.</p>
+</section>
+</section>
+<section id="credit" class="level2">
+<h2 class="anchored" data-anchor-id="credit">Credit</h2>
+<p>Information on this page has been adapted and modified from the following source(s):</p>
+<ul>
+<li><em>Graeme R. Grimes, Evan Floden, Paolo Di Tommaso, Phil Ewels and Maxime Garcia. Introduction to Workflows with Nextflow and nf-core. https://github.com/carpentries-incubator/workflows-nextflow 2021.</em></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../materials/08-workflow_managers/8.1-workflow_managers.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">8.1 Workflow Managers</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../materials/09-bactmap/9.1-bactmap_run.html" class="pagination-link">
+        <span class="nav-page-text">9.1 The nf-core/bactmap pipeline</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">Licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://creativecommons.org/images/deed/cc_icon_black_x2.png" class="img-fluid" width="25"> Dr Prince Asare and Dr Andries van Tonder</div>
+  </div>
+</footer>
+
+
+
+</body></html>

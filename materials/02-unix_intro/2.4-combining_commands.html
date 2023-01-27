@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.112">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2.4 Combining Commands</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../materials/02-unix_intro/2.5-using_remote_resources.html" rel="next">
+<link href="../../materials/02-unix_intro/2.3-text_manipulation.html" rel="prev">
+<link href="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university-of-cambridge-favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/NMIMR_Logo_whitebg.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../setup.html">Setup</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../materials.html" aria-current="page">Materials</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../unix_cheat_sheet.html">Unix-Cheat-Sheet</a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/avantonder/Ghana_course"><i class="bi bi-github" role="img" aria-label="Introduction to bacterial genomics GitHub">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/NMIMR_UG"><i class="bi bi-twitter" role="img" aria-label="Noguchi Memorial Institute for Medical Research Twitter">
+</i> 
+ </a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">2.4 Combining Commands</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials.html" class="sidebar-item-text sidebar-link">Materials</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">1. Introduction to WGS</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro_wgs/1.1-intro_wgs.html" class="sidebar-item-text sidebar-link">1.1 Introduction to Whole Genome Sequencing (WGS)</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">2. Introduction to Unix</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.1-unix_overview.html" class="sidebar-item-text sidebar-link">2.1 The Unix Shell</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.2-files_directories.html" class="sidebar-item-text sidebar-link">2.2 Navigating Files and Directories</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.3-text_manipulation.html" class="sidebar-item-text sidebar-link">2.3 Text Manipulation</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.4-combining_commands.html" class="sidebar-item-text sidebar-link active">2.4 Combining Commands</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.5-using_remote_resources.html" class="sidebar-item-text sidebar-link">2.5 Using remote resources</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.6-vscode_overview.html" class="sidebar-item-text sidebar-link">2.6 Visual Studio Code</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.7-bonus_find_and_grep.html" class="sidebar-item-text sidebar-link">2.7 <em>Bonus</em> : Finding Things</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.8-bonus_loops.html" class="sidebar-item-text sidebar-link">2.8 <em>Bonus</em>: Loops</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.9-bonus_shell_scripts.html" class="sidebar-item-text sidebar-link">2.9 <em>Bonus</em>: Shell Scripts</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">3. Common File Formats</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-file_formats/3.1-file_formats.html" class="sidebar-item-text sidebar-link">3.1 Common File Formats</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">4. Sequencing QC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-sequence_qc/4.1-sequence_qc.html" class="sidebar-item-text sidebar-link">4.1 Sequencing Quality Control</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">5. Short Read Mapping</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-short_read_mapping/5.1-short_read_mapping.html" class="sidebar-item-text sidebar-link">5.1 Short Read Mapping</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">6. Assembly and Annotation</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/06-assembly_annotation/6.1-assembly_annotation.html" class="sidebar-item-text sidebar-link">6.1 Assembly and Annotation</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">7. Software Management</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/07-software_management/7.1-software_management.html" class="sidebar-item-text sidebar-link">7.1 Managing Software</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">8. Workflow Managers</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.1-workflow_managers.html" class="sidebar-item-text sidebar-link">8.1 Workflow Managers</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.2-nfcore.html" class="sidebar-item-text sidebar-link">8.2 nf-core pipelines</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">9. The nf-core/bactmap Pipeline</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.1-bactmap_run.html" class="sidebar-item-text sidebar-link">9.1 The nf-core/bactmap pipeline</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.2-bactmap_results.html" class="sidebar-item-text sidebar-link">9.2 nf-core/bactmap Results</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">10. Introduction to Phylogenetics</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/10-intro_phylogenetics/10.1-intro_phylogenetics.html" class="sidebar-item-text sidebar-link">10.1 Introduction to Phylogenetics</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">11. Bacterial Genotyping and AMR prediction</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/11-genotyping/11.1-genotyping.html" class="sidebar-item-text sidebar-link">11.1 Bacterial Genotyping and Drug Resistance Prediction</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">12. Introduction to HPC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/12-intro_hpc/12.1-intro_hpc.html" class="sidebar-item-text sidebar-link">12.1 Introduction to High Performance Computing</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#a-few-more-basic-commands" id="toc-a-few-more-basic-commands" class="nav-link" data-scroll-target="#a-few-more-basic-commands">2.4.1 A few more basic commands</a>
+  <ul class="collapse">
+  <li><a href="#performing-counts-with-wc" id="toc-performing-counts-with-wc" class="nav-link" data-scroll-target="#performing-counts-with-wc">Performing counts with <code>wc</code></a></li>
+  <li><a href="#printing-file-content-to-screen-with-cat" id="toc-printing-file-content-to-screen-with-cat" class="nav-link" data-scroll-target="#printing-file-content-to-screen-with-cat">Printing file content to screen with <code>cat</code></a></li>
+  <li><a href="#sorting-with-the-sort-command" id="toc-sorting-with-the-sort-command" class="nav-link" data-scroll-target="#sorting-with-the-sort-command">Sorting with the <code>sort</code> command</a></li>
+  <li><a href="#redirecting-to-the-same-file" id="toc-redirecting-to-the-same-file" class="nav-link" data-scroll-target="#redirecting-to-the-same-file">Redirecting to the same file <code>&gt;&gt;</code></a></li>
+  </ul></li>
+  <li><a href="#the-pipe" id="toc-the-pipe" class="nav-link" data-scroll-target="#the-pipe">2.4.2 The <code>|</code> Pipe</a></li>
+  <li><a href="#more-exercises-on-pipe" id="toc-more-exercises-on-pipe" class="nav-link" data-scroll-target="#more-exercises-on-pipe">2.4.3 More exercises on <code>|</code> Pipe</a>
+  <ul class="collapse">
+  <li><a href="#more-on-cut-sort-unique-count" id="toc-more-on-cut-sort-unique-count" class="nav-link" data-scroll-target="#more-on-cut-sort-unique-count">More on Cut, Sort, Unique &amp; Count</a></li>
+  </ul></li>
+  <li><a href="#credit" id="toc-credit" class="nav-link" data-scroll-target="#credit">2.4.4 Credit</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">2.4 Combining Commands</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p><strong>Teaching: 20 min</strong> || <strong>Exercises: 10 min</strong></p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Questions:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>How can I combine existing commands to do new things?</li>
+</ul>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Learning Objectives:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Redirect a command’s output to a file.</li>
+<li>Process a file instead of keyboard input using redirection.</li>
+<li>Construct command pipelines with two or more stages.</li>
+<li>Explain what usually happens if a program or pipeline isn’t given any input to process.</li>
+</ul>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Key Points:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Other useful commands to manipulate text and which are often used together in pipes include:
+<ul>
+<li><code>cat</code> displays the contents of its inputs.</li>
+<li><code>head</code> displays the first 10 lines of its input.</li>
+<li><code>tail</code> displays the last 10 lines of its input.</li>
+<li><code>sort</code> used to order the input lines <em>alphabetically</em> (default) or <em>numerically</em> (<code>-n</code> option).</li>
+<li><code>wc</code> counts lines, words, and characters in its inputs.</li>
+<li><code>cut</code> to extract parts of a file that are separated by a delimiter.</li>
+<li><code>uniq</code> to obtain only unique lines from its input. The <code>-c</code> option can also be used to count how often each of those unique lines occur.</li>
+</ul></li>
+<li><code>command &gt; file</code> redirects a command’s output to a file (overwriting any existing content).</li>
+<li><code>command &gt;&gt; file</code> appends a command’s output to a file.</li>
+<li><code>&lt;</code> operator redirects input to a command</li>
+<li>The <code>|</code> pipe allows to chain several commands together.</li>
+<li><code>first | second</code> is a pipeline: the output of the first command is used as the input to the second.</li>
+<li>The best way to use the shell is to use pipes to combine simple single-purpose programs (filters).</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="a-few-more-basic-commands" class="level2">
+<h2 class="anchored" data-anchor-id="a-few-more-basic-commands">2.4.1 A few more basic commands</h2>
+<p>Let’s go over and perform some basic commands we have already encountered, but this time, we may go deeper and also introduce new commands.</p>
+<section id="performing-counts-with-wc" class="level3">
+<h3 class="anchored" data-anchor-id="performing-counts-with-wc">Performing counts with <code>wc</code></h3>
+<p>We’ll start with a directory called <code>molecules</code> that contains six files describing some simple organic molecules. The <code>.pdb</code> extension indicates that these files are in Protein Data Bank format, a simple text format that specifies the type and position of each atom in the molecule.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> molecules</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>cubane.pdb    ethane.pdb    methane.pdb
+octane.pdb    pentane.pdb   propane.pdb</code></pre>
+</div>
+</div>
+</div>
+<p>Let’s go into that directory with <code>cd</code> and run the command <code>wc *.pdb</code>. <code>wc</code> is the “word count” command: it counts the number of lines, words, and characters in files (from left to right, in that order).</p>
+<p>The <code>*</code> in <code>*.pdb</code> matches zero or more characters, so the shell turns <code>*.pdb</code> into a list of all <code>.pdb</code> files in the current directory:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> molecules</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="pp">*</span>.pdb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>  20  156  1158  cubane.pdb
+  12  84   622   ethane.pdb
+   9  57   422   methane.pdb
+  30  246  1828  octane.pdb
+  21  165  1226  pentane.pdb
+  15  111  825   propane.pdb
+ 107  819  6081  total</code></pre>
+</div>
+</div>
+</div>
+<p>If we run <code>wc -l</code> instead of just <code>wc</code>, the output shows only the number of lines per file:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> <span class="pp">*</span>.pdb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>  20  cubane.pdb
+  12  ethane.pdb
+   9  methane.pdb
+  30  octane.pdb
+  21  pentane.pdb
+  15  propane.pdb
+ 107  total</code></pre>
+</div>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Why Isn’t It Doing Anything?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What happens if a command is supposed to process a file, but we don’t give it a filename? For example, what if we type:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>but don’t type <code>*.pdb</code> (or anything else) after the command? Since it doesn’t have any filenames, <code>wc</code> assumes it is supposed to process input given at the command prompt, so it just sits there and waits for us to give it some data interactively. From the outside, though, all we see is it sitting there: the command doesn’t appear to do anything.</p>
+<p>If you make this kind of mistake, you can escape out of this state by holding down the control key (<kbd>Ctrl</kbd>) and typing the letter <kbd>C</kbd> once and letting go of the <kbd>Ctrl</kbd> key. <kbd>Ctrl</kbd>+<kbd>C</kbd></p>
+</div>
+</div>
+<p>We can also use <code>-w</code> to get only the number of words, or <code>-c</code> to get only the number of characters.</p>
+<p>Which of these files contains the fewest lines? It’s an easy question to answer when there are only six files, but what if there were 6000? Our first step toward a solution is to run the command:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> <span class="pp">*</span>.pdb <span class="op">&gt;</span> lengths.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The greater than symbol, <code>&gt;</code>, tells the shell to <strong>redirect</strong> the command’s output to a file instead of printing it to the screen. (This is why there is no screen output: everything that <code>wc</code> would have printed has gone into the file <code>lengths.txt</code> instead.) The shell will create the file if it doesn’t exist. If the file exists, it will be silently overwritten, which may lead to data loss and thus requires some caution. <code>ls lengths.txt</code> confirms that the file exists:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> lengths.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>lengths.txt</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="printing-file-content-to-screen-with-cat" class="level3">
+<h3 class="anchored" data-anchor-id="printing-file-content-to-screen-with-cat">Printing file content to screen with <code>cat</code></h3>
+<p>We have already encountered the <code>cat</code> command in our previous lesson. We will go a little deeper here and see how its useful when combining commands.</p>
+<p>We can now send the content of <code>lengths.txt</code> to the screen using <code>cat lengths.txt</code>. The <code>cat</code> command gets its name from “concatenate” i.e.&nbsp;join together, and it prints the contents of files one after another. There’s only one file in this case, so <code>cat</code> just shows us what it contains:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> lengths.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>  20  cubane.pdb
+  12  ethane.pdb
+   9  methane.pdb
+  30  octane.pdb
+  21  pentane.pdb
+  15  propane.pdb
+ 107  total</code></pre>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Output Page by Page
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We’ll continue to use <code>cat</code> in this lesson, for convenience and consistency, but it has the disadvantage that it always dumps the whole file onto your screen. More useful in practice is the command <code>less</code>, which you use with <code>less lengths.txt</code>. This displays a screenful of the file, and then stops. You can go forward one screenful by pressing the spacebar, or back one by pressing <code>b</code>. Press <code>q</code> to quit.</p>
+</div>
+</div>
+</section>
+<section id="sorting-with-the-sort-command" class="level3">
+<h3 class="anchored" data-anchor-id="sorting-with-the-sort-command">Sorting with the <code>sort</code> command</h3>
+<p>Now let’s use the <code>sort</code> command to sort its contents.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+What Does <code>sort -n</code> Do?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If we run <code>sort</code> on a file containing the following lines:</p>
+<pre><code>10
+2
+19
+22
+6</code></pre>
+<p>the output is:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<pre><code>10
+19
+2
+22
+6</code></pre>
+</div>
+</div>
+</div>
+<p>If we run <code>sort -n</code> on the same input, we get this instead:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<pre><code>2
+6
+10
+19
+22</code></pre>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>-n</code> option specifies a numerical rather than an alphanumerical sort.</p>
+</div>
+</div>
+</div>
+</div>
+<p>We will also use the <code>-n</code> option to specify that the sort is numerical instead of alphanumerical. This does <em>not</em> change the file; instead, it sends the sorted result to the screen:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span> <span class="at">-n</span> lengths.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>  9  methane.pdb
+ 12  ethane.pdb
+ 15  propane.pdb
+ 20  cubane.pdb
+ 21  pentane.pdb
+ 30  octane.pdb
+107  total</code></pre>
+</div>
+</div>
+</div>
+<p>We can put the sorted list of lines in another temporary file called <code>sorted-lengths.txt</code> by putting <code>&gt; sorted-lengths.txt</code> after the command, just as we used <code>&gt; lengths.txt</code> to put the output of <code>wc</code> into <code>lengths.txt</code>. Once we’ve done that, we can run another command called <code>head</code> to get the first few lines in <code>sorted-lengths.txt</code>:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span> <span class="at">-n</span> lengths.txt <span class="op">&gt;</span> sorted-lengths.txt</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 1 sorted-lengths.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>  9  methane.pdb</code></pre>
+</div>
+</div>
+</div>
+<p>Using <code>-n 1</code> with <code>head</code> tells it that we only want the first line of the file; <code>-n 20</code> would get the first 20, and so on. Since <code>sorted-lengths.txt</code> contains the lengths of our files ordered from least to greatest, the output of <code>head</code> must be the file with the fewest lines.</p>
+</section>
+<section id="redirecting-to-the-same-file" class="level3">
+<h3 class="anchored" data-anchor-id="redirecting-to-the-same-file">Redirecting to the same file <code>&gt;&gt;</code></h3>
+<p>It’s a very bad idea to try redirecting the output of a command that operates on a file to the same file. For example:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span> <span class="at">-n</span> lengths.txt <span class="op">&gt;</span> lengths.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Doing something like this may give you incorrect results and/or delete the contents of <code>lengths.txt</code>.</p>
+<section id="what-does-mean" class="level4">
+<h4 class="anchored" data-anchor-id="what-does-mean">What Does <code>&gt;&gt;</code> Mean?</h4>
+<p>We have seen the use of <code>&gt;</code>, but there is a similar operator <code>&gt;&gt;</code> which works slightly different. We’ll learn about the differences between these two operators by printing some strings. We can use the <code>echo</code> command to print strings e.g.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> The echo command prints text</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>The echo command prints text</code></pre>
+</div>
+</div>
+</div>
+<p>Now test the commands below to reveal the difference between the two operators:</p>
+<p><em>(Try executing each command twice in a row and then examining the output files)</em></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> hello <span class="op">&gt;</span> testfile01.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>and:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> hello <span class="op">&gt;&gt;</span> testfile02.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the first example with <code>&gt;</code>, the string “hello” is written to <code>testfile01.txt</code>, but the file gets overwritten each time we run the command.</p>
+<p>We see from the second example that the <code>&gt;&gt;</code> operator also writes “hello” to a file (in this case<code>testfile02.txt</code>), but appends the string to the file if it already exists (i.e.&nbsp;when we run it for the second time).</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.4.1.1:</em></strong> Appending Data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We have already met the <code>head</code> command, which prints lines from the start of a file. <code>tail</code> is similar, but prints lines from the end of a file instead.</p>
+<p>Consider the file <code>bacteria.txt</code>. After these commands, select the answer that corresponds to the file <code>bacteria-subset.txt</code>:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 3 bacteria.txt <span class="op">&gt;</span> bacteria-subset.txt</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-n</span> 2 bacteria.txt <span class="op">&gt;&gt;</span> bacteria-subset.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li>The first three lines of <code>bacteria.txt</code></li>
+<li>The last two lines of <code>bacteria.txt</code></li>
+<li>The first three lines and the last two lines of <code>bacteria.txt</code></li>
+<li>The second and third lines of <code>bacteria.txt</code></li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Option 3 is correct.</p>
+<p>For option 1 to be correct we would only run the <code>head</code> command.</p>
+<p>For option 2 to be correct we would only run the <code>tail</code> command.</p>
+<p>For option 4 to be correct we would have to pipe the output of <code>head</code> into <code>tail -n 2</code> by doing <code>head -n 3 bacteria.txt | tail -n 2 &gt; bacteria-subset.txt</code></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>If you think this is confusing, that’s fine: even once you understand what <code>wc</code>, <code>sort</code>, and <code>head</code> do, all those intermediate files make it hard to follow what’s going on.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Now that we know a few basic commands, we can finally look at the shell’s most powerful feature: the ease with which it lets us combine existing programs in new ways.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="the-pipe" class="level2">
+<h2 class="anchored" data-anchor-id="the-pipe">2.4.2 The <code>|</code> Pipe</h2>
+<p>The way we can combine commands together is using a <strong>pipe</strong>, which uses the special operator <code>|</code>.</p>
+<p>From our previous exercise, we can make it easier to understand by running <code>sort</code> and <code>head</code> together:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span> <span class="at">-n</span> lengths.txt <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>  9  methane.pdb</code></pre>
+</div>
+</div>
+</div>
+<p>The vertical bar, <code>|</code>, between the two commands is called a <strong>pipe</strong>. It tells the shell that we want to use the output of the command on the left as the input to the command on the right.</p>
+<p>Nothing prevents us from chaining pipes consecutively. That is, we can for example send the output of <code>wc</code> directly to <code>sort</code>, and then the resulting output to <code>head</code>. Thus we first use a pipe to send the output of <code>wc</code> to <code>sort</code>:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> <span class="pp">*</span>.pdb <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-n</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>   9 methane.pdb
+  12 ethane.pdb
+  15 propane.pdb
+  20 cubane.pdb
+  21 pentane.pdb
+  30 octane.pdb
+ 107 total</code></pre>
+</div>
+</div>
+</div>
+<p>And now we send the output of this pipe, through another pipe, to <code>head</code>, so that the full pipeline becomes:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> <span class="pp">*</span>.pdb <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-n</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>   9  methane.pdb</code></pre>
+</div>
+</div>
+</div>
+<p>This is exactly like a mathematician nesting functions like <em>log(3x)</em> and saying “the log of three times <em>x</em>”. In our case, the calculation is “head of sort of line count of <code>*.pdb</code>”.</p>
+<p>The redirection and pipes used in the last few commands are illustrated below:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/redirects-and-pipes.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Redirects and Pipes</figcaption><p></p>
+</figure>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.4.2.1:</em></strong> Piping Commands Together
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In our current directory, we want to find the 3 files which have the least number of lines. Which command listed below would work?</p>
+<ol type="1">
+<li><code>wc -l * &gt; sort -n &gt; head -n 3</code></li>
+<li><code>wc -l * | sort -n | head -n 1-3</code></li>
+<li><code>wc -l * | head -n 3 | sort -n</code></li>
+<li><code>wc -l * | sort -n | head -n 3</code></li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Option 4 is the solution. The pipe character <code>|</code> is used to connect the output from one command to the input of another. <code>&gt;</code> is used to redirect standard output to a file. Try it in the <code>molecules/</code> directory!</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.4.2.2:</em></strong> An example pipeline: Checking Files
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There are 17 files from an assay in the <code>~/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro/north-pacific-gyre/2012-07-03</code> directory. Suppose you want to do some quick sanity checks on the content of the files. You know that the files are supposed to have 300 lines. Starting by moving to that directory,</p>
+<ol type="1">
+<li>How would you check if there are any files with fewer than 300 lines in the directory?</li>
+<li>How would you check if there are any files with more than 300 lines in the directory?</li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><code>wc -l *.txt | sort -n | head -n 5</code>. You can report the number of lines of all the text files in the directory, sort them, and then get the top (if any files have fewer than 300 lines they will appear here).</li>
+<li><code>wc -l *.txt | sort -n -r | head -n 5</code>. Same as above but now we want to sort the files in reverse order.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>This idea of linking programs together is why Unix has been so successful. Instead of creating enormous programs that try to do many different things, Unix programmers focus on creating lots of simple tools that each do one job well, and that work well with each other. This programming model is called “pipes and filters”.</p>
+<p>We’ve already seen pipes; a <strong>filter</strong> is a program like <code>wc</code> or <code>sort</code> that transforms a stream of input into a stream of output. Almost all of the standard Unix tools can work this way: unless told to do otherwise, they read from standard input, do something with what they’ve read, and write to standard output.</p>
+<p>The key is that any program that reads lines of text from standard input and writes lines of text to standard output can be combined with every other program that behaves this way as well. You can <em>and should</em> write your programs this way so that you and other people can put those programs into pipes to multiply their power.</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.4.2.3:</em></strong> Pipe Reading Comprehension
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A file called <code>bacteria.txt</code> (in the <code>02_unix_intro</code> folder) contains the following data:</p>
+<pre><code>2023-01-24,Escherichia_coli
+2023-01-24,Mycobacteria_tuberculosis
+2023-01-24,Salmonella_enterica
+2023-01-24,Staphylococcus_aureus
+2023-01-25,Streptococcus_pneumoniae
+2023-01-25,Pseudomonas_aeruginosa
+2023-01-25,Haemophilus_influenzae 
+2023-01-26,Carsonella_ruddii
+2023-01-26,Escherichia_coli</code></pre>
+<p>What text passes through each of the pipes and the final redirect in the pipeline below?</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> bacteria.txt <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 5 <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-n</span> 3 <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-r</span> <span class="op">&gt;</span> final.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Hint:</strong> build the pipeline up one command at a time to test your understanding</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The <code>head</code> command extracts the first 5 lines from <code>bacteria.txt</code>. Then, the last 3 lines are extracted from the previous 5 by using the <code>tail</code> command. With the <code>sort -r</code> command those 3 lines are sorted in reverse order and finally, the output is redirected to a file <code>final.txt</code>. The content of this file can be checked by executing <code>cat final.txt</code>. The file should contain the following lines:</p>
+<pre><code>2023-01-25,Streptococcus_pneumoniae
+2023-01-24,Staphylococcus_aureus
+2023-01-24,Salmonella_enterica</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.4.2.4:</em></strong> Pipe Construction
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For the file <code>bacteria.txt</code> from the previous exercise, consider the following command:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-d</span> , <span class="at">-f</span> 2 bacteria.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>cut</code> command is used to remove or “cut out” certain sections of each line in the file. The optional <code>-d</code> flag is used to define the delimiter. A <strong>delimiter</strong> is a character that is used to separate each line of text into columns. The default delimiter is <kbd>Tab</kbd>, meaning that the <code>cut</code> command will automatically assume that values in different columns will be separated by a tab. The <code>-f</code> flag is used to specify the field (column) to cut out. The command above uses the <code>-d</code> option to split each line by comma, and the <code>-f</code> option to print the second field in each line, to give the following output:</p>
+<pre><code>Escherichia_coli
+Mycobacteria_tuberculosis
+Salmonella_enterica
+Staphylococcus_aureus
+Streptococcus_pneumoniae
+Pseudomonas_aeruginosa
+Haemophilus_influenzae 
+Carsonella_ruddii
+Escherichia_coli</code></pre>
+</div>
+</div>
+</div>
+<p>The <code>uniq</code> command filters out adjacent matching lines in a file. How could you extend this pipeline (using <code>uniq</code> and another command) to find out what bacteria the file contains (without any duplicates in their names)?</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-d</span> , <span class="at">-f</span> 2 bacteria.txt <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Awk: a more powerful tool for text processing
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We have seen the <code>cut</code> command that allows the selection of columns in tabular data. If you need more powerful manipulation of tabular data you can use the command <code>awk</code>, which permits more powerful operations (selection, calculations etc.) on columns. For more complex operations, however, we recommend going to your favourite programming language!</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.4.2.5:</em></strong> Which Pipe?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The file <code>bacteria.txt</code> contains 9 lines of data formatted as follows:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<pre><code>2023-01-24,Escherichia_coli
+2023-01-24,Mycobacteria_tuberculosis
+2023-01-24,Salmonella_enterica
+2023-01-24,Staphylococcus_aureus
+2023-01-25,Streptococcus_pneumoniae
+...</code></pre>
+</div>
+</div>
+</div>
+<p>The <code>uniq</code> command has a <code>-c</code> option which gives a count of the number of times a line occurs in its input. Assuming your current directory is <code>02_unix_intro/</code>, what command would you use to produce a table that shows the total count of each type of animal in the file?</p>
+<ol type="1">
+<li><code>sort bacteria.txt | uniq -c</code></li>
+<li><code>sort -t, -k2,2 bacteria.txt | uniq -c</code></li>
+<li><code>cut -d, -f 2 bacteria.txt | uniq -c</code></li>
+<li><code>cut -d, -f 2 bacteria.txt | sort | uniq -c</code></li>
+<li><code>cut -d, -f 2 bacteria.txt | sort | uniq -c | wc -l</code></li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Option 4. is the correct answer. If you have difficulty understanding why, try running the commands, or sub-sections of the pipelines (make sure you are in the <code>02_unix_intro/</code> directory).</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.4.2.6:</em></strong> Filtering by patterns
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>grep</code> is another command that searches for patterns in text. Patterns could be simple text or a combination of text and the wildcard characters we have seen before like ? and *. Like &gt; other commands we have seen <code>grep</code> can be used on multiple files. For example if we wanted to find all occurrences of name in all the text files we could write:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"name"</span> <span class="pp">*</span>.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Using the <code>bacteria.txt</code> file suppose we wanted to copy all the <em><code>Escherichia_coli</code></em> dates to a separate file <code>Escherichia_coli.txt</code>. Which combination of commands would achieve this?</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-22" class="callout-22-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>grep “Escherichia_coli” bacteria.txt | cut -d, -f 1 &gt; Escherichia_coli.txt</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="more-exercises-on-pipe" class="level2">
+<h2 class="anchored" data-anchor-id="more-exercises-on-pipe">2.4.3 More exercises on <code>|</code> Pipe</h2>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.4.3.1:</em></strong> Pipe Comprehension
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you had the following two text files:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> bacteria_1.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Escherichia_coli
+Mycobacteria_tuberculosis
+Salmonella_enterica
+Mycobacteria_tuberculosis</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> bacteria_2.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Escherichia_coli
+Staphylococcus_aureus
+Mycobacteria_tuberculosis
+Streptococcus_pneumoniae</code></pre>
+<p>What would be the result of the following command?</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> bacteria<span class="pp">*</span>.txt <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 6 <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-n</span> 1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-24" class="callout-24-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The result would be <strong><em>“Staphylococcus_aureus”</em></strong>. Here is a diagram illustrating what happens in each of the three steps:</p>
+<pre><code>                    Escherichia_coli
+                    Mycobacteria_tuberculosis                 Escherichia_coli                        
+cat bacteria*.txt   Salmonella_enterica         head -n 6     Mycobacteria_tuberculosis    tail -n 1
+-----------------&gt;  Mycobacteria_tuberculosis  -----------&gt;   Salmonella_enterica        -----------&gt;  Staphylococcus_aureus
+                    Escherichia_coli                          Mycobacteria_tuberculosis
+                    Staphylococcus_aureus                     Escherichia_coli
+                    Mycobacteria_tuberculosis                 Staphylococcus_aureus
+                    Streptococcus_pneumoniae                 </code></pre>
+<ul>
+<li><code>cat bacteria*.txt</code> would combine the content of both files, and then</li>
+<li><code>head -n 6</code> would print the first six lines of the combined file, and then</li>
+<li><code>tail -n 1</code> would return the last line of this output.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.4.3.2:</em></strong> <code>zcat</code> and <code>grep</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the <code>02_unix_intro/</code> directory, you will find a file named <code>MTB_H37Rv_selected_proteins.fasta.gz</code>. This is a file that contains the amino acid sequences of some proteins from <em>Mycobacterium tuberculosis</em> in a text-based format known as FASTA. However, this file is <em>compressed</em> using an algorithm known as <em>GZip</em>, which is indicated by the file extension <code>.gz</code>.<br>
+To look inside compressed files, you can use an alternative to <code>cat</code> called <code>zcat</code> (the ‘z’ at the beginning indicates it will work on <em>zipped</em> files).</p>
+<ol type="1">
+<li>Use <code>zcat</code> together with <code>less</code> to look inside this file.
+<details>
+<summary>
+Hint
+</summary>
+Remember you can press <kbd>Q</kbd> to exit the <code>less</code> program.
+</details></li>
+<li>The content of this file may look a little strange, if you’re not familiar with the FASTA file format. But basically, each protein sequence name starts with the <code>&gt;</code> symbol. Combine <code>zcat</code> with <code>grep</code> to extract the sequence names only. How many proteins are in the file?</li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-26" class="callout-26-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Task 1</strong></p>
+<p>The following command allows us to “browse” through the content of this file:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">zcat</span> MTB_H37Rv_selected_proteins.fasta.gz <span class="kw">|</span> <span class="fu">less</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>NB.</strong> Mac users may have to use this version of the command <code>zcat &lt; TB_H37Rv_selected_proteins.fasta.gz | less</code> to read compressed files by directing the file to zcat with <code>&lt;</code>.</p>
+<p>We can use <kbd>↑</kbd> and <kbd>↓</kbd> to move line-by-line or the <kbd>Page Up</kbd> and <kbd>Page Down</kbd> keys to move page-by-page. You can exit <code>less</code> by pressing <kbd>Q</kbd> (for “quit”). This will bring you back to the console.</p>
+<hr>
+<p><strong>Task 2</strong></p>
+<p>We can look at the sequences’ names by running:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">zcat</span> MTB_H37Rv_selected_proteins.fasta.gz <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>&gt;gyrB locus_tag="Rv0005"
+&gt;gyrA locus_tag="Rv0006"
+&gt;pknB locus_tag="Rv0014c"
+&gt;pknA locus_tag="Rv0015c"
+&gt;pbpA locus_tag="Rv0016c"
+&gt;whiB5 locus_tag="Rv0022c"
+&gt;rpoB locus_tag="Rv0667"
+&gt;rpoA locus_tag="Rv3457c"
+&gt;inhA locus_tag="Rv1484"
+&gt;esxT locus_tag="Rv3444c"</code></pre>
+<p>We could further count how many sequences, by piping this output to <code>wc</code>:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">zcat</span> <span class="op">&lt;</span> MTB_H37Rv_selected_proteins.fasta.gz <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"&gt;"</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>10</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="more-on-cut-sort-unique-count" class="level3">
+<h3 class="anchored" data-anchor-id="more-on-cut-sort-unique-count">More on Cut, Sort, Unique &amp; Count</h3>
+<p>Let’s now explore a few more useful commands to manipulate text that can be combined to quickly answer useful questions about data we may generate later on in this course.</p>
+<p>Let’s start with the command <code>cut</code>, which is used to extract sections from each line of its input. For example, let’s say we wanted to retrieve only the second <em>field</em> (or column) of our CSV files in the <code>02_unix_intro</code> directory, which contains the species classification <strong>taxonomy_id</strong> of reads obtained from sequencing the sample `TBNmA041:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> TBNmA041<span class="pp">*</span>.csv <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> <span class="st">","</span> <span class="at">-f</span> 2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>taxonomy_id
+1773
+78331
+1764
+701042
+339268
+1767
+222805
+1768
+722731
+1545728
+...</code></pre>
+</div>
+</div>
+</div>
+<p>The two options used with this command are:</p>
+<ul>
+<li><code>-d</code> defines the <em>delimiter</em> used to separate different parts of the line. Because this is a CSV file, we use the comma as our delimiter. The <em>tab</em> is used as the default delimiter.</li>
+<li><code>-f</code> defines the <em>field</em> or part of the line we want to extract. In our case, we want the second <em>field</em> (or column) of our CSV file. It’s worth knowing that you can specify more than one <em>field</em>, so for example if you had a CSV file with more columns and wanted columns 3 and 7 you could set <code>-d 3,7</code>.</li>
+</ul>
+<p>The next command we will explore is called <code>sort</code>, which sorts the lines of its input <em>alphabetically</em> (default) or <em>numerically</em> (if using the <code>-n</code> option). Let’s combine it with our previous command to see the result:</p>
+<p>Remember we have to add the sort option <code>-n</code> to achieve the required output.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb53"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> TBNmA041<span class="pp">*</span>.csv <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> <span class="st">","</span> <span class="at">-f</span> 2 <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-n</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>taxonomy_id
+1764
+1764
+1767
+1768
+1769
+1773
+1773
+1781
+1784
+29311
+78331
+78331
+212767
+...</code></pre>
+</div>
+</div>
+</div>
+<p>You can see that the output is now sorted as desired.</p>
+<p>The <code>cut</code> command is often used in conjunction with another command: <code>uniq</code>. This command returns the unique lines in its input. Importantly, <em>it only works as intended if the input is sorted</em>. That’s why it’s often used together with <code>sort</code>.<br>
+Let’s see it in action, by continuing building our command:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb55"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> TBNmA041<span class="pp">*</span>.csv <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> <span class="st">","</span> <span class="at">-f</span> 2 <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-n</span> <span class="kw">|</span> <span class="fu">uniq</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>taxonomy_id
+1764
+1767
+1768
+1769
+1773
+1781
+1784
+29311
+78331
+212767
+222805
+339268
+482462
+701042
+722731
+1545728
+1682113
+1879023
+1936029</code></pre>
+</div>
+</div>
+</div>
+<p>We can see that now the output is de-duplicated, so only unique values are returned. And so, with a few simple commands, we’ve answered a very useful question from our data: what are the unique species in our collection of samples?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://wizardzines.com/comics/sort-uniq/sort-uniq.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Illustration of the <code>sort</code> + <code>uniq</code> commands by <a href="https://wizardzines.com/comics/sort-uniq/">Julia Evans</a></figcaption><p></p>
+</figure>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.4.3.3:</em></strong> Sort &amp; Count I
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let’s continue working on our command:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> TBNmA041<span class="pp">*</span>.csv <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> <span class="st">","</span> <span class="at">-f</span> 2 <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-n</span> <span class="kw">|</span> <span class="fu">uniq</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As you saw, this output also returns a line called “taxonomy_id”. This was part of the header (or column name) of our CSV file, which is not really useful to have in our output.<br>
+Let’s try and solve that problem, and also ask the question of how frequent each of these species are in our data.</p>
+<ol type="1">
+<li>Looking at the help page for <code>grep</code> (<code>grep --help</code> or <code>man grep</code>), see if you can find an option to invert a match, i.e.&nbsp;to return the lines that <em>do not match</em> a pattern. Can you think of how to include this in our pipeline to remove that line from our output?
+<details>
+<summary>
+Hint
+</summary>
+The option to invert a match with <code>grep</code> is <code>-v</code>. <code>grep -v "taxonomy_id"</code> would return the lines that <em>do not match</em> the word “taxonomy_id”.
+</details></li>
+<li>The <code>uniq</code> command has an option called <code>-c</code>. Try adding that option to the command and infer what it does (or look at <code>uniq --help</code>).</li>
+<li>Finally, produce a sorted table of counts for each of our taxonomic id in <em>descending order</em> (the most common species at the top).
+<details>
+<summary>
+Hint
+</summary>
+The <code>sort</code> command has an option to order the output in <em>reverse order</em>: <code>-r</code>.
+</details></li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-28" class="callout-28-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Task 1</strong></p>
+<p>Looking at the help of this function with <code>grep --help</code>, we can find the following option:</p>
+<pre><code> -v, --invert-match        select non-matching lines</code></pre>
+<p>So, we can continue working on our pipeline by adding another step at the end:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb59"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> TBNmA041<span class="pp">*</span>.csv <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> <span class="st">","</span> <span class="at">-f</span> 2 <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-n</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-v</span> <span class="st">"taxonomy_id"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>1764
+1767
+1768
+1769
+1773
+1781
+1784
+29311
+...</code></pre>
+</div>
+</div>
+</div>
+<p>This now removes the line that matched the word “taxonomy_id”.</p>
+<hr>
+<p><strong>Task 2</strong></p>
+<p>Looking at the help for <code>uniq --help</code>, we can see that:</p>
+<pre><code> -c, --count           prefix lines by the number of occurrences</code></pre>
+<p>So, if we add this option, we will get the count of how many times each unique line appears in our data:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb62"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> TBNmA041<span class="pp">*</span>.csv <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> <span class="st">","</span> <span class="at">-f</span> 2 <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-n</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-v</span> <span class="st">"taxonomy_id"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>   2 1764
+   1 1767
+   1 1768
+   1 1769
+   2 1773
+   1 1781
+   1 1784
+   1 29311
+   2 78331
+   1 212767
+   1 222805
+...   </code></pre>
+</div>
+</div>
+</div>
+<hr>
+<p><strong>Task 3</strong></p>
+<p>Now that we’ve counted each of our species, we can again sort this result, this time by the counts value, by adding another <code>sort</code> step at the end:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb64"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> TBNmA041<span class="pp">*</span>.csv <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> <span class="st">","</span> <span class="at">-f</span> 2 <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-n</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-v</span> <span class="st">"taxonomy_id"</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-r</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>   2 78331
+   2 701042
+   2 482462
+   2 339268
+   2 1936029
+   2 1773
+   2 1764
+   2 1682113
+   2 1545728
+   1 722731
+   1 29311
+   1 222805
+   1 212767
+   1 1879023
+   1 1784
+   1 1781
+   1 1769
+   1 1768
+   1 1767</code></pre>
+</div>
+</div>
+</div>
+<p>We used the option <code>-r</code>, which from the help page <code>sort --help</code>, says:</p>
+<pre><code>  -r, --reverse               reverse the result of comparisons</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.4.3.4:</em></strong> Sort &amp; Count II
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>This is an (optional) advanced exercise.</strong></p>
+<p>In the <code>02_unix_intro/</code> directory, you will find two files named <code>G26832.gff3.gz</code> and <code>G26832.tsv</code>. We have already encountered these type of files and hopefully are familiar with its contents. The <code>.gff</code> is a file containing the locations and other information of genes in the <em>Mycobacterium tuberculosis</em> genome in a standard text-based format called GFF.<br>
+This is a tab-delimited file, where the 3rd column contains information about the kind of annotated feature, the 4th and 5th columns contains the start and end positions on the contig and the 7th column contains the strand information. You can investigate its content with <code>zcat G26832.gff3.gz | less -S</code>. We use <code>zcat</code> because the file is compressed (we can tell from its extension ending with <code>.gz</code>)</p>
+<p>Extracts from this file have been converted to a more friendly file format <code>.tsv</code>. The <code>.tsv</code> file also contain similar information but this time, with the gene names spelt out distinctly in column 7. The <code>.tsv</code> file can easily be open using excel or libre office. For the tasks below, you may want to use the <code>.tsv</code> file to carry out the analysis.</p>
+<p>Using a combination of the commands we have seen so far:</p>
+<ol type="1">
+<li><p>Count how many occurrences of each feature (2nd column in <code>.tsv</code>) there is in the file.</p></li>
+<li><p>How many times does the gene “menH” occur in the genomic?</p></li>
+<li><p>Which gene has the highest number of occurrences in the genome?</p></li>
+<li><ol type="a">
+<li>How many distinct <a href="https://en.wikipedia.org/wiki/Transfer_RNA">trna’s</a> can you identify in the bacteria genome?</li>
+<li>Which of these occurs more than once in the genome?</li>
+<li>Do you see any unusual trna? What do you think their roles are?</li>
+</ol></li>
+</ol>
+<details>
+<summary>
+Hint
+</summary>
+<ul>
+<li>Start by investigating the content of the file with <code>cat G26832.tsv | head</code> or open with a GUI tool. You will notice the first few lines of the file contain comments starting with <code>#</code> symbol. You should remove these lines before continuing.</li>
+<li>Check the help for <code>grep</code> to remind yourself what the option is to return lines <em>not</em> matching a pattern.</li>
+<li>Remember that the <code>cut</code> program uses tab as its default delimiter.</li>
+<li>To see all <strong>trna’s</strong> you can use <code>grep "_trna"</code>.</li>
+</ul>
+</details>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-30-contents" aria-controls="callout-30" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-30" class="callout-30-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Task 1</strong></p>
+<p>We could use:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb67"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> G26832.tsv <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-v</span> <span class="st">"#"</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 2 <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>4041 cds
+   1 crispr
+  21 ncRNA
+  13 ncRNA-region
+   1 oriC
+   3 rRNA
+   1 sorf
+  46 tRNA
+   1 tmRNA</code></pre>
+</div>
+</div>
+</div>
+<ul>
+<li>We use <code>grep</code> to remove the first few lines of the file that start with <code>#</code> character.</li>
+<li>We use <code>cut</code> to extract the third “field” (column) of the file. Because it’s a tab-delimited file, we don’t need to specify a delimiter with <code>cut</code>, as that is the default.</li>
+<li>We use <code>sort</code> to order the features in alphabetical order.</li>
+<li>Finally, <code>uniq</code> is used to return the unique values as well as count their occurrence (with the <code>-c</code> option).</li>
+</ul>
+<hr>
+<p><strong>Task 2</strong></p>
+<p>The answer is 14. We could use the following command by investigating column 7:</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> G26832.tsv <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"menH"</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 7 <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+<p><strong>Task 3</strong></p>
+<p>The gene with the highest occurrence in the genome is <em><code>acrR</code></em> and it occurs 38 times.</p>
+<p>We can find this out with the command below:</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> G26832.tsv <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-v</span> <span class="st">"#"</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 7 <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-r</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 20</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+<p><strong>Task 4</strong></p>
+<p><strong>Task 4a</strong> For task 4a, we will simply count the number of unique <em>trna</em> in the genome using the command below:</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> G26832.tsv <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"_trna"</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 7 <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We observe 22 unique <em>trna</em> counts.</p>
+<p><strong>Task 4b</strong> For task 4b, we can identify the <em>trna’s</em> that occur more than once in the genome by simply adding another <code>sort</code> to the previous command instead of the <code>wc -l</code>.</p>
+<p>We can do this with the command below:</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> G26832.tsv <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"_trna"</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 7 <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-r</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>   5 Ser_trna
+   5 Leu_trna
+   4 Arg_trna
+   3 Val_trna
+   3 Thr_trna
+   3 Pro_trna
+   3 Gly_trna
+   3 Ala_trna
+   2 Lys_trna
+   2 Glu_trna
+   2 Gln_trna
+...</code></pre>
+<p>There are 11 <code>trna's</code> that occur more than once in the genome.</p>
+<p><strong>Task 4c</strong> fMet_trna and Ile2_trna may be unusual to you. Google and find out what they do.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-32-contents" aria-controls="callout-32" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<code>sort</code>: Alphabetically or Numerically?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-32" class="callout-32-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Note that, by default the <code>sort</code> command will order input lines <em>alphabetically</em>. So, for example, if it received this as input:</p>
+<pre><code>10
+2
+1
+20</code></pre>
+<p>The result of sorting would be:</p>
+<pre><code>1
+10
+2
+20</code></pre>
+<p>Because that’s the alphabetical order of those characters. We can use the option <code>sort -n</code> to make sure it sorts these as numbers, in which case the output would be as expected:</p>
+<pre><code>1
+2
+10
+20</code></pre>
+<p>But, you may be asking yourself: why did it work with the output of <code>uniq</code> without specifying <code>-n</code>?<br>
+This is because the output of <code>uniq</code> left-aligns all the numbers by prefixing the smaller numbers with a space, such as this:</p>
+<pre><code>10
+ 2
+ 1
+20</code></pre>
+<p>And because the <em>space</em> character comes first in the computer’s “alphabet”, we don’t actually need to use the <code>-n</code> option.</p>
+<p>Here’s the main message: <strong>always use the <code>-n</code> option if you want things that look like numbers to be sorted numerically</strong> (if the input doesn’t look like a number, then <code>sort</code> will just order them alphabetically instead).</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="credit" class="level2">
+<h2 class="anchored" data-anchor-id="credit">2.4.4 Credit</h2>
+<p>Information on this page has been adapted and modified from the following source(s):</p>
+<ul>
+<li><p><em>Gabriel A. Devenyi (Ed.), Gerard Capes (Ed.), Colin Morris (Ed.), Will Pitchers (Ed.),Greg Wilson, Gerard Capes, Gabriel A. Devenyi, Christina Koch, Raniere Silva, Ashwin Srinath, … Vikram Chhatre. (2019, July). swcarpentry/shell-novice: Software Carpentry: the UNIX shell, June 2019 (Version v2019.06.1).</em></p></li>
+<li><p>https://github.com/cambiotraining/UnixIntro</p></li>
+<li><p>https://github.com/cambiotraining/unix-shell</p></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../materials/02-unix_intro/2.3-text_manipulation.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2.3 Text Manipulation</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../materials/02-unix_intro/2.5-using_remote_resources.html" class="pagination-link">
+        <span class="nav-page-text">2.5 Using remote resources</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">Licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://creativecommons.org/images/deed/cc_icon_black_x2.png" class="img-fluid" width="25"> Dr Prince Asare and Dr Andries van Tonder</div>
+  </div>
+</footer>
+
+
+
+</body></html>

@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.112">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>10.1 Introduction to Phylogenetics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../materials/11-genotyping/11.1-genotyping.html" rel="next">
+<link href="../../materials/09-bactmap/9.2-bactmap_results.html" rel="prev">
+<link href="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university-of-cambridge-favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/NMIMR_Logo_whitebg.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../setup.html">Setup</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../materials.html" aria-current="page">Materials</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../unix_cheat_sheet.html">Unix-Cheat-Sheet</a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/avantonder/Ghana_course"><i class="bi bi-github" role="img" aria-label="Introduction to bacterial genomics GitHub">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/NMIMR_UG"><i class="bi bi-twitter" role="img" aria-label="Noguchi Memorial Institute for Medical Research Twitter">
+</i> 
+ </a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">10.1 Introduction to Phylogenetics</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials.html" class="sidebar-item-text sidebar-link">Materials</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">1. Introduction to WGS</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro_wgs/1.1-intro_wgs.html" class="sidebar-item-text sidebar-link">1.1 Introduction to Whole Genome Sequencing (WGS)</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">2. Introduction to Unix</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.1-unix_overview.html" class="sidebar-item-text sidebar-link">2.1 The Unix Shell</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.2-files_directories.html" class="sidebar-item-text sidebar-link">2.2 Navigating Files and Directories</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.3-text_manipulation.html" class="sidebar-item-text sidebar-link">2.3 Text Manipulation</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.4-combining_commands.html" class="sidebar-item-text sidebar-link">2.4 Combining Commands</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.5-using_remote_resources.html" class="sidebar-item-text sidebar-link">2.5 Using remote resources</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.6-vscode_overview.html" class="sidebar-item-text sidebar-link">2.6 Visual Studio Code</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.7-bonus_find_and_grep.html" class="sidebar-item-text sidebar-link">2.7 <em>Bonus</em> : Finding Things</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.8-bonus_loops.html" class="sidebar-item-text sidebar-link">2.8 <em>Bonus</em>: Loops</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.9-bonus_shell_scripts.html" class="sidebar-item-text sidebar-link">2.9 <em>Bonus</em>: Shell Scripts</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">3. Common File Formats</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-file_formats/3.1-file_formats.html" class="sidebar-item-text sidebar-link">3.1 Common File Formats</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">4. Sequencing QC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-sequence_qc/4.1-sequence_qc.html" class="sidebar-item-text sidebar-link">4.1 Sequencing Quality Control</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">5. Short Read Mapping</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-short_read_mapping/5.1-short_read_mapping.html" class="sidebar-item-text sidebar-link">5.1 Short Read Mapping</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">6. Assembly and Annotation</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/06-assembly_annotation/6.1-assembly_annotation.html" class="sidebar-item-text sidebar-link">6.1 Assembly and Annotation</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">7. Software Management</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/07-software_management/7.1-software_management.html" class="sidebar-item-text sidebar-link">7.1 Managing Software</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">8. Workflow Managers</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.1-workflow_managers.html" class="sidebar-item-text sidebar-link">8.1 Workflow Managers</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.2-nfcore.html" class="sidebar-item-text sidebar-link">8.2 nf-core pipelines</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">9. The nf-core/bactmap Pipeline</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.1-bactmap_run.html" class="sidebar-item-text sidebar-link">9.1 The nf-core/bactmap pipeline</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.2-bactmap_results.html" class="sidebar-item-text sidebar-link">9.2 nf-core/bactmap Results</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">10. Introduction to Phylogenetics</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/10-intro_phylogenetics/10.1-intro_phylogenetics.html" class="sidebar-item-text sidebar-link active">10.1 Introduction to Phylogenetics</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">11. Bacterial Genotyping and AMR prediction</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/11-genotyping/11.1-genotyping.html" class="sidebar-item-text sidebar-link">11.1 Bacterial Genotyping and Drug Resistance Prediction</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">12. Introduction to HPC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/12-intro_hpc/12.1-intro_hpc.html" class="sidebar-item-text sidebar-link">12.1 Introduction to High Performance Computing</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#multiple-sequence-alignments" id="toc-multiple-sequence-alignments" class="nav-link" data-scroll-target="#multiple-sequence-alignments">10.1 Multiple sequence alignments</a></li>
+  <li><a href="#phylogenetic-tree-inference" id="toc-phylogenetic-tree-inference" class="nav-link" data-scroll-target="#phylogenetic-tree-inference">10.2 Phylogenetic tree inference</a>
+  <ul class="collapse">
+  <li><a href="#tree-topology" id="toc-tree-topology" class="nav-link" data-scroll-target="#tree-topology">Tree topology</a></li>
+  <li><a href="#uses-of-phlogenetic-trees" id="toc-uses-of-phlogenetic-trees" class="nav-link" data-scroll-target="#uses-of-phlogenetic-trees">Uses of phlogenetic trees</a></li>
+  <li><a href="#newick-format" id="toc-newick-format" class="nav-link" data-scroll-target="#newick-format">Newick format</a></li>
+  <li><a href="#methods-for-inferring-phylogenetic-trees" id="toc-methods-for-inferring-phylogenetic-trees" class="nav-link" data-scroll-target="#methods-for-inferring-phylogenetic-trees">Methods for inferring phylogenetic trees</a></li>
+  <li><a href="#tree-uncertainty---bootstrap" id="toc-tree-uncertainty---bootstrap" class="nav-link" data-scroll-target="#tree-uncertainty---bootstrap">Tree uncertainty - bootstrap</a></li>
+  </ul></li>
+  <li><a href="#activate-the-phylogenetics-environment" id="toc-activate-the-phylogenetics-environment" class="nav-link" data-scroll-target="#activate-the-phylogenetics-environment">10.3 Activate the <code>phylogenetics</code> environment</a></li>
+  <li><a href="#phylogenetic-inference-of-tb-dataset" id="toc-phylogenetic-inference-of-tb-dataset" class="nav-link" data-scroll-target="#phylogenetic-inference-of-tb-dataset">10.4 Phylogenetic inference of TB dataset</a>
+  <ul class="collapse">
+  <li><a href="#variant-site-extraction-with-snp-sites" id="toc-variant-site-extraction-with-snp-sites" class="nav-link" data-scroll-target="#variant-site-extraction-with-snp-sites">Variant site extraction with <code>snp-sites</code></a></li>
+  <li><a href="#phylogenetic-tree-inference-with-iq-tree" id="toc-phylogenetic-tree-inference-with-iq-tree" class="nav-link" data-scroll-target="#phylogenetic-tree-inference-with-iq-tree">Phylogenetic tree inference with <code>IQ-TREE</code></a></li>
+  </ul></li>
+  <li><a href="#visualization-of-phylogenetic-trees" id="toc-visualization-of-phylogenetic-trees" class="nav-link" data-scroll-target="#visualization-of-phylogenetic-trees">10.5 Visualization of phylogenetic trees</a>
+  <ul class="collapse">
+  <li><a href="#visualizing-your-phylogenetic-trees-with-figtree" id="toc-visualizing-your-phylogenetic-trees-with-figtree" class="nav-link" data-scroll-target="#visualizing-your-phylogenetic-trees-with-figtree">Visualizing your phylogenetic trees with <code>Figtree</code></a></li>
+  </ul></li>
+  <li><a href="#deactivate-phylogenetics-environment" id="toc-deactivate-phylogenetics-environment" class="nav-link" data-scroll-target="#deactivate-phylogenetics-environment">10.6 Deactivate <code>phylogenetics</code> environment</a></li>
+  <li><a href="#credit" id="toc-credit" class="nav-link" data-scroll-target="#credit">Credit</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">10.1 Introduction to Phylogenetics</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p><strong>Teaching: 90 min</strong> || <strong>Exercises: 40 min</strong></p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Questions:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>What is a multiple sequence alignment (MSA)</li>
+<li>What is a phylogenetic tree?</li>
+<li>How can I build a phylogenetic tree from my multiple sequence alignment?</li>
+<li>How can I visualize and annotate my phylogenetic tree?</li>
+</ul>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Learning Objectives:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Understand how to generate a multiple sequence alignment using a standard pipeline such as <code>nf-core/bactmap</code></li>
+<li>Understand the basics of how phylogeny trees are constructed using maximum likelihood methods.</li>
+<li>Use <code>IQ-TREE</code> for phylogenetic tree inference.</li>
+<li>Visualize and annotate your tree with <code>R</code> and <code>ggtree</code></li>
+</ul>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Keypoints:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Generating a multiple sequence alignment is the first step in building a phylogenetic tree.</li>
+<li>A phylogenetic tree is a graph representing evolutionary history and shared ancestry.</li>
+<li>There are multiple methods and tools available for constructing phylogenetic trees.</li>
+<li>Visualization of a phylogenetic tree alongside available metadata is commonly how the relatedness of samples is portrayed in a scientific paper.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="multiple-sequence-alignments" class="level2">
+<h2 class="anchored" data-anchor-id="multiple-sequence-alignments">10.1 Multiple sequence alignments</h2>
+<p>Phylogenetic methods require sequence alignments. These can range from alignments of a single gene from different species to whole genome alignments where a sample’s sequence reads are mapped to a reference genome. Alignments attempt to place nucleotides from the same ancestral nucleotide in the same column. One of the most commonly used alignment formats in phylogenetics is <code>FASTA</code>:</p>
+<pre><code>&gt;Sample_1
+AA-GT-T
+&gt;Sample_2
+AACGTGT</code></pre>
+<p><code>N</code> and <code>-</code> characters represent missing data and are interpreted by phylogenetic methods as such.</p>
+<p>The two most commonly used muliple sequence alignments in bacterial genomics are reference-based whole genome alignments and core genome alignments generated by comparing genes between different isolates and identifying the genes found in all or nearly all isolates (the core genome). As a broad rule of thumb, if your species is not genetically diverse and doesn’t recombine (TB, <em>Brucella</em>) then picking a suitable good-quality reference and generating a whole genome alignment is appropriate. However, when you have a lot of diversity or multiple divergent lineages (<em>E. coli</em>) the a single reference may not represent all the diversity in your dataset. Here it would be more typical to create <em>de novo</em> assemblies, annotate them and then use a tool like <code>roary</code> or <code>panaroo</code> to infer the pan-genome and create a core genome alignment. The same phylogenetic methods are then applied to either type of multiple sequence alignment.</p>
+</section>
+<section id="phylogenetic-tree-inference" class="level2">
+<h2 class="anchored" data-anchor-id="phylogenetic-tree-inference">10.2 Phylogenetic tree inference</h2>
+<p>A phylogenetic tree is a graph (structure) representing evolutionary history and shared ancestry. It depicts the lines of evolutionary descent of different species, lineages or genes from a common ancestor. A phylogenetic tree is made of nodes and edges, with one edge connecting two nodes.</p>
+<p>A node can represent an extant species, and extinct one, or a sampled pathogen: these are all cases of “terminal” nodes, nodes in the tree connected to only one edge, and usually associated with data, such as a genome sequence.</p>
+<p>A tree also contains “internal” nodes: these usually represent most recent common ancestors (MRCAs) of groups of terminal nodes, and are typically not associated with observed data, although genome sequences and other features of these ancestors can be statistically inferred. An internal node is most often connected to 3 branches (two descendants and one ancestral), but a multifurcation node can have any number &gt;2 of descendant branches.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/NewickExample.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Newick Format Example tree</figcaption><p></p>
+</figure>
+</div>
+<section id="tree-topology" class="level3">
+<h3 class="anchored" data-anchor-id="tree-topology">Tree topology</h3>
+<p>A clade is the set of all terminal nodes descending from the same ancestor. Each branch and internal node in a tree is associated with a clade. If two trees have the same clades, we say that they have the same topology. If they have the same clades and the same branch lengths, the two tree are equivalent, that is, they represent the same evolutionary history.</p>
+</section>
+<section id="uses-of-phlogenetic-trees" class="level3">
+<h3 class="anchored" data-anchor-id="uses-of-phlogenetic-trees">Uses of phlogenetic trees</h3>
+<p>In may cases, the phylogenetic tree represents the end results of an analysis, for example if we are interested in the evolutionary history of a set of species.</p>
+<p>However, in many cases a phylogenetic tree represents an intermediate step, and there are many ways in which phylogenetic trees can be used to help understand evolution and the spread of infectious disease.</p>
+<p>In many cases, we may want to know more about genome evolution, for example about mutational pressures, but more frequently about selective pressures. Selection can affect genome evolution in many ways such as slowing down evolution of portion of the genome in which changes are deleterious (“purifying selection”). Instead, “positive selection” can favor changes at certain positions of the genome, effectively accelerating their evolution. Using genome data and phylogenetic trees, molecular evolution methods can infer different types of selection acting in different parts of the genome and different branches of a tree.</p>
+</section>
+<section id="newick-format" class="level3">
+<h3 class="anchored" data-anchor-id="newick-format">Newick format</h3>
+<p>We often need to represent trees in text format, for example to communicate them as input or output of phylogenetic inference software. The Newick format is the most common text format for phylogenetic trees.</p>
+<p>The Newick format encloses each subtree (the part of a tree relating the terminal nodes part of the same clade) with parenthesis, and separates the two child nodes of the same internal node with a “,”. At the end of a Newick tree there is always a “;”.</p>
+<p>For example, the Newick format of a rooted tree relating two samples “S1” and “S2”, with distances from the root respectively of 0.1 and 0.2, is</p>
+<p><code>(S1:0.1,S2:0.2);</code></p>
+<p>If we add a third sample “S3” as an outgroup, the tree might become</p>
+<p><code>((S1:0.1,S2:0.2):0.3,S3:0.4);</code></p>
+</section>
+<section id="methods-for-inferring-phylogenetic-trees" class="level3">
+<h3 class="anchored" data-anchor-id="methods-for-inferring-phylogenetic-trees">Methods for inferring phylogenetic trees</h3>
+<p>A few different methods exist for inferring phylogenetic trees:</p>
+<ul>
+<li>Distance-based methods such as Neighbour-Joining and UPGMA</li>
+<li>Parsimony-based phylogenetics</li>
+<li>Maximum likelihood methods making use of nuclotide substitution models</li>
+</ul>
+<section id="distance-based-methods" class="level4">
+<h4 class="anchored" data-anchor-id="distance-based-methods">Distance-based methods</h4>
+<p>These are the simplest and fastest phylogenetic methods we can use and are often a useful way to have a quick look at our data before running more robust phylogenetic methods. Here, we infer evolutionary distances from the multiple sequence alignment. In the example below there is 1 subsitution out of 16 informative columns (we exclude columns with gaps or N’s) so the distance is approximately 1/16:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/phylo_distance_alignment.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Evolutionary distance between two sequences</figcaption><p></p>
+</figure>
+</div>
+<p>Typically, we have multiple sequences in an alignment so here we would generate a matrix of pairwise distances between all samples (distance matrix) and then use Neighbour-Joining or UPGMA to infer our phylogeny:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/phylo_matrix_nj.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Distance matrix to Neighbour-Joining tree</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="parsimony-methods" class="level4">
+<h4 class="anchored" data-anchor-id="parsimony-methods">Parsimony methods</h4>
+<p>Maximum parsimony methods assume that the best phylogenetic tree requires the fewest number of mutations to explain the data (i.e.&nbsp;the simplest explanation is the most likely one). By reconstructing the ancestral sequences (at each node), maximum parsimony methods evaluate the number of mutations required by a tree then modify the tree a little bit at a time to improve it.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/phylo_max_parsimony.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Maximum parsimony</figcaption><p></p>
+</figure>
+</div>
+<p>Maximum parsimony is an intuitive and simple method and is reasonably fast to run. However, because the most parsimonius tree is always the shortest tree, compared to the hypothetical “true” tree it will often underestimate the actual evolutionary change that may have occurred.</p>
+</section>
+<section id="maximum-likelihood-methods" class="level4">
+<h4 class="anchored" data-anchor-id="maximum-likelihood-methods">Maximum likelihood methods</h4>
+<p>The most commonly encountered phylogenetic method when working with bacterial genome datasets is maximum likelihood. These methods use probabilistic models of genome evolution to evaluate trees and whilst similar to maximum parsimony, they allow statistical flexibility by permitting varying rates of evolution across different lineages and sites. This additional complexity means that maximum likelihood models are much slower than the previous two models discussed. Maximum likelihood methods make use of substitution models (models of DNA sequence evolution) that describe changes over evolutionary time. Two commonly used substitution models, Jukes-Cantor (JC69; assumes only one mutation rate) and Hasegawa, Kishino and Yano (HKY85; assumes different mutation rates - transitions have different rates) are depicted below:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/phylo_max_likelihood.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Two DNA substitution models</figcaption><p></p>
+</figure>
+</div>
+<p>It is also possible to incorporate additional assumptions about your data e.g.&nbsp;assuming that a proportion of the the alignment columns (the invariant or constant sites) cannot mutate or that there is rate variation between the different alignment columns (columns may evolve at different rates). The choice of which is the best model to use is often a tricky one; generally starting with one of the simpler models e.g.&nbsp;General time reversible (GTR) or HKY is the best way to proceed. Accounting for rate variation and invariant sites is an important aspect to consider so using models like HKY+G4+I (G4 = four types of rate variation allowed; I = invariant sites don’t mutate) should also be considered.</p>
+<p>There are a number of different tools for phylogenetic inference via maximum-likelihood and some of the most popular tools used for phylogenetic inference are <a href="http://www.microbesonline.org/fasttree/"><code>FastTree</code></a>, <a href="http://www.iqtree.org/"><code>IQ-TREE</code></a> and <a href="https://github.com/amkozlov/raxml-ng"><code>RAxML-NG</code></a>. For this lesson, we’re going to use <code>IQ-TREE</code> as it is fast and has a large number of substitution models to consider. It also has a model finder option which tells <code>IQ-TREE</code> to pick the best fitting model for your dataset, thus removing the decision of which model to pick entirely.</p>
+</section>
+</section>
+<section id="tree-uncertainty---bootstrap" class="level3">
+<h3 class="anchored" data-anchor-id="tree-uncertainty---bootstrap">Tree uncertainty - bootstrap</h3>
+<p>All the methods for phylogenetic inference that we discussed so far aim at estimating a single realistic tree, but they don’t automatically tell us how confident we should be in the tree, or in individual branches of the tree.</p>
+<p>One common way to address this limitation is using the phylogenetic bootstrap approach (Felsenstein, 1985). This consist first in sampling a large number (say, 1000) of bootstrap alignments. Each of these alignments has the same size as the original alignment, and is obtained by sampling with replacement the columns of the original alignment; in each bootstrap alignment some of the columns of the original alignment will usually be absent, and some other columns would be represented multiple times. We then infer a bootstrap tree from each bootstrap alignment. Because the bootstrap alignments differ from each other and from the original alignment, the bootstrap trees might different between each other and from the original tree. The bootstrap support of a branch in the original tree is then defined as the proportion of times in which this branch is present in the bootstrap trees.</p>
+</section>
+</section>
+<section id="activate-the-phylogenetics-environment" class="level2">
+<h2 class="anchored" data-anchor-id="activate-the-phylogenetics-environment">10.3 Activate the <code>phylogenetics</code> environment</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate phylogenetics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>
+Disk Usage I — Before analysis
+</summary>
+<p>Before we start performing any assemblies, let’s pause and check the space of our current working directory as we did for our previous lesson.</p>
+<p>You can do this with the <strong>d</strong>isk <strong>u</strong>sage <code>du</code> command</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>
+Current Disk Space In results/iqtree Directory
+</summary>
+~247MB
+</details>
+Now, keep this value in mind, and this time, don’t forget it. We will come back to it at the end of this chapter.
+</details>
+</section>
+<section id="phylogenetic-inference-of-tb-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="phylogenetic-inference-of-tb-dataset">10.4 Phylogenetic inference of TB dataset</h2>
+<p>For the rest of this lesson we’re going to build a phylogenetic tree using the multiple sequence alignment we generated with <code>nf-core/bactmap</code>.</p>
+<section id="variant-site-extraction-with-snp-sites" class="level3">
+<h3 class="anchored" data-anchor-id="variant-site-extraction-with-snp-sites">Variant site extraction with <a href="https://github.com/sanger-pathogens/snp-sites"><code>snp-sites</code></a></h3>
+<p>Phylogenetic inference software such as <code>IQ-tree</code> typically takes as input an alignment of just the variant sites in a multiple sequence alignment. So, before running <code>IQ-tree</code>, we need to extract the variant sites from the masked alignment. To ensure that the branch lengths are correctly scaled, we also need to tell <code>IQ-tree</code> how many invariant or constant sites there are in our multiple sequence alignment. To do both those things, we can use a tool called <a href="https://github.com/sanger-pathogens/snp-sites"><code>snp-sites</code></a>.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Help
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do this to get the help information for <code>snp-sites</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snp-sites</span> <span class="at">-h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snp-sites:</span> invalid option <span class="at">--</span> <span class="st">'h'</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Usage:</span> snp-sites [-rmvpcbhV] [-o output_filename] <span class="op">&lt;</span>file<span class="op">&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> program finds snp sites from a multi FASTA alignment file.</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a> <span class="ex">-r</span>     output internal pseudo reference sequence</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a> <span class="ex">-m</span>     output a multi fasta alignment file <span class="er">(</span><span class="ex">default</span><span class="kw">)</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a> <span class="ex">-v</span>     output a VCF file</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a> <span class="ex">-p</span>     output a phylip file</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a> <span class="ex">-o</span> STR specify an output filename [STDOUT]</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a> <span class="ex">-c</span>     only output columns containing exclusively ACGT</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a> <span class="ex">-C</span>     only output count of constant sites <span class="er">(</span><span class="ex">suitable</span> for IQ-TREE <span class="at">-fconst</span><span class="kw">)</span> <span class="ex">and</span> nothing else</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a> <span class="ex">-b</span>     output monomorphic sites, used for BEAST</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a> <span class="ex">-h</span>     this help message</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a> <span class="ex">-V</span>     print version and exit</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a> <span class="op">&lt;</span>file<span class="op">&gt;</span> input <span class="ex">alignment</span> file which can optionally be gzipped</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="ex">Example:</span> creating files for BEAST</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a> <span class="ex">snp-sites</span> <span class="at">-cb</span> <span class="at">-o</span> outputfile.aln inputfile.aln</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="ex">If</span> you use this program, please cite:</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="st">"SNP-sites: rapid efficient extraction of SNPs from multi-FASTA alignments"</span><span class="ex">,</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="ex">Andrew</span> J. Page, Ben Taylor, Aidan J. Delaney, Jorge Soares, Torsten Seemann, Jacqueline A. Keane, Simon R. Harris,</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="ex">Microbial</span> Genomics 2<span class="er">(</span><span class="ex">4</span><span class="kw">)</span><span class="ex">,</span> <span class="er">(</span><span class="ex">2016</span><span class="kw">)</span><span class="bu">.</span> http://dx.doi.org/10.1099/mgen.0.000056</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Usage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The basic usage for <code>snp-sites</code> is:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snp-sites</span> <span class="op">&lt;</span>ALIGNMENT<span class="op">&gt;</span> <span class="op">&gt;</span> -o <span class="op">&lt;</span>VARIANT SITE ALIGNMENT<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The meaning of the option used is:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Input option</th>
+<th style="text-align: left;">Input required</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>-o</code></td>
+<td style="text-align: left;"><em>FILENAME</em></td>
+<td style="text-align: left;">Filename of output variant alignment</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Run snp-sites
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To extract the variant site alignment and count the number of constant sites in our alignment, run the following commands in the <code>results/iqtree</code>directory:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snp-sites</span> <span class="dt">\</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    aligned_pseudogenomes.fas <span class="dt">\</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">-o</span> aligned_pseudogenomes_snps.fas</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="ex">snp-sites</span> <span class="dt">\</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">-C</span> aligned_pseudogenomes.fas <span class="dt">\</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;</span> constant_sites.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="phylogenetic-tree-inference-with-iq-tree" class="level3">
+<h3 class="anchored" data-anchor-id="phylogenetic-tree-inference-with-iq-tree">Phylogenetic tree inference with <a href="http://www.iqtree.org/"><code>IQ-TREE</code></a></h3>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Help
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do this to get the help information for <code>IQ-TREE</code> (we’ve excluded much of what’s printed as there’s many, many options available for use with <code>IQ-TREE</code>):</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">iqtree</span> <span class="at">-h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">IQ-TREE</span> multicore version 2.2.0.3 COVID-edition for Linux 64-bit built May 11 2022</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Developed</span> by Bui Quang Minh, James Barbetti, Nguyen Lam Tung,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Olga</span> Chernomor, Heiko Schmidt, Dominik Schrempf, Michael Woodhams, Ly Trong Nhan.</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Usage:</span> iqtree [-s ALIGNMENT] [-p PARTITION] [-m MODEL] [-t TREE] ...</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="ex">GENERAL</span> OPTIONS:</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-h,</span> <span class="at">--help</span>           Print <span class="er">(</span><span class="fu">more</span><span class="kw">)</span> <span class="bu">help</span> usages</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-s</span> FILE[,...,FILE]   PHYLIP/FASTA/NEXUS/CLUSTAL/MSF alignment file<span class="er">(</span><span class="ex">s</span><span class="kw">)</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-s</span> DIR               Directory of alignment files</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--seqtype</span> STRING     BIN, DNA, AA, NT2AA, CODON, MORPH <span class="er">(</span><span class="ex">default:</span> auto-detect<span class="kw">)</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-t</span> FILE<span class="kw">|</span><span class="ex">PARS</span><span class="kw">|</span><span class="ex">RAND</span>    Starting tree <span class="er">(</span><span class="ex">default:</span> 99 parsimony and BIONJ<span class="kw">)</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-o</span> TAX[,...,TAX]     Outgroup taxon <span class="er">(</span><span class="ex">list</span><span class="kw">)</span> <span class="cf">for</span> writing <span class="ex">.treefile</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--prefix</span> STRING      Prefix for all output files <span class="er">(</span><span class="ex">default:</span> aln/partition<span class="kw">)</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--seed</span> NUM           Random seed number, normally used for debugging purpose</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--safe</span>               Safe likelihood kernel to avoid numerical underflow</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--mem</span> NUM[G<span class="kw">|</span><span class="ex">M</span><span class="kw">|</span><span class="ex">%]</span>     Maximal RAM usage in GB <span class="kw">|</span> <span class="ex">MB</span> <span class="kw">|</span> <span class="ex">%</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--runs</span> NUM           Number of indepedent runs <span class="er">(</span><span class="ex">default:</span> 1<span class="kw">)</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-v,</span> <span class="at">--verbose</span>        Verbose mode, printing more messages to screen</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-V,</span> <span class="at">--version</span>        Display version number</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--quiet</span>              Quiet mode, suppress printing to screen <span class="er">(</span><span class="ex">stdout</span><span class="kw">)</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-fconst</span> f1,...,fN    Add constant patterns into alignment <span class="er">(</span><span class="va">N</span><span class="op">=</span>no. <span class="ex">states</span><span class="kw">)</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--epsilon</span> NUM        Likelihood epsilon for parameter estimate <span class="er">(</span><span class="ex">default</span> 0.01<span class="kw">)</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-T</span> NUM<span class="kw">|</span><span class="ex">AUTO</span>          No. cores/threads or AUTO-detect <span class="er">(</span><span class="ex">default:</span> 1<span class="kw">)</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--threads-max</span> NUM    Max number of threads for <span class="at">-T</span> AUTO <span class="er">(</span><span class="ex">default:</span> all cores<span class="kw">)</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--export-alisim-cmd</span>  Export a command-line from the inferred tree and model params</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--</span><span class="op">&gt;</span> MORE OPTIONS</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Usage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As indicated above, <code>IQ-TREE</code> has many different parameters available depending on what kind of tree you’d like to build including a comprehensive list of different nucleotide substitution models. In practice, there only a few different options that need to be required to get a well-supported phylogentic tree using one of the the established nucleotide substitition models such as GTR or HKY.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">iqtree</span> <span class="dt">\</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-fconst</span> <span class="op">&lt;</span>NUMBER OF INVARIANT SITES FOR EACH NUCLEOTIDE<span class="op">&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">-s</span> <span class="op">&lt;</span>VARIANT SITE ALIGNMENT<span class="op">&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="ex">-m</span> <span class="op">&lt;</span>NUCLEOTIDE SUBSTITUTION MODEL<span class="op">&gt;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">-bb</span> <span class="op">&lt;</span>ULTRAFAST BOOTSTRAPS<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The meaning of the options used is:</p>
+<table class="table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Input option</th>
+<th style="text-align: left;">Input required</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>-fconst</code></td>
+<td style="text-align: left;"><em>INT</em></td>
+<td style="text-align: left;">The number of invariant/constant sites in the alignment (e.g.&nbsp;15,10,10,15)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>-s</code></td>
+<td style="text-align: left;"><em>FILENAME</em></td>
+<td style="text-align: left;">The input variant (SNP) alignment</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>-m</code></td>
+<td style="text-align: left;"><em>MODEL</em></td>
+<td style="text-align: left;">The nucleotide substitution model to use</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>-bb</code></td>
+<td style="text-align: left;"><em>INT</em></td>
+<td style="text-align: left;">The number of ultrafast bootstraps to perform</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Run IQ-TREE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Now we can run <code>IQ-TREE</code> using the two files we just created with <code>snp-sites</code> as input:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">iqtree</span> <span class="dt">\</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-fconst</span> <span class="va">$(</span><span class="fu">cat</span> constant_sites.txt<span class="va">)</span> <span class="dt">\</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">-s</span> aligned_pseudogenomes_snps.fas <span class="dt">\</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">-nt</span> auto <span class="dt">\</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">-ntmax</span> 8 <span class="dt">\</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">-mem</span> 8G <span class="dt">\</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">-m</span> GTR <span class="dt">\</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">-bb</span> 1000</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The meaning of the options used is:</p>
+<table class="table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 78%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Input option</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>--fconst $(cat constant_sites.txt)</code></td>
+<td style="text-align: left;">Extract the number of invariant sites from the file we created using <code>SNP-sites</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>-s aligned_pseudogenomes_snps.fas</code></td>
+<td style="text-align: left;">The variant site alignment</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>-nt auto</code></td>
+<td style="text-align: left;">Autodetects the number of available cores</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>-ntmax 8</code></td>
+<td style="text-align: left;">The maximum number of cores to use</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>-mem 8G</code></td>
+<td style="text-align: left;">The maximum RAM usage in GB</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>-m GTR</code></td>
+<td style="text-align: left;">Use the GTR (General time reversible model of) nucleotide substitution</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>-bb 1000</code></td>
+<td style="text-align: left;">The number of ultrafast bootstraps to perform</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">IQ-TREE</span> multicore version 2.1.2 COVID-edition for Linux 64-bit built Mar 30 2021</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Developed</span> by Bui Quang Minh, James Barbetti, Nguyen Lam Tung,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Olga</span> Chernomor, Heiko Schmidt, Dominik Schrempf, Michael Woodhams.</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Host:</span>    login-e-15 <span class="er">(</span><span class="ex">AVX512,</span> FMA3, 187 GB RAM<span class="kw">)</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Command:</span> iqtree <span class="at">-fconst</span> 757236,1447033,1441675,757145 <span class="at">-s</span> aligned_pseudogenomes_snps.fas <span class="at">-nt</span> auto <span class="at">-ntmax</span> 8 <span class="at">-mem</span> 8G <span class="at">-m</span> GTR <span class="at">-bb</span> 1000</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Seed:</span>    753164 <span class="er">(</span><span class="ex">Using</span> SPRNG <span class="at">-</span> Scalable Parallel Random Number Generator<span class="kw">)</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Time:</span>    Tue Dec 13 14:43:53 2022</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Kernel:</span>  AVX+FMA <span class="at">-</span> auto-detect threads <span class="er">(</span><span class="ex">64</span> CPU cores detected<span class="kw">)</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="ex">Reading</span> alignment file aligned_pseudogenomes_snps.fas ... Fasta format detected</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="ex">Alignment</span> most likely contains DNA/RNA sequences</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="ex">Alignment</span> has 84 sequences with 8443 columns, 2717 distinct patterns</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="ex">5840</span> parsimony-informative, 2603 singleton sites, 0 constant sites</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>            <span class="ex">Gap/Ambiguity</span>  Composition  p-value</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>   <span class="ex">1</span>  SRX8038984    5.35%    passed     97.21%</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>   <span class="ex">2</span>  SRX8038991    5.63%    passed     99.66%</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Once IQ-TREE has run, we can look at the output directory (<code>results/iqtree</code>) to see the various output files created by <code>IQ-tree</code>:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Output file</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>aligned_pseudogenomes_snps.fas.iqtree</code></td>
+<td style="text-align: left;">Text file containing a report of the IQ-Tree run, including a representation of the tree in text format</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>aligned_pseudogenomes_snps.fas.treefile</code></td>
+<td style="text-align: left;">The estimated tree in NEWICK format. We can use this file with other programs, such as <a href="http://tree.bio.ed.ac.uk/software/figtree/"><code>FigTree</code></a>, to visualise our tree</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>aligned_pseudogenomes_snps.fas.log</code></td>
+<td style="text-align: left;">The log file containing the messages that were also printed on the screen</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>aligned_pseudogenomes_snps.fas.bionj</code></td>
+<td style="text-align: left;">The initial tree estimated by neighbour joining (NEWICK format)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>aligned_pseudogenomes_snps.fas.mldist</code></td>
+<td style="text-align: left;">The maximum likelihood distances between every pair of sequences</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>aligned_pseudogenomes_snps.fas.ckp.gz</code></td>
+<td style="text-align: left;">This is a “checkpoint” file, which IQ-Tree uses to resume a run in case it was interrupted (e.g.&nbsp;if you are estimating very large trees and your job fails half-way through).</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+<section id="visualization-of-phylogenetic-trees" class="level2">
+<h2 class="anchored" data-anchor-id="visualization-of-phylogenetic-trees">10.5 Visualization of phylogenetic trees</h2>
+<p>Depending on what you want to do with your phylogenetic tree, there are many programs that can be used to visualise phylogenetic trees. Some of the most commonly used standalone tools are <code>iTOL</code>, <code>Microreact</code> and <code>Figtree</code>. Increasingly, there is a move to visualizing and annotating your trees using <code>R</code> and <code>Python</code> packages. For the purposes of today’s lesson we’re going to visualize your trees in Figtree showing how trees can quickly and easily be manipulated just by opening the file containing the tree data. We’ve also provided an exercise showing how we could also do this using the <code>ggtree</code> package in <code>R</code>.</p>
+<section id="visualizing-your-phylogenetic-trees-with-figtree" class="level3">
+<h3 class="anchored" data-anchor-id="visualizing-your-phylogenetic-trees-with-figtree">Visualizing your phylogenetic trees with <a href="http://tree.bio.ed.ac.uk/software/figtree/"><code>Figtree</code></a></h3>
+<p><code>FigTree</code> is a very established piece of software as it provides a simple user graphical user interface and can be used to produce publication-ready figures. We don’t cover Bayesian phylogenetic methods for creating time-scaled phylogenies but displaying these kind of trees is what <code>FigTree</code> was designed to do.</p>
+<p>The first thing we’ll need to do is copy the phylogenetic tree we created to your Desktop:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> results/iqtree/aligned_pseudogenomes_snps.fas.treefile Desktop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Open <code>FigTree</code>, then go to <kbd><kbd>File</kbd> &gt; <kbd>Open…</kbd></kbd> and browse to the Desktop folder.</p>
+<p>Select the file with <code>.treefile</code> extension and click <kbd>Open</kbd>. Then click <kbd>OK</kbd> on the <code>Input</code> dialogue that pops up. You will be presented with a visual representation of the tree:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/figtree_open.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">TB phylogenetic tree in FigTree</figcaption><p></p>
+</figure>
+</div>
+<p>We’re currently looking at an unrooted tree so the first thing we’re going to do is to root the tree with the MTB ancestral sequence (labelled <code>MTB_anc</code> in the tree). Rooting a tree with a more distantly related lineage or species is important as it enables a better representation of the evolutionary history of the samples you’re working with. To root our tree, click on the branch leading to <code>MTB_anc</code> and click the <code>Reroot</code> button at the top of the window. Now you’ll see a different representation of the tree compared to the one we first loaded:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/figtree_rooted.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">TB phylogenetic tree rooted with the ancestral sequence</figcaption><p></p>
+</figure>
+</div>
+<p>We can also import a “tab-separated values” (TSV) file with annotations to add to the tree. We’ve provided a TSV file (<code>data/tb_metadata.tsv</code>) which contains the metadata for the isolates in our tree. You can prepare this file in <code>Excel</code> or another spreadsheet program. To load the annotation, go to <kbd><kbd>File</kbd> &gt; <kbd>Import annotations…</kbd></kbd> and open the annotation file. The first thing we’re going to do is replace the ENA run accessions with the real names of our samples. On the menu on the left, click <kbd>Tip Labels</kbd> and under “Display” choose the <code>TBNm_ID</code> field of our metadata table. You’ll see that the tip labels have now been replaced with the correct sample names. FigTree is pretty flexible in what it allows you to do. For now we’ll just change the colours of the tip labels to reflect the sub-lineage of the samples. Again, under <kbd>Tip Labels</kbd> click “Colour by:” and change “User selection” to <code>Sub-lineage</code>. It’s also good practice to add a legend to our figure. At the top of the window click <kbd>Annotate</kbd> and select <code>Sub-lineage</code> then go to <kbd>Legend</kbd>, click the tick box and under “Attribute” select <code>Sub_lineage</code>. A legend should now be displayed. Finally click <kbd>Align Tip Labels</kbd> to line up our sample names on the left hand side of the figure. You should have a figure that looks something like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/figtree_labelled.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">TB phylogenetic tree with annotation</figcaption><p></p>
+</figure>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 10.1.1:</em></strong> Tweak the annotation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We loaded a few different types of information in our metadata TSV file. Have a go at changing/adding the metadata in the tree:</p>
+<ol type="1">
+<li>Colour the labels according to the MDR status of the samples and update the legend.</li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>To change the label colour to show the MDR status for each sample, click <kbd>Tip Labels</kbd> and under “Display” choose the <code>MDR</code> field of our metadata table. To update the legend, click <kbd>Annotate</kbd> and select <code>MDR</code> then go to <kbd>Legend</kbd>, click the tick box and under “Attribute” select <code>MDR</code>.</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/figtree_exercise.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">TB phylogenetic tree with revised annotatiokn</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Bonus Exercise:</em></strong> Use ggtree to produce a publication-quality image
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you’ve made it this far, congratulations! For this bonus exercise we’re going to provide some code that you can run in RStudio. This code will show you how to read in a phylogenetic tree and the metadata before plotting the tree with some of the metadata as strips.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">######################</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Import libraries ##</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="do">######################</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggtree)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggnewscale)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(phytools)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="do">######################################</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Read in metadata for all samples ##</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="do">######################################</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>metadata <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"tb_metadata.tsv"</span>)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="do">#########################</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="do">## Read in iqtree tree ##</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="do">#########################</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>tree <span class="ot">&lt;-</span> <span class="fu">read.tree</span>(<span class="st">"aligned_pseudogenomes_snps.fas.treefile"</span>)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="do">#################################</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="do">## Root tree with MTB ancestor ##</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="do">#################################</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>treeRooted <span class="ot">&lt;-</span> <span class="fu">root</span>(tree, <span class="at">outgroup =</span> <span class="st">"MTB_anc"</span>, <span class="at">resolve.root =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="do">#################################</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Relabel tips with sample name #</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="do">#################################</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>treeRooted<span class="sc">$</span>tip.label <span class="ot">&lt;-</span> metadata<span class="sc">$</span>TBNm_ID[<span class="fu">match</span>(treeRooted<span class="sc">$</span>tip.label, metadata<span class="sc">$</span>sample)]</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="do">##############################################</span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a><span class="do">## Create a metadata dataframe for plotting ##</span></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a><span class="do">##############################################</span></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>metadataDF <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(metadata[,<span class="fu">c</span>(<span class="dv">8</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">13</span>)])</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(metadataDF) <span class="ot">=</span> metadata<span class="sc">$</span>TBNm_ID</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a><span class="do">################################</span></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot tree without metadata ##</span></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="do">################################</span></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>treePlot <span class="ot">&lt;-</span> <span class="fu">ggtree</span>(treeRooted) <span class="sc">+</span></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tiplab</span>(<span class="at">align =</span> T, </span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_treescale</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="dv">45</span>) <span class="sc">+</span></span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim_tree</span>(<span class="fl">0.0001</span>) <span class="sc">+</span></span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_tree</span>()</span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a><span class="do">##########################</span></span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a><span class="do">## Add metadata to tree ##</span></span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a><span class="do">##########################</span></span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Add sub lineage</span></span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>treePlotMeta <span class="ot">&lt;-</span> <span class="fu">gheatmap</span>(treePlot, </span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>                         metadataDF[<span class="dv">3</span>],</span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a>                         <span class="at">offset =</span> <span class="fl">0.00001</span>,</span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a>                         <span class="at">color =</span> <span class="cn">NA</span>,</span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a>                         <span class="at">width =</span> <span class="fl">0.05</span>, </span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a>                         <span class="at">colnames =</span> T,</span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a>                         <span class="at">colnames_angle=</span><span class="dv">90</span>,</span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a>                         <span class="at">colnames_position =</span> <span class="st">"top"</span>,</span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a>                         <span class="at">hjust =</span> <span class="dv">0</span>,</span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a>                         <span class="at">font.size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">"D"</span>, <span class="at">name =</span> <span class="st">"Sub-lineage"</span>) <span class="sc">+</span></span>
+<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">"off"</span>)</span>
+<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a>treePlotMeta2 <span class="ot">&lt;-</span> treePlotMeta <span class="sc">+</span> <span class="fu">new_scale_fill</span>()</span>
+<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Region</span></span>
+<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-76"><a href="#cb14-76" aria-hidden="true" tabindex="-1"></a>treePlotMeta3 <span class="ot">&lt;-</span> <span class="fu">gheatmap</span>(treePlotMeta2, </span>
+<span id="cb14-77"><a href="#cb14-77" aria-hidden="true" tabindex="-1"></a>                         metadataDF[<span class="dv">1</span>],</span>
+<span id="cb14-78"><a href="#cb14-78" aria-hidden="true" tabindex="-1"></a>                         <span class="at">offset =</span> <span class="fl">0.000025</span>,</span>
+<span id="cb14-79"><a href="#cb14-79" aria-hidden="true" tabindex="-1"></a>                         <span class="at">color =</span> <span class="cn">NA</span>,</span>
+<span id="cb14-80"><a href="#cb14-80" aria-hidden="true" tabindex="-1"></a>                         <span class="at">width =</span> <span class="fl">0.05</span>, </span>
+<span id="cb14-81"><a href="#cb14-81" aria-hidden="true" tabindex="-1"></a>                         <span class="at">colnames =</span> T,</span>
+<span id="cb14-82"><a href="#cb14-82" aria-hidden="true" tabindex="-1"></a>                         <span class="at">colnames_angle=</span><span class="dv">90</span>,</span>
+<span id="cb14-83"><a href="#cb14-83" aria-hidden="true" tabindex="-1"></a>                         <span class="at">colnames_position =</span> <span class="st">"top"</span>,</span>
+<span id="cb14-84"><a href="#cb14-84" aria-hidden="true" tabindex="-1"></a>                         <span class="at">hjust =</span> <span class="dv">0</span>,</span>
+<span id="cb14-85"><a href="#cb14-85" aria-hidden="true" tabindex="-1"></a>                         <span class="at">font.size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb14-86"><a href="#cb14-86" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">"D"</span>, <span class="at">name =</span> <span class="st">"Region"</span>) <span class="sc">+</span></span>
+<span id="cb14-87"><a href="#cb14-87" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">"off"</span>)</span>
+<span id="cb14-88"><a href="#cb14-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-89"><a href="#cb14-89" aria-hidden="true" tabindex="-1"></a>treePlotMeta4 <span class="ot">&lt;-</span> treePlotMeta3 <span class="sc">+</span> <span class="fu">new_scale_fill</span>()</span>
+<span id="cb14-90"><a href="#cb14-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-91"><a href="#cb14-91" aria-hidden="true" tabindex="-1"></a><span class="co"># Add MDR status</span></span>
+<span id="cb14-92"><a href="#cb14-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-93"><a href="#cb14-93" aria-hidden="true" tabindex="-1"></a>suscColourStrips <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Positive"</span> <span class="ot">=</span> <span class="st">"#ff0000"</span>,<span class="st">"Negative"</span> <span class="ot">=</span> <span class="st">"#ffffff"</span>)</span>
+<span id="cb14-94"><a href="#cb14-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-95"><a href="#cb14-95" aria-hidden="true" tabindex="-1"></a>treePlotMeta5 <span class="ot">&lt;-</span> <span class="fu">gheatmap</span>(treePlotMeta4, </span>
+<span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a>                          metadataDF[<span class="dv">4</span>],</span>
+<span id="cb14-97"><a href="#cb14-97" aria-hidden="true" tabindex="-1"></a>                          <span class="at">offset =</span> <span class="fl">0.00004</span>,</span>
+<span id="cb14-98"><a href="#cb14-98" aria-hidden="true" tabindex="-1"></a>                          <span class="at">color =</span> <span class="cn">NA</span>,</span>
+<span id="cb14-99"><a href="#cb14-99" aria-hidden="true" tabindex="-1"></a>                          <span class="at">width =</span> <span class="fl">0.05</span>, </span>
+<span id="cb14-100"><a href="#cb14-100" aria-hidden="true" tabindex="-1"></a>                          <span class="at">colnames =</span> T,</span>
+<span id="cb14-101"><a href="#cb14-101" aria-hidden="true" tabindex="-1"></a>                          <span class="at">colnames_angle=</span><span class="dv">90</span>,</span>
+<span id="cb14-102"><a href="#cb14-102" aria-hidden="true" tabindex="-1"></a>                          <span class="at">colnames_position =</span> <span class="st">"top"</span>,</span>
+<span id="cb14-103"><a href="#cb14-103" aria-hidden="true" tabindex="-1"></a>                          <span class="at">hjust =</span> <span class="dv">0</span>,</span>
+<span id="cb14-104"><a href="#cb14-104" aria-hidden="true" tabindex="-1"></a>                          <span class="at">font.size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb14-105"><a href="#cb14-105" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> suscColourStrips, <span class="at">name =</span> <span class="st">"MDR"</span>) <span class="sc">+</span></span>
+<span id="cb14-106"><a href="#cb14-106" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">"off"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Hopefully, you get something like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/ggtree_annotated.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">TB phylogenetic tree visualized in ggtree</figcaption><p></p>
+</figure>
+</div>
+<p>Have a play with what metadata you display and try changing the colours. A major advantage of ggtree is the flexibility it allows.</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Bonus Exercise:</em></strong> Build and annotate a phylogenetic tree using reference-based assemblies from the <a href="../../materials/05-short_read_mapping/5.1-short_read_mapping.html">Short Read Mapping</a> exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<details>
+<summary>
+Disk Usage II — Cleaning up after analysis
+</summary>
+<p>Now that we are done investigating our assembling and annotating our genome, let’s pause again and check the space of our current working directory.</p>
+<p>You can do this with the <strong>d</strong>isk <strong>u</strong>sage <code>du</code> command</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>How much disk space have you used since the start of the analysis?</p>
+</details>
+</section>
+</section>
+<section id="deactivate-phylogenetics-environment" class="level2">
+<h2 class="anchored" data-anchor-id="deactivate-phylogenetics-environment">10.6 Deactivate <code>phylogenetics</code> environment</h2>
+<p>Now that we are done with all our analysis, let’s deactivate the <code>phylogenetics</code> environment:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="credit" class="level2">
+<h2 class="anchored" data-anchor-id="credit">Credit</h2>
+<p>Information on this page has been adapted and modified from the following source(s):</p>
+<p>https://github.com/cambiotraining/sars-cov-2-genomics</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../materials/09-bactmap/9.2-bactmap_results.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">9.2 nf-core/bactmap Results</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../materials/11-genotyping/11.1-genotyping.html" class="pagination-link">
+        <span class="nav-page-text">11.1 Bacterial Genotyping and Drug Resistance Prediction</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">Licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://creativecommons.org/images/deed/cc_icon_black_x2.png" class="img-fluid" width="25"> Dr Prince Asare and Dr Andries van Tonder</div>
+  </div>
+</footer>
+
+
+
+</body></html>
