@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.112">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Setup</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university-of-cambridge-favicon.ico" rel="icon">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/NMIMR_Logo_whitebg.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./setup.html" aria-current="page">Setup</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./materials.html">Materials</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./unix_cheat_sheet.html">Unix-Cheat-Sheet</a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/avantonder/Ghana_course"><i class="bi bi-github" role="img" aria-label="Introduction to bacterial genomics GitHub">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/NMIMR_UG"><i class="bi bi-twitter" role="img" aria-label="Noguchi Memorial Institute for Medical Research Twitter">
+</i> 
+ </a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#installing-conda" id="toc-installing-conda" class="nav-link active" data-scroll-target="#installing-conda">Installing conda</a></li>
+  <li><a href="#creating-conda-environments-for-the-workshop" id="toc-creating-conda-environments-for-the-workshop" class="nav-link" data-scroll-target="#creating-conda-environments-for-the-workshop">Creating conda environments for the workshop</a></li>
+  <li><a href="#downloading-databases" id="toc-downloading-databases" class="nav-link" data-scroll-target="#downloading-databases">Downloading databases</a></li>
+  <li><a href="#nextflow" id="toc-nextflow" class="nav-link" data-scroll-target="#nextflow">Nextflow</a></li>
+  <li><a href="#singularity" id="toc-singularity" class="nav-link" data-scroll-target="#singularity">Singularity</a></li>
+  <li><a href="#visual-studio-code" id="toc-visual-studio-code" class="nav-link" data-scroll-target="#visual-studio-code">Visual Studio Code</a></li>
+  <li><a href="#r-and-rstudio" id="toc-r-and-rstudio" class="nav-link" data-scroll-target="#r-and-rstudio">R and RStudio</a></li>
+  <li><a href="#workshop-data" id="toc-workshop-data" class="nav-link" data-scroll-target="#workshop-data">Workshop Data</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Setup</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<!-- 
+Note for Training Developers:
+We provide instructions for commonly-used software as commented sections below.
+Uncomment the sections relevant for your materials, and add additional instructions where needed (e.g. specific packages used).
+Note that we use tabsets to provide instructions for all three major operating systems.
+-->
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Workshop Attendees
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you are attending one of our workshops, we will provide a training environment with all of the required software and data.<br>
+If you want to setup your own computer to run the analysis demonstrated on this course, you can follow the instructions below.</p>
+</div>
+</div>
+<p>Note that we use tabsets to provide instructions for all three major operating systems. However, as much as possible we advice you use a Linux system, as our training environment is built on that.</p>
+<section id="installing-conda" class="level2">
+<h2 class="anchored" data-anchor-id="installing-conda"><a href="https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation">Installing conda</a></h2>
+<p>We will perform a fresh installation of the conda package using the <code>miniconda</code> installation option.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you already have Miniconda or Anaconda installed, and you just want to upgrade, you should not proceed to making a fresh installation. Just use <code>conda update</code> to update your existing version of conda.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> update conda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>After updatiing conda, you can proceed to the instructions from number 8 to install mamba into the base environment from the conda-forge channel.</p>
+</div>
+</div>
+<div class="panel-tabset" data-group="os">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Mac OS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Linux</a></li></ul>
+<div class="tab-content" data-group="os">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Follow this <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/install/windows.html">link</a> to install miniconda and this <a href="https://mamba.readthedocs.io/en/latest/installation.html">link</a> to install mamba on your windows system.</p>
+<!--FIXME: Note: Windows users can use WSL2 (see @wsl).-->
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Open a terminal and follow the following instructions:</p>
+<ol type="1">
+<li>Navigate to your home directory:</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>Download the <em>Miniconda3</em> installer for mac by running:</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+M processor users
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For M1 processor users, you will need to run the below command:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Run the installation script just downloaded:</li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> Miniconda3-latest-MacOSX-x86_64.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>Follow the installation instructions accepting default options (answering ‘yes’ to any questions)</li>
+</ol>
+<ul>
+<li>If you are unsure about any setting, accept the defaults. You can change them later.</li>
+</ul>
+<ol start="5" type="1">
+<li><p>To make the changes take effect, close and then re-open your terminal window.</p></li>
+<li><p>Test your installation.</p></li>
+</ol>
+<ul>
+<li>In your terminal window, run the command <code>conda list</code>:</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>A list of installed packages appears if it has been installed correctly.</li>
+</ul>
+<ol start="7" type="1">
+<li>Remove the installation script as it is no longer needed if successfully installed:</li>
+</ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> Miniconda3-latest-MacOSX-x86_64.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="8" type="1">
+<li>Run the following command to add channels:</li>
+</ol>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--add</span> channels defaults<span class="kw">;</span> <span class="ex">conda</span> config <span class="at">--add</span> channels bioconda<span class="kw">;</span> <span class="ex">conda</span> config <span class="at">--add</span> channels conda-forge<span class="kw">;</span> <span class="ex">conda</span> config <span class="at">--set</span> channel_priority strict</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This adds two <em>channels</em> (sources of software) useful for bioinformatics and data science applications.</p>
+<ol start="9" type="1">
+<li>Install <a href="https://anaconda.org/conda-forge/mamba">Mamba</a> into the base environment from the conda-forge channel with the below command:</li>
+</ol>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install mamba <span class="at">-n</span> base <span class="at">-c</span> conda-forge</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="10" type="1">
+<li>Run this to initiate mamba:</li>
+</ol>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>Open a terminal and follow the following instructions:</p>
+<ol type="1">
+<li>Navigate to your home directory:</li>
+</ol>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>Download the <em>Miniconda3</em> installer for Linux by running:</li>
+</ol>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Run the installation script just downloaded:</li>
+</ol>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> Miniconda3-latest-Linux-x86_64.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>Follow the installation instructions accepting default options (answering ‘yes’ to any questions)</li>
+</ol>
+<ul>
+<li>If you are unsure about any setting, accept the defaults. You can change them later.</li>
+</ul>
+<ol start="5" type="1">
+<li><p>To make the changes take effect, close and then re-open your terminal window.</p></li>
+<li><p>Test your installation.</p></li>
+</ol>
+<ul>
+<li>In your terminal window, run the command <code>conda list</code>:</li>
+</ul>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>A list of installed packages appears if it has been installed correctly.</li>
+</ul>
+<ol start="7" type="1">
+<li>Remove the installation script as it is no longer needed if successfully installed:</li>
+</ol>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> Miniconda3-latest-Linux-x86_64.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="8" type="1">
+<li>Run the following command to add channels:</li>
+</ol>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--add</span> channels defaults<span class="kw">;</span> <span class="ex">conda</span> config <span class="at">--add</span> channels bioconda<span class="kw">;</span> <span class="ex">conda</span> config <span class="at">--add</span> channels conda-forge<span class="kw">;</span> <span class="ex">conda</span> config <span class="at">--set</span> channel_priority strict</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This adds two <em>channels</em> (sources of software) useful for bioinformatics and data science applications.</p>
+<ol start="9" type="1">
+<li>Install <a href="https://anaconda.org/conda-forge/mamba">Mamba</a> into the base environment from the conda-forge channel with the below command:</li>
+</ol>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install mamba <span class="at">-n</span> base <span class="at">-c</span> conda-forge</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="10" type="1">
+<li>Run this to initiate mamba:</li>
+</ol>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="creating-conda-environments-for-the-workshop" class="level2">
+<h2 class="anchored" data-anchor-id="creating-conda-environments-for-the-workshop">Creating <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html">conda environments</a> for the workshop</h2>
+<div class="panel-tabset" data-group="os">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Mac OS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">Linux</a></li></ul>
+<div class="tab-content" data-group="os">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p>Content will soon be uploaded.</p>
+<!--FIXME: This will be verified and released later
+
+
+:::{.callout}
+### creating the `qc` environment and installing required packages
+
+Open a terminal, make sure you are in the conda base environment and run this command to install all required packages and their dependencies:
+
+```bash
+mamba create -n qc fastq-scan=1.0.0 fastqc=0.11.9 fastp=0.23.2 kraken2=2.1.2 bracken=2.7 multiqc=1.13a
+```
+
+This creates an environment called `qc` with the specified package versions and their dependencies.
+
+
+**NB.** The tools `fastq-scan and bracken` runs python scripts which require python libraries pandas, json, glob.  
+Use the below command to install the packages in the `qc` environment:
+
+```bash
+conda install pandas -n qc -c conda-forge 
+```
+
+We will activate and use this environment in [chapter 4](./materials/04-sequence_qc/4.1-sequence_qc.md) --- [Sequencing Quality Control](./materials/04-sequence_qc/4.1-sequence_qc.md).
+:::
+
+
+:::{.callout}
+### creating the `mapping` environment and installing required packages
+
+run this command to install all required packages and their dependencies:
+
+```bash
+mamba create -n mapping bwa=0.7.17 samtools=1.15 bcftools=1.14 pysam=0.16.0.1 biopython=1.78
+```
+
+This creates an environment called `mapping` with the specified package versions and their dependencies.
+
+We will activate and use this environment in [chapter 5](./materials/05-short_read_mapping/5.1-short_read_mapping.md) --- [Short Read Mapping](./materials/05-short_read_mapping/5.1-short_read_mapping.md).
+:::
+
+
+:::{.callout}
+### creating the `genotyping` environment and installing required packages
+
+run this command to install all required packages and their dependencies:
+
+```bash
+mamba create -n genotyping mlst=2.22.1 seroba=1.0.2 spotyping=2.1-3 tb-profiler=4.1.1 ariba=2.14.6
+```
+
+This creates an environment called `genotyping` with the specified package versions and their dependencies.
+
+We will activate and use this environment in [chapter 11](./materials/11-genotyping/11.1-genotyping.md) --- [Bacterial Genotyping and Drug Resistance Prediction](./materials/11-genotyping/11.1-genotyping.md).
+:::
+
+:::{.callout-note}
+### Specify version of toool to install
+
+As you may see, all the tools installed have specified version numbers added to the tool names in the format `tool=version_numer`. This allows us to install the exact version of tools used for the training.
+
+For your personal use, if you wish to use the latest version of these tools, just omit specifying the version z-version_number` and the latest version of the tool will hopefully be installed.
+:::
+-->
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+creating the <code>qc</code> environment and installing required packages
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Open a terminal, make sure you are in the conda base environment and run this command to install all required packages and their dependencies:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> qc fastq-scan=1.0.0 fastqc=0.11.9 fastp=0.23.2 kraken2=2.1.2 bracken=2.7 multiqc=1.13a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This creates an environment called <code>qc</code> with the specified package versions and their dependencies.</p>
+<p><strong>NB.</strong> The tools <code>fastq-scan and bracken</code> runs python scripts which require python libraries pandas, json, glob.<br>
+Use the below command to install the packages in the <code>qc</code> environment:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install pandas=1.4.3 <span class="at">-n</span> qc <span class="at">-c</span> conda-forge </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We will activate and use this environment in <a href="./materials/04-sequence_qc/4.1-sequence_qc.html">chapter 4</a> — <a href="./materials/04-sequence_qc/4.1-sequence_qc.html">Sequencing Quality Control</a>.</p>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+creating the <code>mapping</code> environment and installing required packages
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>run this command to install all required packages and their dependencies:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> mapping bwa=0.7.17 samtools=1.15 bcftools=1.14 pysam=0.16.0.1 biopython=1.78</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This creates an environment called <code>mapping</code> with the specified package versions and their dependencies.</p>
+<p>We will activate and use this environment in <a href="./materials/05-short_read_mapping/5.1-short_read_mapping.html">chapter 5</a> — <a href="./materials/05-short_read_mapping/5.1-short_read_mapping.html">Short Read Mapping</a>.</p>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Installing required packages for <a href="./materials/06-assembly_annotation/6.1-assembly_annotation.html">Assembly and Annotation</a>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>NB.</strong> For the Assembly and Annotation module, we will create three different environments because there are conflicts in the conda recipes and it’ll be tricky to get all the tools working in a single environment.</p>
+<p>We will thus, create each environment seperately with the following names:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> shovill <span class="at">-c</span> bioconda shovill=1.1.0 </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> quast <span class="at">-c</span> bioconda quast=5.2.0 </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> bakta <span class="at">-c</span> bioconda bakta=1.6.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We will activate and use these environments in <a href="./materials/06-assembly_annotation/6.1-assembly_annotation.html">Chapter 6</a> — <a href="./materials/06-assembly_annotation/6.1-assembly_annotation.html">Assembly and Annotation</a>.</p>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+creating the <code>phylogenetics</code> environment and installing required packages
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>run this command to install all required packages and their dependencies:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> phylogenetics <span class="at">-c</span> bioconda iqtree=2.2.0.3 snp-sites=2.5.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This creates an environment called <code>phylogenetics</code> with the specified package versions and their dependencies.</p>
+<p>We will activate and use this environment in <a href="./materials/10-intro_phylogenetics/10.1-intro_phylogenetics.html">Chapter 10</a> — <a href="./materials/10-intro_phylogenetics/10.1-intro_phylogenetics.html">Introduction to Phylogenetics</a>.</p>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+creating the <code>genotyping</code> environments and installing required packages
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>NB.</strong> For the genotyping and AMR prediction, we will create five different environments because some tools require specific versions of python and other related packages hence we cannot install all the packages in a single environment.</p>
+<p>We will thus, create each environment seperately with the following names:</p>
+<ol type="1">
+<li>mlst</li>
+<li>seroba</li>
+<li>spoligotyping</li>
+<li>tbprofiler</li>
+<li>ariba</li>
+</ol>
+<p>run the following commands to create the specified environment and install all required packages and their dependencies for:</p>
+<blockquote class="blockquote">
+<p>mlst:</p>
+</blockquote>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> mlst mlst=2.22.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p>seroba:</p>
+</blockquote>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> seroba seroba=1.0.2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p>spoligotyping:</p>
+</blockquote>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> spoligotyping spotyping=2.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p>tbprofiler:</p>
+</blockquote>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> tbprofiler tb-profiler=4.1.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p>ariba:</p>
+</blockquote>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> ariba ariba=2.14.6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These create the specified environment names <code>mlst</code>, <code>seroba</code>, <code>spoligotyping</code>, <code>tbprofiler</code> and <code>ariba</code> with the specified package versions and their dependencies.</p>
+<p>We will activate and use these environments in <a href="./materials/11-genotyping/11.1-genotyping.html">chapter 11</a> — <a href="./materials/11-genotyping/11.1-genotyping.html">Bacterial Genotyping and Drug Resistance Prediction</a>.</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Specify version of toool to install
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As you may see, all the tools installed have specified version numbers added to the tool names in the format <code>tool=version_numer</code>. This allows us to install the exact version of tools used for the training.</p>
+<p>For your personal use, if you wish to use the latest version of these tools, just omit specifying the version z-version_number` and the latest version of the tool will hopefully be installed.</p>
+</div>
+</div>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+creating the <code>qc</code> environment and installing required packages
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Open a terminal, make sure you are in the conda base environment and run this command to install all required packages and their dependencies:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> qc fastq-scan=1.0.0 fastqc=0.11.9 fastp=0.23.2 kraken2=2.1.2 bracken=2.7 multiqc=1.13a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This creates an environment called <code>qc</code> with the specified package versions and their dependencies.</p>
+<p><strong>NB.</strong> The tools <code>fastq-scan and bracken</code> runs python scripts which require python libraries pandas, json, glob.<br>
+Use the below command to install the packages in the <code>qc</code> environment:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install pandas <span class="at">-n</span> qc <span class="at">-c</span> conda-forge </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We will activate and use this environment in <a href="./materials/04-sequence_qc/4.1-sequence_qc.html">chapter 4</a> — <a href="./materials/04-sequence_qc/4.1-sequence_qc.html">Sequencing Quality Control</a>.</p>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+creating the <code>mapping</code> environment and installing required packages
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>run this command to install all required packages and their dependencies:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> mapping bwa=0.7.17 samtools=1.15 bcftools=1.14 pysam=0.16.0.1 biopython=1.78</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This creates an environment called <code>mapping</code> with the specified package versions and their dependencies.</p>
+<p><strong>NB.</strong> Creating the pseudogenomes step runs python scripts which require some python libraries.<br>
+Use the below command to install the packages in the <code>mapping</code> environment:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install pandas <span class="at">-n</span> qc <span class="at">-c</span> conda-forge </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We will activate and use this environment in <a href="./materials/05-short_read_mapping/5.1-short_read_mapping.html">chapter 5</a> — <a href="./materials/05-short_read_mapping/5.1-short_read_mapping.html">Short Read Mapping</a>.</p>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+creating the <code>genotyping</code> environment and installing required packages
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>NB.</strong> For the genotyping and AMR prediction, we will create five different environments because some tools require specific versions of python and other related packages hence we cannot install all the packages in a single environment.</p>
+<p>We will thus, create each environment seperately with the following names:</p>
+<ol type="1">
+<li>mlst</li>
+<li>seroba</li>
+<li>spoligotyping</li>
+<li>tbprofiler</li>
+<li>ariba</li>
+</ol>
+<p>run the following commands to create the specified environment and install all required packages and their dependencies for:</p>
+<blockquote class="blockquote">
+<p>mlst:</p>
+</blockquote>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> mlst mlst=2.22.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p>seroba:</p>
+</blockquote>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> seroba seroba=1.0.2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p>spoligotyping:</p>
+</blockquote>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> spoligotyping spotyping=2.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p>tbprofiler:</p>
+</blockquote>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> tbprofiler tb-profiler=4.1.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p>ariba:</p>
+</blockquote>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> ariba ariba=2.14.6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These create the specified environment names <code>mlst</code>, <code>seroba</code>, <code>spoligotyping</code>, <code>tbprofiler</code> and <code>ariba</code> with the specified package versions and their dependencies.</p>
+<p>We will activate and use these environments in <a href="./materials/11-genotyping/11.1-genotyping.html">chapter 11</a> — <a href="./materials/11-genotyping/11.1-genotyping.html">Bacterial Genotyping and Drug Resistance Prediction</a>.</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Specify version of toool to install
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As you may see, all the tools installed have specified version numbers added to the tool names in the format <code>tool=version_numer</code>. This allows us to install the exact version of tools used for the training.</p>
+<p>For your personal use, if you wish to use the latest version of these tools, just omit specifying the version z-version_number` and the latest version of the tool will hopefully be installed.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="downloading-databases" class="level2">
+<h2 class="anchored" data-anchor-id="downloading-databases">Downloading databases</h2>
+<div class="panel-tabset" data-group="os">
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1891-0">minikraken2</a> database
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Download the kracken database “minikraken2_v1_8GB” into the <code>database</code> directory:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> ftp://ftp.ccb.jhu.edu/pub/data/kraken2_dbs/old/minikraken2_v1_8GB_201904.tgz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Uncompress the database</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> xvfz minikraken2_v1_8GB_201904.tgz </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If the unzipped database is not same as the one use in the workshop, rename the it to match the workshop codes used using:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> <span class="op">&lt;</span>unzipped_database_name<span class="op">&gt;</span> minikraken2_v1_8GB</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can now remove the zipped downloaded database as it is no longer required</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> minikraken2_v1_8GB_201904.tgz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+bakta database
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Download the Bakta database “db.tar.gz” into the <code>database</code> directory and unzip.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+one step
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you have the <code>denove_assembly</code> environment activated, you can perform this step.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bakta_db</span> download <span class="at">--output</span> <span class="op">&lt;</span>output-path<span class="op">&gt;</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you use this option, you don’t need to perform the AMRFinderPlus step as the AMR-DB will be included automatically.</p>
+</div>
+</div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://bakta-db.s3.computational.bio.uni-giessen.de/db.tar.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>or</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://zenodo.org/record/7025248/files/db.tar.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Uncompress the database</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xzf</span> db.tar.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Rename the database to match the workshop codes used</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> db bakta_db</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Delete zipped file after unzipping</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> db.tar.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Download the AMRFinderPlus database</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="ex">amrfinder_update</span> <span class="at">--force_update</span> <span class="at">--database</span> bakta_db/amrfinderplus-db/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Updating an existing bakta database</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bakta_db</span> update <span class="at">--db</span> <span class="op">&lt;</span>existing-db-path<span class="op">&gt;</span> [--tmp-dir <span class="op">&lt;</span>tmp-directory<span class="op">&gt;</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<a href="https://github.com/sanger-pathogens/seroba">seroba</a> database
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For git users, navigate to your <code>database</code> directory and clone the git repository:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/sanger-pathogens/seroba.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Copy the database from the <code>seroba/</code> to your <code>database</code> directory — this should be your current directory:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> seroba/database .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Delete the git repository to clean up your system:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> seroba</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Still in your <code>database</code> directory, rename the database to match the workshop codes used:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> database seroba_db</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="nextflow" class="level2">
+<h2 class="anchored" data-anchor-id="nextflow">Nextflow</h2>
+<div class="panel-tabset" data-group="os">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Mac OS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-3" role="tab" aria-controls="tabset-4-3" aria-selected="false">Linux</a></li></ul>
+<div class="tab-content" data-group="os">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+
+</div>
+<div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
+
+</div>
+</div>
+</div>
+</section>
+<section id="singularity" class="level2">
+<h2 class="anchored" data-anchor-id="singularity">Singularity</h2>
+<div class="panel-tabset" data-group="os">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Mac OS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-3" role="tab" aria-controls="tabset-5-3" aria-selected="false">Linux</a></li></ul>
+<div class="tab-content" data-group="os">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<p>You can use <em>Singularity</em> from the <em>Windows Subsystem for Linux</em> (see <span class="citation" data-cites="wsl">@wsl</span>).<br>
+Once you setup WSL, you can follow the instructions for Linux.</p>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<p>Singularity is <a href="https://docs.sylabs.io/guides/3.0/user-guide/installation.html#install-on-windows-or-mac">not available for Mac OS</a>.</p>
+</div>
+<div id="tabset-5-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-3-tab">
+<p>These instructions are for <em>Ubuntu</em> or <em>Debian</em>-based distributions<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update <span class="kw">&amp;&amp;</span> <span class="fu">sudo</span> apt upgrade <span class="kw">&amp;&amp;</span> <span class="fu">sudo</span> apt install runc</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="va">CODENAME</span><span class="op">=</span><span class="va">$(</span><span class="ex">lsb_release</span> <span class="at">-c</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">'s/Codename:\t//'</span><span class="va">)</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-O</span> singularity.deb https://github.com/sylabs/singularity/releases/download/v3.10.2/singularity-ce_3.10.2-<span class="va">${CODENAME}</span>_amd64.deb</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dpkg <span class="at">-i</span> singularity.deb</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> singularity.deb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visual-studio-code" class="level2">
+<h2 class="anchored" data-anchor-id="visual-studio-code">Visual Studio Code</h2>
+<div class="panel-tabset" data-group="os">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">Mac OS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-3" role="tab" aria-controls="tabset-6-3" aria-selected="false">Linux (Ubuntu)</a></li></ul>
+<div class="tab-content" data-group="os">
+<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
+<ul>
+<li>Go to the <a href="https://code.visualstudio.com/Download">Visual Studio Code download page</a> and download the installer for your operating system. Double-click the downloaded file to install the software, accepting all the default options.</li>
+<li>After completing the installation, go to your Windows Menu, search for “Visual Studio Code” and launch the application.</li>
+<li>Go to “<em>File &gt; Preferences &gt; Settings</em>”, then select “<em>Text Editor &gt; Files</em>” on the drop-down menu on the left. Scroll down to the section named “<em>EOL</em>” and choose “<em>\n</em>” (this will ensure that the files you edit on Windows are compatible with the Linux operating system).</li>
+</ul>
+</div>
+<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
+<ul>
+<li>Go to the <a href="https://code.visualstudio.com/Download">Visual Studio Code download page</a> and download the installer for Mac.</li>
+<li>Go to the Downloads folder and double-click the file you just downloaded to extract the application. Drag-and-drop the “Visual Studio Code” file to your “Applications” folder.</li>
+<li>You can now open the installed application to check that it was installed successfully (the first time you launch the application you will get a warning that this is an application downloaded from the internet - you can go ahead and click “Open”).</li>
+</ul>
+</div>
+<div id="tabset-6-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-3-tab">
+<ul>
+<li>Go to the <a href="https://code.visualstudio.com/Download">Visual Studio Code download page</a> and download the installer for your Linux distribution. Install the package using your system’s installer.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="r-and-rstudio" class="level2">
+<h2 class="anchored" data-anchor-id="r-and-rstudio">R and RStudio</h2>
+<div class="panel-tabset" data-group="os">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false">Mac OS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-3" role="tab" aria-controls="tabset-7-3" aria-selected="false">Linux</a></li></ul>
+<div class="tab-content" data-group="os">
+<div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
+<p>Download and install all these using default options:</p>
+<ul>
+<li><a href="https://cran.r-project.org/bin/windows/base/release.html">R</a></li>
+<li><a href="https://cran.r-project.org/bin/windows/Rtools/">RTools</a></li>
+<li><a href="https://www.rstudio.com/products/rstudio/download/#download">RStudio</a></li>
+</ul>
+</div>
+<div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
+<p>Download and install all these using default options:</p>
+<ul>
+<li><a href="https://cran.r-project.org/bin/macosx/">R</a></li>
+<li><a href="https://www.rstudio.com/products/rstudio/download/#download">RStudio</a></li>
+</ul>
+</div>
+<div id="tabset-7-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-3-tab">
+<ul>
+<li>Go to the <a href="https://cran.r-project.org/bin/linux/">R installation</a> folder and look at the instructions for your distribution.</li>
+<li>Download the <a href="https://www.rstudio.com/products/rstudio/download/#download">RStudio</a> installer for your distribution and install it using your package manager.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="workshop-data" class="level2">
+<h2 class="anchored" data-anchor-id="workshop-data">Workshop Data</h2>
+<!--FIXME: add the dropbox link to the workshop data here
+You can download the data used in this course from the following link: [Dropbox - Covid Bioinformatics (zip file) ](https://www.dropbox.com/s/7or0210elos3ril/covidbioinformaticsdata.zip?dl=0). 
+Note that the file is 14GB big and will become 21GB after unzipping, so make sure you have enough space on your hard disk. 
+
+Alternatively, you can run the following commands from the terminal (make sure you `cd` into the directory where you want to save the data): 
+
+```bash
+wget -O sarsbioinformatics.zip https://www.dropbox.com/s/7or0210elos3ril/covidbioinformaticsdata.zip?dl=1
+unzip -d sars_genomics_workshop sarsbioinformatics.zip
+rm sarsbioinformatics.zip
+cd sars_genomics_workshop
+```
+-->
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>See the <a href="https://docs.sylabs.io/guides/3.0/user-guide/installation.html#install-on-linux">Singularity documentation page</a> for other distributions.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">Licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://creativecommons.org/images/deed/cc_icon_black_x2.png" class="img-fluid" width="25"> Dr Prince Asare and Dr Andries van Tonder</div>
+  </div>
+</footer>
+
+
+
+</body></html>

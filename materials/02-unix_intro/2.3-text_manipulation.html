@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.112">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2.3 Text Manipulation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../materials/02-unix_intro/2.4-combining_commands.html" rel="next">
+<link href="../../materials/02-unix_intro/2.2-files_directories.html" rel="prev">
+<link href="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university-of-cambridge-favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/NMIMR_Logo_whitebg.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../setup.html">Setup</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../materials.html" aria-current="page">Materials</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../unix_cheat_sheet.html">Unix-Cheat-Sheet</a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/avantonder/Ghana_course"><i class="bi bi-github" role="img" aria-label="Introduction to bacterial genomics GitHub">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/NMIMR_UG"><i class="bi bi-twitter" role="img" aria-label="Noguchi Memorial Institute for Medical Research Twitter">
+</i> 
+ </a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">2.3 Text Manipulation</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials.html" class="sidebar-item-text sidebar-link">Materials</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">1. Introduction to WGS</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro_wgs/1.1-intro_wgs.html" class="sidebar-item-text sidebar-link">1.1 Introduction to Whole Genome Sequencing (WGS)</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">2. Introduction to Unix</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.1-unix_overview.html" class="sidebar-item-text sidebar-link">2.1 The Unix Shell</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.2-files_directories.html" class="sidebar-item-text sidebar-link">2.2 Navigating Files and Directories</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.3-text_manipulation.html" class="sidebar-item-text sidebar-link active">2.3 Text Manipulation</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.4-combining_commands.html" class="sidebar-item-text sidebar-link">2.4 Combining Commands</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.5-using_remote_resources.html" class="sidebar-item-text sidebar-link">2.5 Using remote resources</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.6-vscode_overview.html" class="sidebar-item-text sidebar-link">2.6 Visual Studio Code</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.7-bonus_find_and_grep.html" class="sidebar-item-text sidebar-link">2.7 <em>Bonus</em> : Finding Things</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.8-bonus_loops.html" class="sidebar-item-text sidebar-link">2.8 <em>Bonus</em>: Loops</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.9-bonus_shell_scripts.html" class="sidebar-item-text sidebar-link">2.9 <em>Bonus</em>: Shell Scripts</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">3. Common File Formats</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-file_formats/3.1-file_formats.html" class="sidebar-item-text sidebar-link">3.1 Common File Formats</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">4. Sequencing QC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-sequence_qc/4.1-sequence_qc.html" class="sidebar-item-text sidebar-link">4.1 Sequencing Quality Control</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">5. Short Read Mapping</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-short_read_mapping/5.1-short_read_mapping.html" class="sidebar-item-text sidebar-link">5.1 Short Read Mapping</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">6. Assembly and Annotation</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/06-assembly_annotation/6.1-assembly_annotation.html" class="sidebar-item-text sidebar-link">6.1 Assembly and Annotation</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">7. Software Management</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/07-software_management/7.1-software_management.html" class="sidebar-item-text sidebar-link">7.1 Managing Software</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">8. Workflow Managers</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.1-workflow_managers.html" class="sidebar-item-text sidebar-link">8.1 Workflow Managers</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.2-nfcore.html" class="sidebar-item-text sidebar-link">8.2 nf-core pipelines</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">9. The nf-core/bactmap Pipeline</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.1-bactmap_run.html" class="sidebar-item-text sidebar-link">9.1 The nf-core/bactmap pipeline</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.2-bactmap_results.html" class="sidebar-item-text sidebar-link">9.2 nf-core/bactmap Results</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">10. Introduction to Phylogenetics</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/10-intro_phylogenetics/10.1-intro_phylogenetics.html" class="sidebar-item-text sidebar-link">10.1 Introduction to Phylogenetics</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">11. Bacterial Genotyping and AMR prediction</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/11-genotyping/11.1-genotyping.html" class="sidebar-item-text sidebar-link">11.1 Bacterial Genotyping and Drug Resistance Prediction</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">12. Introduction to HPC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/12-intro_hpc/12.1-intro_hpc.html" class="sidebar-item-text sidebar-link">12.1 Introduction to High Performance Computing</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#looking-inside-files" id="toc-looking-inside-files" class="nav-link" data-scroll-target="#looking-inside-files">2.3.1 Looking Inside Files</a></li>
+  <li><a href="#combining-several-files" id="toc-combining-several-files" class="nav-link" data-scroll-target="#combining-several-files">2.3.2 Combining several files</a></li>
+  <li><a href="#redirecting-output" id="toc-redirecting-output" class="nav-link" data-scroll-target="#redirecting-output">2.3.3 Redirecting Output</a></li>
+  <li><a href="#finding-patterns" id="toc-finding-patterns" class="nav-link" data-scroll-target="#finding-patterns">2.3.4 Finding Patterns</a></li>
+  <li><a href="#text-replacement-sed---stream-editor" id="toc-text-replacement-sed---stream-editor" class="nav-link" data-scroll-target="#text-replacement-sed---stream-editor">2.3.5 Text Replacement: <code>sed</code> - stream editor</a>
+  <ul class="collapse">
+  <li><a href="#basic-usage" id="toc-basic-usage" class="nav-link" data-scroll-target="#basic-usage">Basic Usage</a></li>
+  <li><a href="#the-escape-character" id="toc-the-escape-character" class="nav-link" data-scroll-target="#the-escape-character">The <code>\</code> Escape Character</a></li>
+  <li><a href="#wildcards-in-sed" id="toc-wildcards-in-sed" class="nav-link" data-scroll-target="#wildcards-in-sed">Wildcards in <code>sed</code></a></li>
+  </ul></li>
+  <li><a href="#credit" id="toc-credit" class="nav-link" data-scroll-target="#credit">2.3.6 Credit</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">2.3 Text Manipulation</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p><strong>Teaching: 20 min</strong> || <strong>Exercises: 10 min</strong></p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Questions:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>How can I inspect the content of and manipulate text files?</li>
+<li>How can I find and replace text patterns within files?</li>
+<li>What is an escape character?</li>
+<li>What are wildcards and how do I use them?</li>
+</ul>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Learning Objectives:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Inspect the content of text files (<code>head</code>, <code>tail</code>, <code>cat</code>, <code>zcat</code>, <code>less</code>).</li>
+<li>Use the <code>*</code> wildcard to work with multiple files at once.</li>
+<li>Redirect the output of a command to a file (<code>&gt;</code>, <code>&gt;&gt;</code>).</li>
+<li>Find a pattern in a text file (<code>grep</code>) and do basic pattern replacement (<code>sed</code>).</li>
+<li>Demonstrate the usage of the <code>sed</code> and the “substitute” command <code>s</code> in processing text.</li>
+<li>Demonstrate on the use of the escape character <code>\</code></li>
+<li>Demonstrate on the use of wildcards ” <code>.</code>, <code>*</code> and <code>?</code>” in manipulating text using <code>sed</code>.</li>
+</ul>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Key Points:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The <code>head</code> and <code>tail</code> commands can be used to look at the top or bottom of a file, respectively.</li>
+<li>The <code>less</code> command can be used to interactively investigate the content of a file. Use <kbd>↑</kbd> and <kbd>↓</kbd> to browse the file and <kbd>Q</kbd> to quit and return to the console.</li>
+<li>The <code>cat</code> command can be used to combine multiple files together. The <code>zcat</code> command can be used instead if the files are compressed.</li>
+<li>The <code>&gt;</code> operator redirects the output of a command into a file. If the file already exists, it’s content will be overwritten.</li>
+<li>The <code>&gt;&gt;</code> operator also redirects the output of a command into a file, but <em>appends</em> it to any content that already exists.</li>
+<li>The <code>grep</code> command can be used to find the lines in a text file that match a text pattern.</li>
+<li>The <code>sed</code> tool can be used for advanced text manipulation. The “substitute” command can be used to text replacement: <code>sed 's/pattern/replacement/options'</code>.</li>
+<li>The escape character <code>\</code> invokes an alternative interpretation of the following/next character usually <code>*</code>, <code>.</code>, <code>[</code>, <code>]</code>, <code>?</code>, <code>$</code>, <code>^</code>, <code>/</code>, <code>\</code>.</li>
+<li>The escape character <code>\</code> can also be used to provide visual representations of non-printing characters and characters that usually have special meanings. Eg. <code>\n</code>: a newline., <code>\r</code>: a carriage return., <code>\t</code>: a horizontal tab.</li>
+<li>Wildcards ” <code>.</code>, <code>*</code> and <code>?</code>” are very useful characters used for manipulating text and they basically function as placeholders.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="looking-inside-files" class="level2">
+<h2 class="anchored" data-anchor-id="looking-inside-files">2.3.1 Looking Inside Files</h2>
+<p>Often we want to investigate the content of a file, without having to open it in a text editor. This is especially useful if the file is very large (as is often the case in bioinformatic applications).</p>
+<p>For example, let’s take a look at the file <code>TBNmA041_annotation_truncated_1.gff3</code>. We will start by printing the whole content of the file with the <code>cat</code> command, which stands for “concatenate” (we will see why it’s called this way in a little while):</p>
+<p>Navigate to the <code>~/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro</code> directory and run the following command</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> TBNmA041_annotation_truncated_1.gff3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This outputs a lot of text, because the file is quite long! Take a moment and scroll through from beginning to end. In fact, this file (<em>as you may have realized from its name</em>), is a truncated file, and you can imagine having to scroll through the entire length of the full file. You will later find out what <a href="../../materials/03-file_formats/3.1-file_formats.html">file format</a> this file is and better explore its contents.</p>
+<p>Instead of looking at the entire content of a file, it is often more useful to look only at the top few lines of the file. We can do this with the <code>head</code> command:</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> TBNmA041_annotation_truncated_1.gff3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##gff-version 3
+##feature-ontology https://github.com/The-Sequence-Ontology/SO-Ontologies/blob/v3.1/so.obo
+# Annotated with Bakta
+# Software: v1.5.0
+# Database: v4.0
+# DOI: 10.1099/mgen.0.000685
+# URL: github.com/oschwengers/bakta
+##sequence-region contig_1 1 321788
+contig_1    Bakta   region  1   321788  .   +   .   ID=contig_1;Name=contig_1
+contig_1    Prodigal    CDS 15  272 .   +   0   ID=BDKKDL_00005;Name=hypothetical protein;...</code></pre>
+</div>
+</div>
+<p>By default, <code>head</code> prints the first 10 lines of the file. We can change this using the <code>-n</code> option, followed by a number, for example:</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Print out first 3 lines
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 3 TBNmA041_annotation_truncated_1.gff3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##gff-version 3
+##feature-ontology https://github.com/The-Sequence-Ontology/SO-Ontologies/blob/v3.1/so.obo
+# Annotated with Bakta</code></pre>
+</div>
+</div>
+<p>Similarly, we can look at the <em>bottom</em> few lines of a file with the <code>tail</code> command:</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Print out last 3 lines
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-n</span> 3 TBNmA041_annotation_truncated_1.gff3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>&gt;contig_148
+GAGTTACGTCCAGGGGTGTGGTGTACGGGCAGGTAAGGCCGGTGGGCGTGTCGTAGCCCA
+GTAGTGGGCGGTCATCGCGTGATCCTTCGAAACGACCAGCAAAAGTCAATCG</code></pre>
+</div>
+</div>
+<p>Finally, if we want to open the file and browse through it, we can use the <code>less</code> command:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> TBNmA041_annotation_truncated_1.gff3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>less</code> will open the file and you can use <kbd>↑</kbd> and <kbd>↓</kbd> to move line-by-line or the <kbd>Page Up</kbd> and <kbd>Page Down</kbd> keys to move page-by-page. You can also use the <kbd>Space Bar</kbd> to navigate in bits. You can exit <code>less</code> by pressing <kbd>Q</kbd> (for “quit”). This will bring you back to the console.</p>
+<p>Finally, it can sometimes be useful to <em>count</em> how many lines, words and characters a file has. We can use the <code>wc</code> command for this:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> TBNmA041_annotation_truncated<span class="pp">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>     617    1519   37336 TBNmA041_annotation_truncated_1.gff3
+     722    1740   53321 TBNmA041_annotation_truncated_2.gff3
+    1339    3259   90657 total</code></pre>
+</div>
+</div>
+</div>
+<p>In this case, we used the <code>*</code> wildcard to count lines, words and characters (in that order, left-to-right) of both truncated gff3 files. Often, we only want to count one of these things, and <code>wc</code> has options for all of them:</p>
+<ul>
+<li><code>-l</code> counts lines only.</li>
+<li><code>-w</code> counts words only.</li>
+<li><code>-c</code> counts characters only.</li>
+</ul>
+<p>For example, if we just want to know how many lines we have in each files:</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Count only lines in a file
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> TBNmA041_annotation_truncated<span class="pp">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>     617 TBNmA041_annotation_truncated_1.gff3
+     722 TBNmA041_annotation_truncated_2.gff3
+    1339 total</code></pre>
+</div>
+</div>
+<p>We will go into more details on the <code>wc</code> command in our next lesson.</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.3.1.1:</em></strong> Looking inside files with <code>less</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Use the <code>less</code> command to look inside the file <code>MTB_H37Rv_truncated.fasta</code>.</li>
+<li>How many lines does this file contain?</li>
+<li>Use the <code>less</code> command again but with the option <code>-S</code>. Can you understand what this option does?</li>
+</ul>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We can investigate the content of the reference file using <code>less MTB_H37Rv_truncated.fasta</code>. From this view, it looks like this file contains several lines of content: the truncated genome is more than 150kb long, so it’s not surprising we see so much text! We can use <kbd>Q</kbd> to quit and go back to the console.</p>
+<p>To check the number of lines in the file, we can use the <code>wc -l MTB_H37Rv_truncated.fasta</code> command. The answer is only 2.</p>
+<p>If we use <code>less -S MTB_H37Rv_truncated.fasta</code> the display is different this time. We see only two lines in the output. If we use the <kbd>→</kbd> and <kbd>←</kbd> arrows we can see that the text now goes “out of the screen”. So, what happens is that by default <code>less</code> will “wrap” long lines, so if a line of text is too long, it will continue it on the next line of the screen. When we use the option <code>-S</code> it instead displays each line individually, and we can use the arrow keys to see the content that does not fit on the screen.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>annotation_truncated</code> files we just looked into are in a format called <a href="https://en.wikipedia.org/wiki/General_feature_format">GFF</a>. This is a standard bioinformatic file format that stores gene coordinates and other features and has the file extension <code>.gff</code>. It is used to describe genes and other features of DNA, RNA and protein sequences. In this case, it corresponds to the coordinates of each annotated gene (<em>start and end position</em>) in the <em>Mycobacterium tuberculosis</em> reference genome (MTB_H37Rv). It also uses a header region with a <code>##</code> string to include metadata.</p>
+<p>In the exercise we looked at another standard file format called <a href="https://en.wikipedia.org/wiki/FASTA">FASTA</a>. This one is used to store nucleotide or amino acid sequences. In this case, the truncated nucleotide sequence of the <em>Mycobacterium tuberculosis</em> reference genome (MTB_H37Rv).</p>
+<p>We will learn more about these files under <a href="../../materials/03-file_formats/3.1-file_formats.html">File formats</a>.</p>
+</div>
+</div>
+</section>
+<section id="combining-several-files" class="level2">
+<h2 class="anchored" data-anchor-id="combining-several-files">2.3.2 Combining several files</h2>
+<p>We said that the <code>cat</code> command we used above stands for “concatenate”. This is because this command can be used to <em>concatenate</em> (combine) several files together. For example, if we wanted to combine both sets of <em>annotation_truncated</em> <code>.gff</code> files into a single file:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> TBNmA041_annotation_truncated_1.gff3 TBNmA041_annotation_truncated_2.gff3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>Running the above command actually combines (</em>concatenates<em>) both files and print out the output. But what we will really want to do is to redirect the output to a different file.</em></p>
+</section>
+<section id="redirecting-output" class="level2">
+<h2 class="anchored" data-anchor-id="redirecting-output">2.3.3 Redirecting Output</h2>
+<p>The <code>cat</code> command we just used printed the output to the screen. But what if we wanted to save it into a file? We can achieve this by sending (or <em>redirecting</em>) the output of the command to a file using the <code>&gt;</code> operator.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> TBNmA041_annotation_truncated_1.gff3 TBNmA041_annotation_truncated_2.gff3 <span class="op">&gt;</span> TBNmA041_annotation_combined.gff3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, the output is not printed to the console, but instead sent to a new file. We can check that the file was created with <code>ls</code>.</p>
+<p>If we use <code>&gt;</code> and the output file already exists, its content will be replaced. If what we want to do is <em>append</em> the result of the command to the existing file, we should use <code>&gt;&gt;</code> instead. Let’s see this in practice in the next exercise.</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.3.3.1:</em></strong> Adding data to an existing file
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>List the files in the <code>sequencing_run1/</code> directory. Save the output in a file called “sequencing_files.txt”.</li>
+<li>After performing <code>task 1</code> above, what happens if you run the command <code>ls sequencing_run2/ &gt; sequencing_files.txt</code>?</li>
+<li>The operator <code>&gt;&gt;</code> can be used to <em>append</em> the output of a command to an existing file. Try re-running both of the previous commands, but instead using the <code>&gt;&gt;</code> operator. What happens now?</li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Task 1</strong></p>
+<p>To list the files in the directory we use <code>ls</code>, followed by <code>&gt;</code> to save the output in a file:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> sequencing_run1/ <span class="op">&gt;</span> sequencing_files.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can check the content of the file:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> sequencing_files.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>sample1_run1.fastq
+sample2_run1.fastq
+sample3_run1.fastq
+sample4_run1.fastq
+sample5_run1.fastq
+</code></pre>
+</div>
+</div>
+</div>
+<hr>
+<p><strong>Task 2</strong></p>
+<p>If we run <code>ls sequencing_run2/ &gt; sequencing_files.txt</code>, we will replace the content of the file:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> sequencing_files.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>sample1_run2.fastq
+sample2_run2.fastq
+sample3_run2.fastq
+sample4_run2.fastq
+sample5_run2.fastq</code></pre>
+</div>
+</div>
+</div>
+<hr>
+<p><strong>Task 3</strong></p>
+<p>If we start again from the beginning, but instead use the <code>&gt;&gt;</code> operator the second time we run the command, we will append the output to the file instead of replacing it:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> sequencing_run1/ <span class="op">&gt;</span> sequencing_files.txt</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> sequencing_run2/ <span class="op">&gt;&gt;</span> sequencing_files.txt</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> sequencing_files.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>sample1_run1.fastq
+sample2_run1.fastq
+sample3_run1.fastq
+sample4_run1.fastq
+sample5_run1.fastq
+sample1_run2.fastq
+sample2_run2.fastq
+sample3_run2.fastq
+sample4_run2.fastq
+sample5_run2.fastq</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="finding-patterns" class="level2">
+<h2 class="anchored" data-anchor-id="finding-patterns">2.3.4 Finding Patterns</h2>
+<p><strong><em>This is just to serve as an introduction to the <code>grep</code> command. Check out detailed description in the bonus lesson and also on how to use find</em></strong></p>
+<p>Sometimes it can be very useful to find lines of a file that match a particular text pattern. We can use the tool <code>grep</code> (“global regular expression print”) to achieve this. For example, let’s find the word <strong>&gt;contig</strong> in one of our <em>annotation_truncated</em> files:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"&gt;contig"</span> TBNmA041_annotation_truncated_1.gff3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>&gt;contig_1
+&gt;contig_2
+&gt;contig_3
+&gt;contig_4
+&gt;contig_5
+&gt;contig_100
+&gt;contig_101
+&gt;contig_102
+&gt;contig_103
+...</code></pre>
+</div>
+</div>
+</div>
+<p>We can see the result is all the lines that matched this word pattern.</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.3.4.1:</em></strong> Finding patterns
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Consider our two <strong>annotation_truncated</strong> files – <code>TBNmA041_annotation_truncated_1.gff3</code> and <code>TBNmA041_annotation_truncated_2.gff3</code>.</p>
+<ol type="1">
+<li><p>Create a new file called <code>TBNmA041_contigs.txt</code> that contains only the lines of text with the word “<strong>&gt;contig</strong>” from both <code>.gff</code> files.</p>
+<details>
+<summary>
+<p>Hint</p>
+</summary>
+<p>You can use <code>grep</code> to find a pattern in a file. You can use <code>&gt;</code> to <em>redirect</em> the output of a command to a new file, and you cann use <code>&gt;&gt;</code> to add onto an existing file.</p>
+</details></li>
+<li><p>Create a second file called <code>TBNmA041_CDS.txt</code> that contains only the lines of text with the acronym “<strong>CDS</strong>”. <strong>CDS</strong> stands for <strong>C</strong>o<strong>D</strong>ing <strong>S</strong>equence.</p></li>
+<li><p>Now count the number of contigs and CDS in the combined files. Are they different? What did you expect? <em>assume each CDS represents a specific gene</em></p></li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Task 1</strong></p>
+<p>We can use <code>grep</code> to find the pattern in our first <code>.gff</code> files and use <code>&gt;</code> to save the output in a new file:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"&gt;contig"</span> TBNmA041_annotation_truncated_1.gff3 <span class="op">&gt;</span> TBNmA041_contigs.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Next, we use <code>&gt;&gt;</code> to add the output of our second run to the file we created above <code>TBNmA041_contigs.txt</code>.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"&gt;contig"</span> TBNmA041_annotation_truncated_2.gff3 <span class="op">&gt;&gt;</span> TBNmA041_contigs.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We could investigate the output of our command using <code>less TBNmA041_contigs.txt</code>.</p>
+<hr>
+<p><strong>Task 2</strong></p>
+<p>We will follow the same code as used in Task 1 above, by first looking for the acronym <strong>CDS</strong> in the first <code>.gff3</code> file and output its result to <code>TBNmA041_CDS.txt</code>.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"CDS"</span> TBNmA041_annotation_truncated_1.gff3 <span class="op">&gt;</span> TBNmA041_CDS.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Next, we use <code>&gt;&gt;</code> to add the output of our second run to the file we created above <code>TBNmA041_contigs.txt</code>.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"CDS"</span> TBNmA041_annotation_truncated_2.gff3 <span class="op">&gt;&gt;</span> TBNmA041_CDS.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We could investigate the output of our command using <code>less TBNmA041_CDS.txt</code>.</p>
+<hr>
+<p><strong>Task 3</strong></p>
+<p>We can use <code>wc</code> to count the lines of the newly created files:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> TBNmA041_CDS.txt TBNmA041_contigs.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>      84 TBNmA041_CDS.txt
+      85 TBNmA041_contigs.txt
+     169 total</code></pre>
+</div>
+</div>
+</div>
+<p>This is a hypothetical data, however, note that, a given contig can have several CDS and some contigs may have no CDS. Consequently, we don’t expect the numbers to be the same in a real situation.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="text-replacement-sed---stream-editor" class="level2">
+<h2 class="anchored" data-anchor-id="text-replacement-sed---stream-editor">2.3.5 Text Replacement: <code>sed</code> - stream editor</h2>
+<p>One of the most prominent text-processing utilities on GNU/Linux is the <code>sed</code> command, which is short for “<strong>s</strong>tream <strong>ed</strong>itor”. A stream editor is used to perform basic text transformations on an input stream (a file or input from a pipeline).</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this tutorial, we’ll use the GNU version of <code>sed</code> (available on Ubuntu and other Linux operating systems). The macOS has the BSD version of <code>sed</code> which has different options and arguments. You can install the GNU version of <code>sed</code> with <a href="https://brew.sh/">Homebrew</a> using <code>brew install gnu-sed</code>.</p>
+</div>
+</div>
+<section id="basic-usage" class="level3">
+<h3 class="anchored" data-anchor-id="basic-usage">Basic Usage</h3>
+<p>There are many instances when we want to substitute a text in a line or filter out specific lines. In such cases, we can take advantage of <code>sed</code>. <code>sed</code> operates on a stream of text which it gets either from a text file or from standard input (STDIN). It means you can use the output of another command as the input of <code>sed</code> – in short, you can combine <code>sed</code> with other commands.</p>
+<p>By default, <code>sed</code> outputs everything to standard output (STDOUT). It means, unless redirected, <code>sed</code> will print its output onto the terminal/screen instead of saving it in a file.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>sed</code> edits line-by-line and in a non-interactive way.</p>
+</div>
+</div>
+<p>The basic usage of <code>sed</code>:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> [OPTIONS] SCRIPT INPUT-FILES</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>sed</code> contains several sub-commands, but the main one we will use is the <em>substitute</em> or <code>s</code> command. To see a list of all <code>sed</code>’s commands, visit <a href="https://www.gnu.org/software/sed/manual/html_node/sed-commands-list.html">https://www.gnu.org/software/sed/manual/html_node/sed-commands-list.html</a>.</p>
+<p>The basic syntax for the <code>s</code> command is:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/pattern/replacement/options'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Where <code>s</code> is called the <code>sed</code> command, <code>pattern</code> is the word we want to substitute also known as a <strong>regular expression</strong> <em>(more on this later)</em> and <code>replacement</code> is the new word we want to use instead.</p>
+<p>So the basic concept of the ‘s’ command is: it attempts to match the pattern in a line, if the match is successful, then that portion of the pattern is replaced with <em>replacement</em>. To learn more about the ‘s’ command visit <a href="https://www.gnu.org/software/sed/manual/html_node/The-_0022s_0022-Command.html">https://www.gnu.org/software/sed/manual/html_node/The-_0022s_0022-Command.html</a>.</p>
+<p>There are also other “options” added at the end of the command, which change the default behaviour of the text substitution. Some of the common options are:</p>
+<ul>
+<li><code>g</code>: by default <code>sed</code> will only substitute the first match of the pattern. If we use the <code>g</code> option (“<strong>g</strong>lobal”), then <code>sed</code> will substitute all matching text.</li>
+<li><code>i</code>: by default <code>sed</code> matches the pattern in a case-sensitive manner. For example ‘A’ (Uppercase A) and ‘a’ (Lowercase A) are treated as different. If we use the <code>i</code> option (“case-<strong>i</strong>nsensitive”) then <code>sed</code> will treat ‘A’ and ‘a’ as the same.</li>
+</ul>
+<p>For example, let’s create a file with some text inside it:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Hello world. How are you world?"</span> <span class="op">&gt;</span> hello.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>echo</code> command is used to print some text on the console. In this case we are sending that text to a file to use in our example. Another pretty way of easily creating a text file.</p>
+</div>
+</div>
+<p>If we do:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/world/participant/'</span> hello.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This is the result</p>
+<pre><code>Hello participant. How are you world?</code></pre>
+</div>
+</div>
+</div>
+<p>We can see that the first “world” word was replaced with “participant”. This is the default behaviour of <code>sed</code>: only the first pattern it finds in a line of text is replaced with the new word. We can modify this by using the <code>g</code> option after the last <code>/</code>:</p>
+<p>NB. first rewrite the hello.txt file to see the full effect as we have already changed the first <strong>world</strong>.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Hello world. How are you world?"</span> <span class="op">&gt;</span> hello.txt</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/world/participant/g'</span> hello.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Hello participant. How are you participant?</code></pre>
+</div>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Click to expand for more interesting examples on the use of the <code>s</code> command
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Create a new file ‘input.txt’ and write the following text in it:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<pre><code>Hello, this is a test line. This is a very short line.
+This is test line two. In this line, we have two occurrences of the test.
+This line has many occurrences of the Test with different cases. test tEst TesT.</code></pre>
+</div>
+</div>
+</div>
+<p>Now try to replace ‘test’ with ‘hello’. We can do something like this:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/test/hello/'</span> input.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Hello, this is a hello line. This is a very short line.
+This is hello line two. In this line, we have two occurrences of the test.
+This line has many occurrences of the Test with different case. hello tEst TesT.</code></pre>
+</div>
+</div>
+</div>
+<p>You may have noticed that lines two and three still have ‘test’. This is because we ask the <code>sed</code> to only replace the first text which matches. To replace all the matches, we have to use <strong>g</strong> option. Let’s try with <strong>g</strong> option.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/test/hello/g'</span> input.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Hello, this is a hello line. This is a very short line.
+This is hello line two. In this line, we have two occurrences of the hello.
+This line has many occurrences of the Test with different case. hello tEst TesT.</code></pre>
+</div>
+</div>
+</div>
+<p>Ah, something is still wrong with the third line. It is not replacing ‘Test’, ‘tEst’ and ‘TesT’. We have to do something to tell the <code>sed</code> that we want to replace all of them. We can do this by using <strong>i</strong> option. Let’s add one more option:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/test/hello/gi'</span> input.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Hello, this is a hello line. This is a very short line.
+This is hello line two. In this line, we have two occurrences of the hello.
+This line has many occurrences of the hello with different case. hello hello hello.</code></pre>
+</div>
+</div>
+</div>
+<p>Wonderful!</p>
+<p>Let’s say now we only want to replace all the occurrences of the ‘test’ at only line 3 or from line 2 to 3. Try to remember the basic syntax for the <code>sed</code> command. Remember! You can add the address of the line or a range of lines that you want to edit. Here is an example:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'3s/test/hello/gi'</span> input.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Hello, this is a test line. This is a very short line.
+This is test line two. In this line, we have two occurrences of the test.
+This line has many occurrences of the hello with different case. hello hello hello.</code></pre>
+</div>
+</div>
+</div>
+<p>See only the third line is executed by the <code>sed</code>. The first two lines are as it is. At the beginning of the ‘s’ command, we are adding the line number which we want to edit. We can also add a range of lines. Here is one more example:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'2,3s/test/hello/gi'</span> input.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As you may have got the idea, it will edit lines 2 and 3. The output will be:</p>
+<pre><code>Hello, this is a test line. This is a very short line.
+This is hello line two. In this line, we have two occurrences of the hello.
+This line has many occurrences of the hello with different case. hello hello hello.</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Regular Expressions</strong></p>
+<p>Finding patterns in text can be a very powerful skill to master. In our examples we have been finding a literal word and replacing it with another word. However, we can do more complex text substitutions by using special keywords that define a more general pattern. These are known as <strong>regular expressions</strong>.</p>
+<p>For example, in regular expression syntax, the character <code>.</code> stands for “any character”. So, for example, the pattern <code>H.</code> would match a “H” followed by any character, and the expression:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb48"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/H./X/g'</span> hello.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Results in:</p>
+<pre><code>Xllo world. Xw are you world?</code></pre>
+</div>
+</div>
+</div>
+<p>Notice how both “He” (at the start of the word “Hello”) and “Ho” (at the start of the word “How”) are replaced with the letter “X”. Because both of them match the pattern “H followed by any character” (<code>H.</code>).</p>
+<p>To learn more see this <a href="https://www.keycdn.com/support/regex-cheatsheet">Regular Expression Cheatsheet</a>.</p>
+</div>
+</div>
+</section>
+<section id="the-escape-character" class="level3">
+<h3 class="anchored" data-anchor-id="the-escape-character">The <code>\</code> Escape Character</h3>
+<p>You may have asked yourself, if the “forward slash” <code>/</code> character is used to separate parts of the <code>sed</code> substitute command, then how would we replace the “/” character itself in a piece of text? For example, let’s add a new line of text to our file:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Welcome to this workshop/course."</span> <span class="op">&gt;&gt;</span> hello.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s say we wanted to replace “workshop/course” with “tutorial” in this text. If we did:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/workshop/course/tutorial/'</span> hello.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We would get an error:</p>
+<pre><code>sed: -e expression #1, char 5: unknown option to `s'</code></pre>
+</div>
+</div>
+</div>
+<p>This is because we ended up with too many <code>/</code> in the command, and <code>sed</code> uses that to separate its different parts of the command. In this situation we need to tell <code>sed</code> to ignore that <code>/</code> as being a special character but instead treat it as the literal “/” character. To do this, we need to use “backslash” <code>\</code> before <code>/</code>, which is called the “escape” character. That will tell <code>sed</code> to treat the <code>/</code> as a normal character rather than a separator of its commands.</p>
+<p>So:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/workshop\/course/tutorial/'</span> hello.txt</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>                <span class="ex">↑</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>           <span class="ex">This</span> / is <span class="st">"escaped"</span> with <span class="dt">\ </span>beforehand</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This looks a little strange, but the main thing to remember is that <code>\/</code> will be interpreted as the character “/” rather than the separator of <code>sed</code>’s substitute command.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Escape character
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An escape character is a character that invokes an alternative interpretation of the following character. Sometimes it is also used to insert unallowed characters in a string. An escape character is a backslash <code>\</code> followed by a character (or characters). Some of the keywords/characters which you want to escape are as follows:</p>
+<ul>
+<li><code>*</code>: Asterisk.</li>
+<li><code>.</code>: Dot.</li>
+<li><code>[</code>: Left square bracket.</li>
+<li><code>]</code>: Right square bracket.</li>
+<li><code>?</code>: Question mark.</li>
+<li><code>$</code>: Dollar sign.</li>
+<li><code>^</code>: Caret</li>
+<li><code>/</code>: Forward slash</li>
+<li><code>\</code>: Backward slash</li>
+</ul>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Special use of the escape character
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Escape characters are also used to provide visual representations of non-printing characters and characters that usually have special meanings. The list of commonly used escape characters in the <code>sed</code> is as follows:</p>
+<ul>
+<li><code>\n</code>: a newline.</li>
+<li><code>\r</code>: a carriage return.</li>
+<li><code>\t</code>: a horizontal tab.</li>
+</ul>
+<p>For more details visit <a href="https://www.gnu.org/software/sed/manual/sed.html#Escapes">https://www.gnu.org/software/sed/manual/sed.html#Escapes</a>.</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.3.5.1:</em></strong> Use of the escape character <code>\</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The file in <code>bacteria_rpob/bacteria_truncated_rpob.fasta</code> contains the nucleotide sequences of bacteria RNA polymerase beta subunit genes (<strong><em>rpob</em></strong>) for 4 bacteria samples.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Let’s have a lool at the file
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> bacteria_rpob/bacteria_truncated_rpob.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>&gt;Mycobacterium_tuberculosis_H37Rv_trunc_rpob_gene
+TTGGCAGATTCCCGCCAGAGCAAAACAGCCGCTAGTCCTAGTCCGAGTCGCCCGCAAAGTTCCTCGAATAACTC
+&gt;Salmonella_enterica_truncated/incomplete_rpob_gene
+GAGGAACCCTATGGTTTACTCCTATACCGAGAAAAAACGTATTCGTAAGGATTTTGGTA...............
+&gt;Staphylococcus_aureus_subsp._aureus_Trunc_rpob_gene
+TTGGCAGGTCAAGTTGTCCAATATGGAAGACATCGTAAACGTAGAAACTACGCGAGAATTTCAGAAGTATTAAC
+&gt;Streptococcus_pneumoniae_TRUNC_rpob_gene
+TTGGCAGGACATGACGTTCAATACGGGAAACATCGTACCCGTCGTAGTTTTTCAAGAATCAAAGAAGTTCAAAT</code></pre>
+</div>
+</div>
+<p>We will cover FASTA files in a subsequent section, for now all we need to know is that each sequence has a name in a line that starts with the character <code>&gt;</code>.</p>
+<p>Use <code>sed</code> to achieve the following:</p>
+<ol type="1">
+<li>Substitute the word <code>trunc</code> with <code>truncated</code>.
+<details>
+<summary>
+Hint
+</summary>
+Similar to how you can use the <code>g</code> option to do “global” substitution, you can also use the <code>i</code> option to do case-<strong>i</strong>nsensitive text substitution.
+</details></li>
+<li>Substitute the word <code>/incomplete</code> with <code>-missing</code>.</li>
+<li>The character <code>.</code> is also a keyword used in <em>regular expressions</em> to mean “any character”. See what happens if you run the command <code>sed 's/./X/g' bacteria_rpob/bacteria_truncated_rpob.fasta</code>. How would you fix this command to literally only substitute the character <code>.</code> with <code>X</code>?</li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-26" class="callout-26-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Task 1</strong></p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+To replace the word <code>trunc</code> with <code>truncated</code>, we can do:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb56"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/trunc/truncated/i'</span> bacteria_rpob/bacteria_truncated_rpob.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>&gt;Mycobacterium_tuberculosis_H37Rv_truncated_rpob_gene
+TTGGCAGATTCCCGCCAGAGCAAAACAGCCGCTAGTCCTAGTCCGAGTCGCCCGCAAAGTTCCTCGAATAACTC
+&gt;Salmonella_enterica_truncatedated/incomplete_rpob_gene
+GAGGAACCCTATGGTTTACTCCTATACCGAGAAAAAACGTATTCGTAAGGATTTTGGTA...............
+&gt;Staphylococcus_aureus_subsp._aureus_truncated_rpob_gene
+TTGGCAGGTCAAGTTGTCCAATATGGAAGACATCGTAAACGTAGAAACTACGCGAGAATTTCAGAAGTATTAAC
+&gt;Streptococcus_pneumoniae_truncated_rpob_gene
+TTGGCAGGACATGACGTTCAATACGGGAAACATCGTACCCGTCGTAGTTTTTCAAGAATCAAAGAAGTTCAAAT</code></pre>
+</div>
+</div>
+<p>We have to use the option <code>i</code> to tell the <code>sed</code> that we want to match the word <code>trunc</code> in case-insensitive manner.</p>
+<hr>
+<p><strong>Task 2</strong></p>
+<p>For the second task, if we do:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s//incomplete/-missing/'</span>  bacteria_rpob/bacteria_truncated_rpob.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We will get an error. We need to use <code>\</code> to <em>escape</em> the <code>/</code> keyword in our pattern, so:</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Use of the <code>\</code> escape character - I
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb59"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/\/incomplete/-missing/'</span>  bacteria_rpob/bacteria_truncated_rpob.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>&gt;Mycobacterium_tuberculosis_H37Rv_trunc_rpob_gene
+TTGGCAGATTCCCGCCAGAGCAAAACAGCCGCTAGTCCTAGTCCGAGTCGCCCGCAAAGTTCCTCGAATAACTC
+&gt;Salmonella_enterica_truncated-missing_rpob_gene
+GAGGAACCCTATGGTTTACTCCTATACCGAGAAAAAACGTATTCGTAAGGATTTTGGTA...............
+&gt;Staphylococcus_aureus_subsp._aureus_Trunc_rpob_gene
+TTGGCAGGTCAAGTTGTCCAATATGGAAGACATCGTAAACGTAGAAACTACGCGAGAATTTCAGAAGTATTAAC
+&gt;Streptococcus_pneumoniae_TRUNC_rpob_gene
+TTGGCAGGACATGACGTTCAATACGGGAAACATCGTACCCGTCGTAGTTTTTCAAGAATCAAAGAAGTTCAAAT</code></pre>
+</div>
+</div>
+<hr>
+<p><strong>Task 3</strong></p>
+<p>Finally, to replace the character <code>.</code>, if we do:</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Use of the <code>\</code> escape character - II
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb61"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/./X/g'</span> bacteria_rpob/bacteria_truncated_rpob.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</code></pre>
+</div>
+</div>
+<p>Everything becomes “X”! That’s because <code>.</code> is a keyword used in <em>regular expressions</em> to mean “any character”. Because we are using the <code>g</code> option (for “global substitution”), we replaced every single character with “X”. To literally replace the character “.”, we need to again use the <code>\</code> escape character, so:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb63"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/\./X/g'</span> bacteria_rpob/bacteria_truncated_rpob.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>&gt;Mycobacterium_tuberculosis_H37Rv_trunc_rpob_gene
+TTGGCAGATTCCCGCCAGAGCAAAACAGCCGCTAGTCCTAGTCCGAGTCGCCCGCAAAGTTCCTCGAATAACTC
+&gt;Salmonella_enterica_truncated/incomplete_rpob_gene
+GAGGAACCCTATGGTTTACTCCTATACCGAGAAAAAACGTATTCGTAAGGATTTTGGTAXXXXXXXXXXXXXXX
+&gt;Staphylococcus_aureus_subspX_aureus_Trunc_rpob_gene
+TTGGCAGGTCAAGTTGTCCAATATGGAAGACATCGTAAACGTAGAAACTACGCGAGAATTTCAGAAGTATTAAC
+&gt;Streptococcus_pneumoniae_TRUNC_rpob_gene
+TTGGCAGGACATGACGTTCAATACGGGAAACATCGTACCCGTCGTAGTTTTTCAAGAATCAAAGAAGTTCAAAT</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="wildcards-in-sed" class="level3">
+<h3 class="anchored" data-anchor-id="wildcards-in-sed">Wildcards in <code>sed</code></h3>
+<p>We have already covered a bit of wildcards on “<a href="../../materials/02-unix_intro/2.2-files_directories.html">Navigating Files and Directories</a>” page; here, we will discuss the use of <code>.</code>, <code>*</code> and <code>?</code> in the <code>sed</code>. These wildcards are part of the regular expression.</p>
+<ul>
+<li>You can use <code>.</code> as a placeholder for any character except newline (<code>\n</code>) or empty text. For example, if you use <code>.</code> in your regular expression like <code>x.z</code> then it will match to strings like <code>xaz</code>, <code>xbz</code>, <code>x1z</code>, <code>xzz</code>, etc., but, it will not match to <code>xz</code>.</li>
+</ul>
+<p>Also recall:</p>
+<ul>
+<li><p>You can use <code>*</code> to match 0 or more occurrences of the previous character. For example, <code>xy*z</code> will match to strings like <code>xz</code> (0 occurrences of y), <code>xyz</code> (1 occurrence of y), <code>xyyz</code> and so on.</p></li>
+<li><p><code>?</code> is a bit similar to <code>*</code>. The difference is it will only match for 0 or 1 occurrence of the previous character. For example, <code>xy?z</code> will match to strings like <code>xz</code> (0 occurrences of y), <code>xyz</code> (1 occurrence of y) but not to <code>xyyz</code>.</p></li>
+</ul>
+<p>Now, let’s do some coding. Create a file <code>input2.txt</code> and copy the following sequence:</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ATGCCTGATTGGGCTACGTCGTAAGCGATGGCTAGGTATCGTAAAGGGGTTTGGGAACCCCAATCACTAGCT</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>
+Hint
+</summary>
+<p>You can do this simply by using <code>echo</code>:</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> </span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="st">"ATGCCTGATTGGGCTACGTCGTAAGCGATGGCTAGGTATCGTAAAGGGGTTTGGGAACCCCAATCACTAGCT"</span> </span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> input2.txt </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<p>Let’s say we want to replace anything between <code>A</code> and <code>G</code> with <code>U</code>. We can do this using the <code>sed</code>:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb67"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/A.G/AUG/g'</span> input2.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>AUGCCTGATTGGGCTAUGTCGTAUGCGAUGGCTAUGTATCGTAAUGGGGTTTGGGAACCCCAATCACTAGCT</code></pre>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.3.5.2:</em></strong> Replace Me
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Navigate to the <code>bacteria_rpob/</code> direcrory and have a look at the <code>rpob_gene.fasta</code> file. You have four tasks to do on this file. They are:</p>
+<ul>
+<li>Replace the word <code>bacteria</code> with <code>sample</code>. Make sure to replace all words matching to <code>bacteria</code> in a case insensitive manner.</li>
+<li>Replace all the <code>.</code> with <code>X</code>.</li>
+<li>Remove <code>/incomplete</code> from one of the sample names.</li>
+<li>Save the output to <code>rpob_gene_processed.fasta</code>.</li>
+</ul>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-28" class="callout-28-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Let’s first navigate to the <code>bacteria_rpob/</code> directory.</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> bacteria_rpob/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We will now walk through the solution step by step. At first, to replace the word <code>bacteria</code> with <code>sample</code>, we can do something like this:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb70"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/bacteria/sample/i'</span> rpob_gene.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>&gt;sample_1_rpob_gene
+CCGAGTCGCCCGCAAAGTTCCTCGAATAACTCTTGGCAGATTCCCGCCAGAGCAAAACAGCCGCTAGTCCTAGT
+&gt;sample_2_rpob_gene
+AATATGGAAGACATCGTAAACGTAGAAACTACGCTTGGCAGGTCAAGTTGTCCGAGAATTTCAGAAGTATTAAC
+&gt;sample_3_rpob_gene
+TTGGCAGGACATGACGTTCAATACGGGAAACATCGT..............TTCAAGAATCAAAGAAGTTCAAAT
+&gt;sample_4/incomplete_rpob_gene
+GAGGAACCCTATGGTTTACTCCTATACCGAGAAAAAACGTATTCGTAAGGATTTTGGTA...............</code></pre>
+</div>
+</div>
+</div>
+<p>We have to use the flag <code>i</code> to tell the <code>sed</code> that we want to match the word <code>bacteria</code> in case insensitive manner.</p>
+<p>Second we have to replace all the <code>.</code> with <code>X</code>. Remember the <code>.</code> is a keyword (or has special meaning in the <code>sed</code>). So, to have the literal meaning of <code>.</code>, we have to escape the <code>.</code> with <code>\</code>. We can replace all the <code>.</code> as follows:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb72"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/\./X/g'</span> rpob_gene.fasta </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>&gt;bacteria_1_rpob_gene
+CCGAGTCGCCCGCAAAGTTCCTCGAATAACTCTTGGCAGATTCCCGCCAGAGCAAAACAGCCGCTAGTCCTAGT
+&gt;Bacteria_2_rpob_gene
+AATATGGAAGACATCGTAAACGTAGAAACTACGCTTGGCAGGTCAAGTTGTCCGAGAATTTCAGAAGTATTAAC
+&gt;BACTERIA_3_rpob_gene
+TTGGCAGGACATGACGTTCAATACGGGAAACATCGTXXXXXXXXXXXXXXTTCAAGAATCAAAGAAGTTCAAAT
+&gt;Bacteria_4/incomplete_rpob_gene
+GAGGAACCCTATGGTTTACTCCTATACCGAGAAAAAACGTATTCGTAAGGATTTTGGTAXXXXXXXXXXXXXXX</code></pre>
+</div>
+</div>
+</div>
+<p>In lines 3 and 4, you can see that all the <code>.</code> are replaced by <code>X</code>. Note that to replace all the <code>.</code> we also have to use <code>g</code> flag.</p>
+<p>Third, we have to remove <code>\incomplete</code>. Again <code>/</code> is a keyword in the <code>sed</code>. We have to do something similar to the previous step.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb74"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/\/incomplete//'</span> rpob_gene.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>&gt;bacteria_1_rpob_gene
+CCGAGTCGCCCGCAAAGTTCCTCGAATAACTCTTGGCAGATTCCCGCCAGAGCAAAACAGCCGCTAGTCCTAGT
+&gt;Bacteria_2_rpob_gene
+AATATGGAAGACATCGTAAACGTAGAAACTACGCTTGGCAGGTCAAGTTGTCCGAGAATTTCAGAAGTATTAAC
+&gt;BACTERIA_3_rpob_gene
+TTGGCAGGACATGACGTTCAATACGGGAAACATCGT..............TTCAAGAATCAAAGAAGTTCAAAT
+&gt;Bacteria_4_rpob_gene
+GAGGAACCCTATGGTTTACTCCTATACCGAGAAAAAACGTATTCGTAAGGATTTTGGTA...............</code></pre>
+</div>
+</div>
+</div>
+<p>Now, we have to combine all three steps (this we can do by using pipe<code>|</code>) and then redirect the output to a file rather than the default output. We will talk more about pipe <code>|</code> in the next session.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb76"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/bacteria/sample/i'</span> rpob_gene.fasta <span class="kw">|</span> <span class="fu">sed</span> <span class="st">'s/\./X/g'</span> <span class="kw">|</span> </span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/\/incomplete//'</span> <span class="op">&gt;</span> rpob_gene_processed.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong><em>You will see no output in the terminal. But you will see a new file <code>rpob_gene_processed.fasta</code>, which will look similar to the following:</em></strong></p>
+<pre><code>&gt;sample_1_rpob_gene
+CCGAGTCGCCCGCAAAGTTCCTCGAATAACTCTTGGCAGATTCCCGCCAGAGCAAAACAGCCGCTAGTCCTAGT
+&gt;sample_2_rpob_gene
+AATATGGAAGACATCGTAAACGTAGAAACTACGCTTGGCAGGTCAAGTTGTCCGAGAATTTCAGAAGTATTAAC
+&gt;sample_3_rpob_gene
+TTGGCAGGACATGACGTTCAATACGGGAAACATCGTXXXXXXXXXXXXXXTTCAAGAATCAAAGAAGTTCAAAT
+&gt;sample_4_rpob_gene
+GAGGAACCCTATGGTTTACTCCTATACCGAGAAAAAACGTATTCGTAAGGATTTTGGTAXXXXXXXXXXXXXXX</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>To learn more about the use of <code>sed</code> visit <a href="https://www.gnu.org/software/sed/manual/sed.html">https://www.gnu.org/software/sed/manual/sed.html</a></p>
+</section>
+</section>
+<section id="credit" class="level2">
+<h2 class="anchored" data-anchor-id="credit">2.3.6 Credit</h2>
+<p>Information on this page has been adapted and modified from the following source:</p>
+<ul>
+<li>https://github.com/cambiotraining/sars-cov-2-genomics</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../materials/02-unix_intro/2.2-files_directories.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2.2 Navigating Files and Directories</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../materials/02-unix_intro/2.4-combining_commands.html" class="pagination-link">
+        <span class="nav-page-text">2.4 Combining Commands</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">Licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://creativecommons.org/images/deed/cc_icon_black_x2.png" class="img-fluid" width="25"> Dr Prince Asare and Dr Andries van Tonder</div>
+  </div>
+</footer>
+
+
+
+</body></html>

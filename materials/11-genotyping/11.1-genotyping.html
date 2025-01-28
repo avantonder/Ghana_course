@@ -1,0 +1,2907 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.112">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>11.1 Bacterial Genotyping and Drug Resistance Prediction</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../materials/12-intro_hpc/12.1-intro_hpc.html" rel="next">
+<link href="../../materials/10-intro_phylogenetics/10.1-intro_phylogenetics.html" rel="prev">
+<link href="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university-of-cambridge-favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/NMIMR_Logo_whitebg.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../setup.html">Setup</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../materials.html" aria-current="page">Materials</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../unix_cheat_sheet.html">Unix-Cheat-Sheet</a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/avantonder/Ghana_course"><i class="bi bi-github" role="img" aria-label="Introduction to bacterial genomics GitHub">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/NMIMR_UG"><i class="bi bi-twitter" role="img" aria-label="Noguchi Memorial Institute for Medical Research Twitter">
+</i> 
+ </a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">11.1 Bacterial Genotyping and Drug Resistance Prediction</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials.html" class="sidebar-item-text sidebar-link">Materials</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">1. Introduction to WGS</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro_wgs/1.1-intro_wgs.html" class="sidebar-item-text sidebar-link">1.1 Introduction to Whole Genome Sequencing (WGS)</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">2. Introduction to Unix</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.1-unix_overview.html" class="sidebar-item-text sidebar-link">2.1 The Unix Shell</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.2-files_directories.html" class="sidebar-item-text sidebar-link">2.2 Navigating Files and Directories</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.3-text_manipulation.html" class="sidebar-item-text sidebar-link">2.3 Text Manipulation</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.4-combining_commands.html" class="sidebar-item-text sidebar-link">2.4 Combining Commands</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.5-using_remote_resources.html" class="sidebar-item-text sidebar-link">2.5 Using remote resources</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.6-vscode_overview.html" class="sidebar-item-text sidebar-link">2.6 Visual Studio Code</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.7-bonus_find_and_grep.html" class="sidebar-item-text sidebar-link">2.7 <em>Bonus</em> : Finding Things</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.8-bonus_loops.html" class="sidebar-item-text sidebar-link">2.8 <em>Bonus</em>: Loops</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.9-bonus_shell_scripts.html" class="sidebar-item-text sidebar-link">2.9 <em>Bonus</em>: Shell Scripts</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">3. Common File Formats</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-file_formats/3.1-file_formats.html" class="sidebar-item-text sidebar-link">3.1 Common File Formats</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">4. Sequencing QC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-sequence_qc/4.1-sequence_qc.html" class="sidebar-item-text sidebar-link">4.1 Sequencing Quality Control</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">5. Short Read Mapping</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-short_read_mapping/5.1-short_read_mapping.html" class="sidebar-item-text sidebar-link">5.1 Short Read Mapping</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">6. Assembly and Annotation</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/06-assembly_annotation/6.1-assembly_annotation.html" class="sidebar-item-text sidebar-link">6.1 Assembly and Annotation</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">7. Software Management</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/07-software_management/7.1-software_management.html" class="sidebar-item-text sidebar-link">7.1 Managing Software</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">8. Workflow Managers</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.1-workflow_managers.html" class="sidebar-item-text sidebar-link">8.1 Workflow Managers</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.2-nfcore.html" class="sidebar-item-text sidebar-link">8.2 nf-core pipelines</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">9. The nf-core/bactmap Pipeline</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.1-bactmap_run.html" class="sidebar-item-text sidebar-link">9.1 The nf-core/bactmap pipeline</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.2-bactmap_results.html" class="sidebar-item-text sidebar-link">9.2 nf-core/bactmap Results</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">10. Introduction to Phylogenetics</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/10-intro_phylogenetics/10.1-intro_phylogenetics.html" class="sidebar-item-text sidebar-link">10.1 Introduction to Phylogenetics</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">11. Bacterial Genotyping and AMR prediction</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/11-genotyping/11.1-genotyping.html" class="sidebar-item-text sidebar-link active">11.1 Bacterial Genotyping and Drug Resistance Prediction</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">12. Introduction to HPC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/12-intro_hpc/12.1-intro_hpc.html" class="sidebar-item-text sidebar-link">12.1 Introduction to High Performance Computing</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">11.1.1 Background</a></li>
+  <li><a href="#mlst" id="toc-mlst" class="nav-link" data-scroll-target="#mlst">11.1.2 MLST</a>
+  <ul class="collapse">
+  <li><a href="#using-mlst-without-auto-detection" id="toc-using-mlst-without-auto-detection" class="nav-link" data-scroll-target="#using-mlst-without-auto-detection">Using <code>mlst</code> without auto-detection</a></li>
+  <li><a href="#generating-a-more-friendly-format-with---legacy-and---scheme-options" id="toc-generating-a-more-friendly-format-with---legacy-and---scheme-options" class="nav-link" data-scroll-target="#generating-a-more-friendly-format-with---legacy-and---scheme-options">Generating a more friendly format with <code>--legacy</code> and <code>--scheme</code> options</a></li>
+  <li><a href="#other-useful-information" id="toc-other-useful-information" class="nav-link" data-scroll-target="#other-useful-information">Other useful information</a></li>
+  </ul></li>
+  <li><a href="#serotyping" id="toc-serotyping" class="nav-link" data-scroll-target="#serotyping">11.1.3 Serotyping</a>
+  <ul class="collapse">
+  <li><a href="#seroba" id="toc-seroba" class="nav-link" data-scroll-target="#seroba">seroBA</a></li>
+  </ul></li>
+  <li><a href="#mycobacterium-tuberculosis-specific-genotyping-and-amr-prediction-tools" id="toc-mycobacterium-tuberculosis-specific-genotyping-and-amr-prediction-tools" class="nav-link" data-scroll-target="#mycobacterium-tuberculosis-specific-genotyping-and-amr-prediction-tools">11.1.4 <em>Mycobacterium tuberculosis</em> specific genotyping and AMR prediction tools</a>
+  <ul class="collapse">
+  <li><a href="#spotyping" id="toc-spotyping" class="nav-link" data-scroll-target="#spotyping">SpoTyping</a></li>
+  <li><a href="#lineage-assignment-and-antimicrobial-resistance-prediction-using-tb-profiler" id="toc-lineage-assignment-and-antimicrobial-resistance-prediction-using-tb-profiler" class="nav-link" data-scroll-target="#lineage-assignment-and-antimicrobial-resistance-prediction-using-tb-profiler">lineage assignment and antimicrobial resistance prediction using tb-profiler</a></li>
+  </ul></li>
+  <li><a href="#antimicrobial-susceptibility-testing" id="toc-antimicrobial-susceptibility-testing" class="nav-link" data-scroll-target="#antimicrobial-susceptibility-testing">11.1.5 Antimicrobial Susceptibility Testing</a>
+  <ul class="collapse">
+  <li><a href="#antimicrobial-resistance-identification-by-assembly-ariba" id="toc-antimicrobial-resistance-identification-by-assembly-ariba" class="nav-link" data-scroll-target="#antimicrobial-resistance-identification-by-assembly-ariba">Antimicrobial Resistance Identification By Assembly (ARIBA)</a></li>
+  <li><a href="#deactivate-ariba-environment" id="toc-deactivate-ariba-environment" class="nav-link" data-scroll-target="#deactivate-ariba-environment">deactivate <code>ariba</code> environment</a></li>
+  </ul></li>
+  <li><a href="#credit" id="toc-credit" class="nav-link" data-scroll-target="#credit">11.1.6 Credit</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">11.1 Bacterial Genotyping and Drug Resistance Prediction</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p><strong>Teaching: 120 min</strong> || <strong>Exercises: 30 min</strong></p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Questions:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>How do I perform basic genotyping and serotyping of bacterial strains?</li>
+<li>What are the available genotyping and serotyping tools?</li>
+<li>How do I identify resistant bacteria?</li>
+</ul>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Learning Objectives:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>To perform basic genotyping and serotyping of bacterial strains from WGS data.</li>
+<li>To perform antimicrobial resistance (AMR) prediction of bacterial strains using WGS data.</li>
+</ul>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Key points:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Basic bioinformatics tools exists to genotype as well as serotype bacterial strains from identifying species right down to determining lineages, sub-lineages and strains.</li>
+<li>Using WGS data, and by just calling out drug resistant SNPs, you can readily determine the AMR pattern of bacterial strains.</li>
+<li>Some widely used bacteria genotyping, serotyping and AST tools include:
+<ul>
+<li>Multi Locus Sequence Typing (MLST) — <em>genotyping</em></li>
+<li>Seroba — <em>serotyping</em></li>
+<li>TBprofiler — <em>genotyping and AST</em></li>
+<li>Ariba — <em>genotyping and AST</em></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">11.1.1 Background</h2>
+<p>Whole genome sequencing data enables us to acquire several information relating to the:</p>
+<ul>
+<li>genotype,</li>
+<li>serotype and</li>
+<li>prediction of antimicrobial resistance</li>
+</ul>
+<p>… of our bacterial sample.</p>
+<p>In this module of the workshop we will be introduced to the various tools that are widely used for obtaining the above information from our genome.</p>
+<p>Let’s jump into business by looking at our first tool.</p>
+</section>
+<section id="mlst" class="level2">
+<h2 class="anchored" data-anchor-id="mlst"><a href="https://en.wikipedia.org/wiki/Multilocus_sequence_typing">11.1.2 MLST</a></h2>
+<p><strong>M</strong>ulti-<strong>L</strong>ocus <strong>S</strong>equence <strong>T</strong>yping (<strong>MLST</strong>) typically refers to the systematic sequencing and typing of five to ten well-conserved (<em>usually seven</em>), house-keeping genes or loci within the bacterial genome. Allelic variation at each locus is catalogued, and a <strong>sequence type</strong> or <strong>lineage</strong> is assigned by comparing the set of alleles to other isolate profiles in one of several available databases. The majority of <strong>MLST databases</strong> are hosted at a web server currently located in Oxford University <a href="http://www.pubmlst.org">pubmlst.org</a>.</p>
+<p>You can read more about the practical steps involved in <strong>MLST</strong> in this <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3988353/">publication</a>.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<a href="https://en.wikipedia.org/wiki/Housekeeping_gene">House keeping genes</a>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Housekeeping genes are examples of regions in a genome that tend to be highly conserved and evolve slower than other genes mainly due to their roles in the maintenance of basic cellular functions and are essential for the existence of a cell. They are expressed in all cells of an organism under normal and patho-physiological conditions.</p>
+</div>
+</div>
+<p>It is worth noting that both the number and type of housekeeping genes interrogated by <em>MLST</em> may differ from species to species. MLST typing for <strong><em>Staphylococcus aureus</em></strong> for example uses seven housekeeping genes. As specified by the MLST website, these genes include:</p>
+<ul>
+<li>carbamate kinase (arcC),</li>
+<li>shikimate dehydrogenase (aroE),</li>
+<li>glycerol kinase (glpF),</li>
+<li>guanylate kinase (gmk),</li>
+<li>phosphate acetyltransferase (pta),</li>
+<li>triosephosphate isomerase (tpi) and</li>
+<li>acetyl coenzyme A acetyltransferase (yqiL)</li>
+</ul>
+<p>Whereas MLST typing for <strong><em>Vibrio vulnificus</em></strong> uses the following housekeeping genes:</p>
+<ul>
+<li>glucose-6-phosphate isomerase (glp),</li>
+<li>DNA gyrase, subunit B (gyrB),</li>
+<li>malate-lactate dehydrogenase (mdh),</li>
+<li>methionyl-tRNA synthetase (metG),</li>
+<li>phosphoribosylaminoimidazole synthetase (purM),</li>
+<li>threonine dehydrogenase (dtdS),</li>
+<li>diaminopimelate decarboxylase (lysA),</li>
+<li>transhydrogenase alpha subunit (pntA),</li>
+<li>dihydroorotase (pyrC) and</li>
+<li>tryptophanase (tnaA).</li>
+</ul>
+<p>MLST compares allelic diversity based on approximately 450-500 bp internal gene fragments. For each house-keeping gene, the different sequences present within a bacterial species are assigned as distinct alleles and, for each isolate, the alleles at each of the seven (<em>or specific number of loci</em>) loci define the allelic profile or <strong>S</strong>equence <strong>T</strong>ype (<strong>ST</strong>). You should remember encountering <strong>ST</strong> from two of our exercises (<em>Exercise 5.1.8</em>) in our <a href="../../materials/05-short_read_mapping/5.1-short_read_mapping.html">short read mapping</a> and (<em>Exercise 11. <!--FIXME: add the correct exercise number here. This should be an advanced exercise under phylogenetics.--></em>) in our <a href="../../materials/05-short_read_mapping/5.1-short_read_mapping.html">phylogenetics</a> sessions, where we attempted to reproduce data results from the paper titled <a href="https://peerj.com/articles/3047/">“Genomic analysis of ST88 community-acquired methicillin resistant Staphylococcus aureus in Ghana”</a>. You can have a look at those exercises again if you haven’t done that already. Thousands of sequences have been submitted, generating numerous STs. Organisms that share all seven alleles are defined as clones, those that share five of seven identical alleles are defined as <strong>C</strong>lonal <strong>C</strong>omplexes (<strong>CC</strong>), and those that share less than five alleles are defined as unrelated.</p>
+<p>In MLST the number of nucleotide differences between alleles is ignored and sequences are given different allele numbers whether they differ at a single nucleotide site or at many sites. The rationale is that a single genetic event resulting in a new allele can occur by a point mutation (altering only a single nucleotide site), or by a recombinational replacement (that will often change multiple sites) - weighting according to the number of nucleotide differences between alleles would erroneously consider the allele to be more different than by treating the nucleotide changes as a single genetic event. The allelic profiles can be considered as a character set of <em>n</em> categorical characters (<em>n</em> being the number of house-keeping genes investigated). MLST has been used successfully to study population genetics and reconstruct micro-evolution of epidemic bacteria and other micro-organisms.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Conventional MLST
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Conventionally, MLST has been performed on purified isolates by running sequencing analysis on PCR amplified house-keeping genes. In the past, this really cut the cost of whole genome sequencing (WGS) by just performing a targeted sequencing on the main house-keeping genes used for MLST as per the organism. The figure below <a href="https://sciendo.com/article/10.1515/boku-2016-0017">adapted from <strong><em>Ruppitsch 2016</em></strong></a> summarised this very well.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/mlst_conventional.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Conventional MLST - Scheme for multilocus sequence typing adapted from mlst.net. MLST uses sequence variations in up to seven housekeeping genes. Allele numbers are assigned to unique sequences and the allele number combination result in a sequence type.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>With the growing decreasing cost of WGS, it is now even cheaper to perform WGS and then do in silico MLST analysis. This is what we will do in the workshop.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+A typical MLST phylogeny
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>All the MLST allelic information generated from a population of microorganisms can be nicely plotted to study the variation using phylogenetic analysis. You should be an expert of plotting phylogenetic trees by now.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/mlst_ST_phylogeny.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">MLST sequence type phylogeny - Image adapted from <a href="https://www.futuremedicine.com/doi/full/10.2217/fmb.14.24?rfr_dat=cr_pub++0pubmed&amp;url_ver=Z39.88-2003&amp;rfr_id=ori%3Arid%3Acrossref.org">Jolley and Maiden 2014</a></figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This is too much of introduction. Now let’s get to what we are here for. What bioinformatics tool can we apply to define <strong>ST</strong>s from our genome?</p>
+<p>Fortunately for us, there is a tool called <a href="https://github.com/tseemann/mlst"><strong>mlst</strong></a>. What the *<strong>mlst</strong> tool does is to scan contig files against traditional PubMLST typing schemes.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Help
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do this to get the help information for <code>mlst</code></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mlst</span> <span class="at">-h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>SYNOPSIS
+  Automatic MLST calling from assembled contigs
+USAGE
+  % mlst --list                                            # list known schemes
+  % mlst [options] &lt;contigs.{fasta,gbk,embl}[.gz]          # auto-detect scheme
+  % mlst --scheme &lt;scheme&gt; &lt;contigs.{fasta,gbk,embl}[.gz]&gt; # force a scheme
+GENERAL
+  --help            This help
+  --version         Print version and exit(default ON)
+  --check           Just check dependencies and exit (default OFF)
+  --quiet           Quiet - no stderr output (default OFF)
+  --threads [N]     Number of BLAST threads (suggest GNU Parallel instead) (default '1')
+  --debug           Verbose debug output to stderr (default OFF)
+SCHEME
+  --scheme [X]      Don't autodetect, force this scheme on all inputs (default '')
+  --list            List available MLST scheme names (default OFF)
+  --longlist        List allelles for all MLST schemes (default OFF)
+  --exclude [X]     Ignore these schemes (comma sep. list) (default 'ecoli,abaumannii,vcholerae_2')
+OUTPUT
+  --csv             Output CSV instead of TSV (default OFF)
+  --json [X]        Also write results to this file in JSON format (default '')
+  --label [X]       Replace FILE with this name instead (default '')
+  --nopath          Strip filename paths from FILE column (default OFF)
+  --novel [X]       Save novel alleles to this FASTA file (default '')
+  --legacy          Use old legacy output with allele header row (requires --scheme) (default OFF)
+...</code></pre>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Usage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The general format of the command is:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mlst</span> [options] <span class="op">&lt;</span>contigs.<span class="dt">{fasta</span><span class="op">,</span><span class="dt">gbk</span><span class="op">,</span><span class="dt">embl}</span>[.gz]<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Generally, the command above auto-detects an appropriate scheme to use. However, you can force a scheme by adding the option <code>--scheme</code> and specifying an appropriate scheme:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mlst</span> <span class="at">--scheme</span> <span class="op">&lt;</span>scheme<span class="op">&gt;</span> <span class="op">&lt;</span>contigs.<span class="dt">{fasta</span><span class="op">,</span><span class="dt">gbk</span><span class="op">,</span><span class="dt">embl}</span>[.gz]<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can list known schemes with the below command:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mlst</span> <span class="at">--list</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The above command gives a shortened list. You can get more details using <code>mlst --longlist</code>.</p>
+</div>
+</div>
+<p>As you can see from the general command above, you just simply give it a genome file in FASTA/GenBank/EMBL format, optionally compressed with gzip, zip or bzip2. You can also give it multiple files at once.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Output
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The command returns a tab-separated line containing</p>
+<ul>
+<li>the filename</li>
+<li>the matching PubMLST scheme name</li>
+<li>the ST (sequence type)</li>
+<li>the genes and their allele IDs</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/mlst_output.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">mlst output</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>If you have tried out any of the above commands, you may have realised it gives you error messages. This is because you probably don’t have <code>mlst</code> installed on your system. We have created a conda environment called <code>mlst</code>. We will activate this environment to perform the tasks in this chapter of the workshop.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Navigate to the <code>genotyping_and_dr</code> directory and activate the <code>mlst</code> environment
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Desktop/workshop_files_Bact_Genomics_2023/11_genotyping_and_dr/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate mlst</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Have a quick look at the directory</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-al</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>We are now ready to perform some genotyping starting with <code>mlst</code>.</p>
+<p>First, let’s try our hands on knowing what the <strong>ST</strong> of our genome is. Our first genome to analyse is <code>G26832</code> and we will use the <code>contigs.fa</code> as our input.</p>
+<p>Let’s go ahead and run the below command with no options to genotype our sample:</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+mlst — <em>raw</em>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mlst</span> G26832.contigs.fa </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[11:37:27] This is mlst 2.22.1 running on linux with Perl 5.032001
+[11:37:27] Checking mlst dependencies:
+[11:37:27] Found 'blastn' =&gt; /home/pa486/miniconda3/envs/mlst/bin/blastn
+[11:37:27] Found 'any2fasta' =&gt; /home/pa486/miniconda3/envs/mlst/bin/any2fasta
+[11:37:27] Found blastn: 2.13.0+ (002013)
+[11:37:27] Excluding 3 schemes: vcholerae_2 ecoli abaumannii
+[11:37:32] Found exact allele match mycobacteria_2.S7-19
+[11:37:32] Found exact allele match mycobacteria_2.S12-20
+[11:37:32] Found exact allele match mycobacteria_2.L19-19
+[11:37:32] Found exact allele match mycobacteria_2.L35-15
+[11:37:32] Found exact allele match mycobacteria_2.L16-22
+[11:37:32] Found exact allele match mycobacteria_2.S8-18
+[11:37:32] Found exact allele match mycobacteria_2.S19-20
+[11:37:32] Found exact allele match mycobacteria_2.S14Z-17
+G26832.contigs.fa       mycobacteria_2  215     S14Z(17)        L35(15) S19(20) L19(19) S12(20) S8(18)      L16(22) S7(19)
+[11:37:32] If you have problems, please file at https://github.com/tseemann/mlst/issues
+[11:37:32] Done.</code></pre>
+</div>
+</div>
+<p>Are you happy with the output?</p>
+<p>Let’s say you are, because at least you can scan through and identify the line that contains the information you need. Can you think of a way to just get the line of output you need.</p>
+<p>Yes, you can pipe the output to a grep command. Let’s try our hands on this exercise and see if it works.</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 11.1.2.1:</em></strong> Extracting informative line from mlst output
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using the mlst command above combined with any text finding command of your choice how will you obtain the expected output below.</p>
+<pre><code>G26832.contigs.fa       mycobacteria_2  215     S14Z(17)        L35(15) S19(20) L19(19) S12(20) S8(18)      L16(22) S7(19)</code></pre>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>You probably tried solving this by passing the output of mlst to grep using a <code>|</code> (pipe):</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mlst</span> G26832.contigs.fa <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"G26832"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[12:40:24] This is mlst 2.22.1 running on linux with Perl 5.032001
+[12:40:24] Checking mlst dependencies:
+[12:40:24] Found 'blastn' =&gt; /home/pa486/miniconda3/envs/mlst/bin/blastn
+[12:40:24] Found 'any2fasta' =&gt; /home/pa486/miniconda3/envs/mlst/bin/any2fasta
+[12:40:24] Found blastn: 2.13.0+ (002013)
+[12:40:24] Excluding 3 schemes: ecoli vcholerae_2 abaumannii
+[12:40:27] Found exact allele match mycobacteria_2.S7-19
+[12:40:27] Found exact allele match mycobacteria_2.S12-20
+[12:40:27] Found exact allele match mycobacteria_2.L19-19
+[12:40:27] Found exact allele match mycobacteria_2.L35-15
+[12:40:27] Found exact allele match mycobacteria_2.L16-22
+[12:40:27] Found exact allele match mycobacteria_2.S8-18
+[12:40:27] Found exact allele match mycobacteria_2.S19-20
+[12:40:27] Found exact allele match mycobacteria_2.S14Z-17
+[12:40:27] Please also cite 'Jolley &amp; Maiden 2010, BMC Bioinf, 11:595' if you use mlst.
+[12:40:27] Done.
+**G26832**.contigs.fa       mycobacteria_2  215     S14Z(17)        L35(15) S19(20) L19(19) S12(20) S8(18)      L16(22) S7(19)</code></pre>
+<p>Aww, but you end up with the same output but with <strong>G26832</strong> highlighted.</p>
+<p>I guess we all failed the test. Yes, it does happen sometimes even when you are 100% sure that your command should give you an expected output.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Although we probably failed the test, let’s not worry, <code>mlst</code> has a special flag that we can use to get a <em>quiet</em> output by using the <code>--quiet</code> option.</p>
+<p>Let’s go ahead and try this out.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Using the <code>--quiet</code> option
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mlst</span> <span class="at">--quiet</span> G26832.contigs.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>G26832.contigs.fa       mycobacteria_2  215     S14Z(17)        L35(15) S19(20) L19(19) S12(20) S8(18)      L16(22) S7(19)</code></pre>
+</div>
+</div>
+<p>The <code>--quiet</code> option is also used in many other programs.</p>
+<p>You actually do not need to specify a <code>--quiet</code> option if the command is used in a pipeline as the output it actually passes on to the next command is just the line of interest.</p>
+<p>You can check this by outputting our previous <em>raw</em> command to a text file:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mlst</span> G26832.contigs.fa <span class="op">&gt;</span> G26832.mlst.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, view the text file</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> G26832.mlst.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s have a look at another option that helps you change the name of your sample in the output. This is very useful if your original sample name contains a name that you probably do not want to see in an excel file.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Using the <code>--label</code> option
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We can assign a new name to each sample by applying the <code>--label</code> option and specifying the new preferred name right after the option:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mlst</span> <span class="at">--quiet</span> <span class="at">--label</span> firstTBsample G26832.contigs.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>firstTBsample   mycobacteria_2  215     S14Z(17)        L35(15) S19(20) L19(19) S12(20) S8(18)  L16(22)     S7(19)</code></pre>
+</div>
+</div>
+<p>Now we see how easy it is to genotype our sample using mlst. Let’s go ahead and type all the samples in our genotyping directory beginning with the letter <strong>G</strong>.</p>
+<p>The easy way to do this is to use a wildcard to call all the contigs.fa samples beginning with <strong>G</strong> and run the mlst on each file.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Genotype all samples beginning with the letter <code>G</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mlst</span> <span class="at">--quiet</span> G<span class="pp">*</span>.contigs.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>G26831.contigs.fa       mycobacteria_2  299     S14Z(17)        L35(15) S19(20) L19(19) S12(20) S8(18)      L16(185)        S7(19)
+G26832.contigs.fa       mycobacteria_2  215     S14Z(17)        L35(15) S19(20) L19(19) S12(20) S8(18)      L16(22) S7(19)
+G26854.contigs.fa       mycobacteria_2  215     S14Z(17)        L35(15) S19(20) L19(19) S12(20) S8(18)      L16(22) S7(19)</code></pre>
+</div>
+</div>
+<p>You can also direct the output to a specified file name say (<strong>G_mlst.tsv</strong>) and have a look at it with an appropriate spreadsheet application.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mlst</span> <span class="at">--quiet</span> G<span class="pp">*</span>.contigs.fa <span class="op">&gt;</span> G_mlst.tsv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Examine the ouptut of the analysis and see what you make out of it. Do you observe any possible clone or clonal complex?</p>
+<p>The samples are probably related if they form a clone. What do you think?</p>
+<p><strong>NB.</strong> We can also specify a <code>.csv</code> output using the option <code>--csv</code>, in which case our output should be appropriately labelled as (<strong>G_mlst.csv</strong>)</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 11.1.2.2:</em></strong> renaming mlst output using a <code>for loop</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Consider all the downloaded and processed samples from NCBI within the current genotyping directory. The processed samples have the prefix <strong>ERR</strong> or <strong>SRR</strong>.</p>
+<p>Your task is to apply <code>mlst</code> on all these samples and rename them by removing the suffix <code>contigs.fa</code>.</p>
+<p>You can try first with multiple steps, however, your final task is to come up with a <code>for loop</code> that performs the task in a single line of code.</p>
+<p>Go ahead and interpret your output after running the command.</p>
+<ul>
+<li>How many species do you see?</li>
+<li>What are their <strong>ST</strong>?</li>
+<li>Do you find anything strange?</li>
+</ul>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>First let’s have a look at all the <strong>ERR</strong> and <strong>SRR</strong> contigs.fa files in our directory.</p>
+<p>We can do this by a simple <code>ls</code> with the wildcard <code>*</code>:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>RR<span class="pp">*</span>.contigs.fa </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>ERR10437992.contigs.fa  ERR1638070.contigs.fa  ERR369522.contigs.fa
+ERR10438004.contigs.fa  ERR1638071.contigs.fa  SRR16634399.contigs.fa</code></pre>
+<p>We see that we have exactly 6 contigs.fa files with our search.</p>
+<p>Now, if we wanted to perform <code>mlst</code> on one sample (<em>say ERR10437992.contigs.fa</em>) and rename it concurrently, we will do this</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mlst</span> <span class="at">--quiet</span> <span class="at">--label</span> ERR10437992 ERR10437992.contigs.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>But, how do we extract the ID individually to include as a label.</p>
+<p>To extract just the ID, we can use a <code>for loop</code> as below:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> contig <span class="kw">in</span> <span class="pp">*</span>RR<span class="pp">*</span>.contigs.fa </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">${contig</span><span class="op">%</span>.contigs.fa<span class="va">}</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>or nicely in one line as:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> contig <span class="kw">in</span> <span class="pp">*</span>RR<span class="pp">*</span>.contigs.fa<span class="kw">;</span> <span class="cf">do</span>  <span class="bu">echo</span> <span class="va">${contig</span><span class="op">%</span>.contigs.fa<span class="va">}</span><span class="kw">;</span> <span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>ERR10437992
+ERR10438004
+ERR1638070
+ERR1638071
+ERR369522
+SRR16634399</code></pre>
+</div>
+</div>
+</div>
+<p>Now let’s fit the mlst command somewhere in the <code>for loop</code>:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> contig <span class="kw">in</span> <span class="pp">*</span>RR<span class="pp">*</span>.contigs.fa<span class="kw">;</span> <span class="cf">do</span> <span class="ex">mlst</span> <span class="at">--quiet</span> <span class="at">--label</span> <span class="va">${contig</span><span class="op">%</span>.contigs.fa<span class="va">}</span> <span class="va">$contig</span> <span class="op">&gt;&gt;</span> downloaded_genome_mlst.tsv<span class="kw">;</span> <span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Till now, we have used the <code>contigs.fa</code> file. let’s try one pseudogenome <code>.fasta</code> file from our <code>short_read_mapping</code> directory and see if we get the same output as with what we did with the <code>contigs.fa</code> file.</p>
+<p>Let’s first copy the file to our current working directory:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> ../05_mapping/short_read_mapping_MTB/G26832.fas .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And now perform mlst (<em>focus on only the last two lines of the output</em>):</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mlst</span> <span class="at">--quiet</span> G26832.fas G26832.contigs.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>...
+CFastaReader: Hyphens are invalid and will be ignored around line 70535
+CFastaReader: Hyphens are invalid and will be ignored around line 70536
+G26832.fas      mycobacteria_2  215     S14Z(17)        L35(15) S19(20) L19(19) S12(20) S8(18)  L16(22)     S7(19)
+G26832.contigs.fa       mycobacteria_2  215     S14Z(17)        L35(15) S19(20) L19(19) S12(20) S8(18)      L16(22) S7(19)</code></pre>
+<p>Viola, we had the same <strong>ST</strong>. <code>mlst</code> did a great job.</p>
+<section id="using-mlst-without-auto-detection" class="level3">
+<h3 class="anchored" data-anchor-id="using-mlst-without-auto-detection">Using <code>mlst</code> without auto-detection</h3>
+<p>You can force a particular scheme (useful for reporting systems).</p>
+<p>Let’s try this on our famous genome:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mlst</span> <span class="at">--quiet</span> <span class="at">--scheme</span> mycobacteria_2 G26832.contigs.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>G26832.contigs.fa       mycobacteria_2  215     S14Z(17)        L35(15) S19(20) L19(19) S12(20) S8(18)      L16(22) S7(19)</code></pre>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Specifying a wrong scheme
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Don’t expect to get anything if you specify a wrong scheme for your organism.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mlst</span> <span class="at">--quiet</span> <span class="at">--scheme</span> neisseria G26832.contigs.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>G26832.contigs.fa       neisseria       -       abcZ(-) adk(-)  aroE(-) fumC(-) gdh(-)  pdhC(-) pgm(-)</code></pre>
+</div>
+</div>
+</section>
+<section id="generating-a-more-friendly-format-with---legacy-and---scheme-options" class="level3">
+<h3 class="anchored" data-anchor-id="generating-a-more-friendly-format-with---legacy-and---scheme-options">Generating a more friendly format with <code>--legacy</code> and <code>--scheme</code> options</h3>
+<p>You can make <code>mlst</code> behave like older version before auto-detection existed by providing the <code>--legacy</code> parameter with the <code>--scheme</code> parameter. In that case it will print a fixed tabular output with a heading containing allele names specific to that scheme. This is very useful if you are investigating the same species :</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mlst</span> <span class="at">--quiet</span> <span class="at">--legacy</span> <span class="at">--scheme</span> mycobacteria_2 G<span class="pp">*</span>.contigs.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>G26831.contigs.fa       mycobacteria_2  299     17      15      20      19      20      18      18519
+G26832.contigs.fa       mycobacteria_2  215     17      15      20      19      20      18      22 19
+G26854.contigs.fa       mycobacteria_2  215     17      15      20      19      20      18      22 19</code></pre>
+</section>
+<section id="other-useful-information" class="level3">
+<h3 class="anchored" data-anchor-id="other-useful-information">Other useful information</h3>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Missing data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Version 2.x does not just look for exact matches to full length alleles. It attempts to tell you as much as possible about what it found using the notation below:</p>
+<table class="table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 46%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Meaning</th>
+<th>Length</th>
+<th>Identity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>n</code></td>
+<td>exact intact allele</td>
+<td>100%</td>
+<td>100%</td>
+</tr>
+<tr class="even">
+<td><code>~n</code></td>
+<td>novel full length allele similar to n</td>
+<td>100%</td>
+<td>≥ <code>--minid</code></td>
+</tr>
+<tr class="odd">
+<td><code>n?</code></td>
+<td>partial match to known allele</td>
+<td>≥ <code>--mincov</code></td>
+<td>≥ <code>--minid</code></td>
+</tr>
+<tr class="even">
+<td><code>-</code></td>
+<td>allele missing</td>
+<td>&lt; <code>--mincov</code></td>
+<td>&lt; <code>--minid</code></td>
+</tr>
+<tr class="odd">
+<td><code>n,m</code></td>
+<td>multiple alleles</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Scoring system
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Each MLST prediction gets a score out of 100. The score for a scheme with N alleles is as follows:</p>
+<ul>
+<li>+90/N points for an exact allele match <em>e.g.</em> <code>42</code></li>
+<li>+63/N points for a novel allele match (50% of an exact allele) <em>e.g.</em> <code>~42</code></li>
+<li>+18/N points for a partial allele match (20% of an exact alelle) <em>e.g.</em> <code>42?</code></li>
+<li>0 points for a missing allele <em>e.g.</em> <code>-</code></li>
+<li>+10 points if there is a matching ST type for the allele combination</li>
+</ul>
+<p>It is possible to filter results using the <code>--minscore</code> option which takes a value between 1 and 100. If you only want to report known ST types, then use <code>--minscore 100</code>. To also include novel combinations of existing alleles with no ST type, use <code>--minscore 90</code>. The default is <code>--minscore 50</code> which is an <em>ad hoc</em> value I have found allows for genuine partial ST matches but eliminates false positives.</p>
+</div>
+</div>
+<p>To know more about the below topics, visit the github page <a href="https://github.com/tseemann/mlst"><code>tseemann/mlst</code></a></p>
+<ul>
+<li>Mapping to genus/species</li>
+<li>Updating the database</li>
+<li>Adding a new scheme</li>
+</ul>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Change working environment
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Still in the <code>genotyping_and_dr</code> directory run the below command to deactivate the <code>mlst</code> environment and activate the <code>seroba</code> environment:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate seroba</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="serotyping" class="level2">
+<h2 class="anchored" data-anchor-id="serotyping"><a href="https://en.wikipedia.org/wiki/Serotype">11.1.3 Serotyping</a></h2>
+<p>A serotype or serovar is a distinct variation within a species of bacteria or virus or among immune cells of different individuals. These microorganisms, viruses, or cells are classified together based on their surface antigens, allowing the epidemiologic classification of organisms to the subspecies level. A group of serovars with common antigens is called a serogroup or sometimes serocomplex.</p>
+<p><img src="../fig/serotype.png" class="img-fluid" alt="Two serotypes 1a and 1b with antigens 2a and 2b on surface, which are recognized by two distinct antibodies, 3a and 3b, respectively"> Figure adapted from https://en.wikipedia.org/wiki/Serotype.</p>
+<p>Serotyping often plays an essential role in determining species and subspecies. The Salmonella genus of bacteria, for example, has been determined to have over 2600 serotypes. <em>Vibrio cholerae</em>, the species of bacteria that causes cholera, has over 200 serotypes, based on cell antigens — however, only two of them have been observed to produce the potent enterotoxin that results in cholera: O1 and O139.</p>
+<p>So you can imaging that being able to accurately identify serotypes of strains can already give you some very important information about the pathogenicity of the bacterial strain.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+What has proteins got to do in a genomics class?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you are wondering why we are discussing antigens (<em>proteins</em>) in a genomics (<em>DNA</em>) workshop, don’t worry, you are not the only one and perhaps this is the right place to discuss this. However, we will not go further with our discussion. If you can recall from your basic molecular biology class, all proteins are products of DNA. So there we go, all the information in the antigens (proteins) will actually be coded in the genome (DNA), so let’s go ahead and do some investigations of our genome to predict serotypes of bacterial strains.</p>
+</div>
+</div>
+<!--FIXME: Check the other serotyping tools to see if some can be included in the course-->
+<p>There are a number of bioinformatics tools available for serotyping bacterial strains. Most of these, however, are species specific tools:</p>
+<p><strong><em>For Salmonella spp.</em></strong></p>
+<ul>
+<li><a href="https://github.com/denglab/SeqSero">SeqSero</a></li>
+<li><a href="https://github.com/phac-nml/sistr_cmd">sistr_cmd</a></li>
+<li><a href="https://github.com/CFSAN-Biostatistics/SeroTools">SeroTools</a></li>
+</ul>
+<p><strong><em>For Neisseria meningitidis</em></strong></p>
+<ul>
+<li><a href="https://github.com/MDU-PHL/meningotype">meningotype</a></li>
+</ul>
+<p><strong><em>For Escherichia coli</em></strong></p>
+<ul>
+<li><a href="https://github.com/phac-nml/ecoli_serotyping">ECTyper</a></li>
+<li><a href="https://github.com/Papos92/ecoli_serotyper">ecoli_serotyper</a></li>
+</ul>
+<p><strong><em>For Shigatoxin producing E. coli (STEC)</em></strong></p>
+<ul>
+<li><a href="https://github.com/LanLab/STECFinder">STECFinder</a></li>
+</ul>
+<p><strong><em>For Vibrio parahaemolyticus</em></strong></p>
+<ul>
+<li><a href="https://github.com/shengzheBian/VPsero">VPsero</a></li>
+</ul>
+<p><strong><em>For Pseudomonas aeruginosa</em></strong></p>
+<ul>
+<li><a href="https://github.com/Sandramses/PAst">PAst</a></li>
+</ul>
+<p><strong><em>For Listeria monocytogenes</em></strong></p>
+<ul>
+<li><a href="https://github.com/MDU-PHL/LisSero">LisSero</a></li>
+</ul>
+<p><strong><em>For Shigella</em></strong></p>
+<ul>
+<li><a href="https://github.com/LanLab/ShigEiFinder">ShigEiFinder</a></li>
+<li><a href="https://github.com/imanyass/ShigaPass">ShigaPass</a></li>
+</ul>
+<p><strong><em>For Streptococcus pneumoniae</em></strong></p>
+<ul>
+<li><a href="https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.000186">seroBA</a></li>
+<li><a href="https://github.com/phe-bioinformatics/PneumoCaT">PneumoCaT</a></li>
+<li><a href="https://github.com/knightjimr/SeroCall">SeroCall</a></li>
+<li><a href="https://github.com/Mauffrey/serotyping">Serotyping</a></li>
+<li><a href="https://github.com/avantonder/seqSerotyper">seqSerotyper</a></li>
+</ul>
+<p><strong><em>For Streptococcus suis</em></strong></p>
+<ul>
+<li><a href="https://github.com/streplab/SsuisSerotyping_pipeline">SsuisSerotyping_pipeline</a></li>
+</ul>
+<p><strong><em>For Streptococcus agalactiae</em></strong></p>
+<ul>
+<li><a href="https://github.com/aquacen/serotype_Sagalactiae">mlst_Sagalactiae</a></li>
+</ul>
+<p>For this workshop, we will focus on one main tool — <strong><em>seroBA</em></strong>.</p>
+<section id="seroba" class="level3">
+<h3 class="anchored" data-anchor-id="seroba"><a href="https://github.com/sanger-pathogens/seroba">seroBA</a></h3>
+<p>SeroBA is a k-mer based Pipeline to identify the Serotype from Illumina NGS reads for given references. You can use SeroBA to download references from (https://github.com/phe-bioinformatics/PneumoCaT) to identify the capsular type of <em>Streptococcus pneumoniae</em>.</p>
+<p>SeroBA can predict serotypes, by identifying the cps locus, directly from raw whole genome sequencing read data with 98% concordance using a k-mer based method, can process 10,000 samples in just over one day using a standard server and can call serotypes at a coverage as low as 10x.</p>
+<p>You can visit the publication to read more about <a href="https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.000186">seroBA</a></p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Help
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do this to get the help information for <code>seroBA</code></p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seroba</span> <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>usage: seroba &lt;command&gt; &lt;options&gt;
+
+optional arguments:
+  -h, --help     show this help message and exit
+
+Available commands:
+  
+    getPneumocat
+                 downloads genetic information from PneumoCat
+    createDBs    creates Databases for kmc and ariba
+    runSerotyping
+                 identify serotype of your input data
+    summary      output folder has to contain all folders with prediction results
+    version      Get versions and exit
+</code></pre>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seroba</span> runSerotyping <span class="at">-h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>usage: seroba runSerotyping [options]  &lt;read1&gt; &lt;read2&gt; &lt;prefix&gt;
+
+identify serotype of your input data
+
+positional arguments:
+  read1                 forward read file
+  read2                 backward read file
+  prefix                unique prefix
+
+optional arguments:
+  -h, --help            show this help message and exit
+
+Other options:
+  --databases DATABASES
+                        path to database directory, default
+                        /home/pa486/miniconda3/envs/seroba/share/seroba-1.0.2/database
+  --noclean             Do not clean up intermediate files (assemblies, ariba report)
+  --coverage COVERAGE   threshold for k-mer coverage of the reference sequence , default = 20</code></pre>
+</div>
+</div>
+<p>:::{.callout} ## Usage The general format of the command is:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seroba</span> runSerotyping [options]  <span class="op">&lt;</span>databases directory<span class="op">&gt;</span> <span class="op">&lt;</span>read1<span class="op">&gt;</span> <span class="op">&lt;</span>read2<span class="op">&gt;</span> <span class="op">&lt;</span>prefix<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Optional arguments:
+- noclean NOCLEAN  Do not clean up intermediate files (assemblies, ariba report)
+- coverage COVERAGE  threshold for k-mer coverage of the reference sequence (default = 20)  </code></pre>
+<p>You can also use the below command to summarize the output in one <code>.tsv</code> file</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seroba</span> summary  <span class="op">&lt;</span>output folder<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<strong>NB.</strong>
+<output folder="">
+<p>is directory where the output directories from <code>seroba runSerotyping</code> are stored</p>
+<p>:::</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Input
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>The command requires a pair of fastq files as input files.</p></li>
+<li><p>seroba database. <strong>seroBA</strong> debends on a database to run — without which the process will fail. This is how <strong>seroBA</strong> functions. In your working directory, you will find a file named <code>seroba_db</code> — this is the compiled databse for <strong>seroBA</strong>. Without specifying a <code>seroba_db</code> database in the working directory, none of the commands used here will work.</p></li>
+</ul>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Output
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the folder ‘prefix’ you will find a <code>pred.tsv</code> including your predicted serotype as well as a file called detailed_serogroup_info.txt including information about SNP, genes, and alleles that are found in your reads. After the use of “seroba summary” a tsv file called summary.tsv is created that consists of three columns (sample Id , serotype, comments). Serotypes that do not match any reference are marked as “untypable”(v0.1.3) <!--FIXME: I didn't see this fil `detailed_serogroup_info.txt` in the output--></p>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/seroba_algorithm.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Flowchart outlining the main steps of the SeroBA algorithm</figcaption><p></p>
+</figure>
+</div>
+<p>We are now ready to perform our serotyping.</p>
+<p>First, let’s try our hands on knowing what the <strong>serotype</strong> of our first <em>pneumococcal</em> genome is. Our first <em>pneumococcal</em> genome to analyse is <code>ERR1638213</code> and we will use the <code>ERR1638213.R?.trim.fastq.gz</code> files as our input.</p>
+<p>Let’s go ahead and run the below command to genotype our first sample:</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+seroba runSerotyping — error
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb48"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seroba</span> runSerotyping <span class="at">--databases</span> seroba_db/ ERR1638213.R1.trim.fastq.gz ERR1638213.R2.trim.fastq.gz ERR1638213</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>oops! we get an error message:</p>
+<pre><code>Names for forwards and reverse reads does not match. Cannot continue</code></pre>
+</div>
+</div>
+<p>Let’s fix this error. It turns out that the developers of seroBA require the <code>.fastq</code> input files to be in a particular format. Instead of <code>ERR1638213.R1.trim.fastq.gz</code> they prefer <code>ERR1638213_R1.trim.fastq.gz</code>. Thus, the <code>.</code> in <code>.R1</code> and <code>.R2</code>, should be replaced with a <code>_</code> to give <code>_R1</code>and <code>_R2</code>.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>.fastq</code> files are normally produces with any of ’_R1’, ’_R2’, ’_1’ or ’_2’ to differentiate the forward and reverse reads during paired-end Illumina sequencing. In the example above, we have used <code>.R</code> to name some of our files just to let you know how some tools may be strict on what name they require as input files. It is not really the best practice to write a script with such a limitation.</p>
+</div>
+</div>
+<p>Let’s try and fix the error by attempting the below exercise to replace all <code>.R</code>s with <code>_R</code>.</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 11.1.3.1:</em></strong> replace <code>.</code> with <code>_</code> in a file name
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using any command of your choice, write out a simple line of code to replace all <code>.R</code>s with <code>_R</code> in all the trimmed fastq files that have this format.</p>
+<details>
+<summary>
+Hint
+</summary>
+You can try using <code>mv</code>. If you’ve forgotten the general format of the command you can refresh your memory by going back to <a href="../../materials/02-unix_intro/2.2-files_directories.html">renaming files</a>. Remember to use echo to also test it on several files using a <a href="../../materials/02-unix_intro/2.8-bonus_loops.html"><code>for loop</code></a>.
+</details>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-29-contents" aria-controls="callout-29" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-29" class="callout-29-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>To rename just one file you run this command:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> ERR1638213.R1.trim.fastq.gz ERR1638213_R1.trim.fastq.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can use a for loop to rename all the trimmed fastq files with the <code>.R</code> format.</p>
+<p>Run this to rename all the <code>.R1.trim.fastq.gz</code> files</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.R1.trim.fastq.gz <span class="kw">;</span> <span class="cf">do</span> <span class="fu">mv</span> <span class="va">$i</span> <span class="va">${i</span><span class="op">%</span>.R1<span class="pp">*</span><span class="va">}</span>_R1.trim.fastq.gz<span class="kw">;</span> <span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Run this to rename all the <code>.R2.trim.fastq.gz</code> files</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.R2.trim.fastq.gz <span class="kw">;</span> <span class="cf">do</span> <span class="fu">mv</span> <span class="va">$i</span> <span class="va">${i</span><span class="op">%</span>.R2<span class="pp">*</span><span class="va">}</span>_R2.trim.fastq.gz<span class="kw">;</span> <span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Alternatively, you can use the below command to rename all the files at a go:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.R<span class="pp">?</span>.trim.fastq.gz <span class="kw">;</span> <span class="cf">do</span> <span class="fu">mv</span> <span class="va">$i</span> <span class="va">${i</span><span class="op">%</span>.R<span class="pp">*</span><span class="va">}</span>_<span class="va">${i</span><span class="op">#</span><span class="pp">*</span>.<span class="va">}</span><span class="kw">;</span> <span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Let’s go ahead and rename all the <code>.R1.trim.fastq.gz</code> files to <code>_R1.trim.fastq.gz</code> using our solution from the exercise above.</p>
+<p>Now let’s try running our first sample again.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+seroba runSerotyping
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seroba</span> runSerotyping <span class="at">--databases</span> seroba_db/ ERR1638213_R1.trim.fastq.gz ERR1638213_R2.trim.fastq.gz ERR1638213</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code> -ci4  -m2 -t1
+/home/pa486/miniconda3/envs/seroba/bin/kmc -k71  -ci4  -m2 -t1 ERR1638213_R1.trim.fastq.gz /tmp/temp.kmc7vn6w_17/ERR1638213 /tmp/temp.kmc7vn6w_17
+*****************************
+Stage 1: 100%
+Stage 2: 100%
+1st stage: 0.988177s
+2nd stage: 2.33987s
+Total    : 3.32805s
+Tmp size : 24MB
+
+Stats:
+   No. of k-mers below min. threshold :       589835
+   No. of k-mers above max. threshold :            0
+   No. of unique k-mers               :      2642594
+   No. of unique counted k-mers       :      2052759
+   Total no. of k-mers                :     26123286
+   Total no. of reads                 :       167385
+   Total no. of super-k-mers          :       923602
+...</code></pre>
+</div>
+</div>
+<p>Viola, now we get an output.</p>
+<p>Let’s see how we interpret the output.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+interpreting <code>pred.tsv</code> output
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Look at the file called <code>pred.tsv</code> in your results directory — <code>ERR1638213/</code>.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> ERR1638213/pred.tsv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>ERR1638213      01      contamination</code></pre>
+<p>You can see three columns. The first one contains the prefix you chose for the run. The second one contains the predicted serotype and the third column may contain a comment regarding contamination. So, in this case we can see that ERR1638213 was predicted to be of serotype 01 and at least 10% of the reads are called as a different snp than the other reads i.e.&nbsp;there is contamination.</p>
+</div>
+</div>
+<p>We can now proceed to run <code>seroba runSerotyping</code> on all the remaining <em>Streptococcus pneumoniae</em> samples below using a <code>for loop</code>:</p>
+<p><strong>NB</strong> SeroBA tool is for serotyping only <em>Streptococcus pneumoniae</em> strains and so we don’t need to type all the strains on our current directory. Nevertheless, let’s go ahead and serotype all our samples using <code>seroba runSerotyping</code> and see what we get in our output.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+seroba runSerotyping — <code>for loop</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Because we have already typed our first sample, we may get an error message when we try to rerun the serotyping on the same sample.</p>
+<p>Let’s remove the output directory of our first sample — <code>ERR1638213/</code></p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> ERR1638213/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now let’s run <code>seroba runSerotyping</code> on all our samples</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>_R1.trim.fastq.gz<span class="kw">;</span> <span class="cf">do</span> <span class="bu">echo</span> seroba runSerotyping <span class="at">--databases</span> seroba_db/ <span class="va">$i</span> <span class="va">${i</span><span class="op">%</span>_R<span class="pp">*</span><span class="va">}</span>_R2.trim.fastq.gz <span class="va">${i</span><span class="op">%</span>_R<span class="pp">*</span><span class="va">}</span><span class="kw">;</span> <span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will take about 15 minutes …</p>
+<pre><code> -ci4  -m2 -t1
+/home/pa486/miniconda3/envs/seroba/bin/kmc -k71  -ci4  -m2 -t1 ERR097430_R1.trim.fastq.gz /tmp/temp.kmctiwe1a3b/ERR097430 /tmp/temp.kmctiwe1a3b
+**************************************************************************************
+Stage 1: 100%
+Stage 2: 100%
+1st stage: 3.72407s
+2nd stage: 1.42577s
+Total    : 5.14984s
+Tmp size : 66MB
+
+Stats:
+   No. of k-mers below min. threshold :      1073070
+   No. of k-mers above max. threshold :            0
+   No. of unique k-mers               :      2499001
+   No. of unique counted k-mers       :      1425931
+   Total no. of k-mers                :     11763976
+   Total no. of reads                 :      3908241
+   Total no. of super-k-mers          :      3403220
+...</code></pre>
+</div>
+</div>
+<p>Now that we have performed multiple runs, we might want to create a summary of the results. To do this, let’s run the <code>seroba summary</code> option.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Summarizing the outputs with <code>seroba summary</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We will run the command in the current directory <code>.</code>. We use <code>.</code> to specify the directory where our output files are located.</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seroba</span> summary .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Have a look at the resulting <code>.tsv</code> file.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> summary.tsv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>ERR097430       Swiss_NT        contamination
+ERR10310429     19F
+ERR10437992     coverage too low
+ERR10438004     coverage too low
+ERR1638070      coverage too low
+ERR1638071      coverage too low
+ERR1638213      01      contamination
+ERR369522       coverage too low
+G26831  coverage too low
+G26832  coverage too low
+G26854  coverage too low
+SRR16634399     coverage too low</code></pre>
+<p>What do make you of the results?</p>
+<p>We see that those samples that are not <em>Streptococcus pneumoniae</em> have <code>coverage too low</code>. This is because, the SNPs or sequences being investigated by seroBA can’t be found in these other species.</p>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Troubleshooting
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Case 1:</p>
+<ul>
+<li>SeroBA predicts ‘untypable’. An ‘untypable’ prediction can either be a real ‘untypable’ strain or can be caused by different problems. Possible problems are: bad quality of your input data, submission of a wrong species or to low coverage of your sequenced reads. Please check your data again and run a quality control.</li>
+</ul>
+<p>Case 2:</p>
+<ul>
+<li><p>Low alignment identity in the ‘detailed_serogroup_info’ file. This can be a hint for a mosaic serotype.</p></li>
+<li><p>Possible solution: perform a blast search on the whole genome assembly</p></li>
+</ul>
+<p>Case 3:</p>
+<ul>
+<li><p>The third column in the summary.tsv indicates “contamination”. This means that at least one heterozygous SNP was detected in the read data with at least 10% of the mapped reads at the specific position supporting the SNP.</p></li>
+<li><p>Possible solution: please check the quality of your data and have a look for contamination within your reads</p></li>
+</ul>
+</div>
+</div>
+</output></section>
+</section>
+<section id="mycobacterium-tuberculosis-specific-genotyping-and-amr-prediction-tools" class="level2">
+<h2 class="anchored" data-anchor-id="mycobacterium-tuberculosis-specific-genotyping-and-amr-prediction-tools">11.1.4 <em>Mycobacterium tuberculosis</em> specific genotyping and AMR prediction tools</h2>
+<p>The genotyping and serotyping tools we have explored above are all very useful for bacteria typing.</p>
+<p>However, same can not be said for <em>Mycobacterium tuberculosis</em> typing. You should have realized by now that most of the tools used above are meaningless for typing <em>Mycobacterium tuberculosis</em>.</p>
+<p><em>Mycobacterium tuberculosis</em>, like other <em>Mycobacterium</em> species, are a very unique group of bacteria which also require specialized tools.</p>
+<p>For this workshop, we will investigate two main tools — <strong>SpoTyping</strong> and <strong>tb-profiler</strong>. Where as the former is used for only genotyping, the latter can be used for both genotyping and antimicrobial resistance (AMR) prediction.</p>
+<p>Let’s now explore both tools.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Change working environment
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Still in the <code>genotyping_and_dr</code> directory run the below command to deactivate the <code>seroba</code> environment and activate the <code>spoligotyping</code> environment:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate spoligotyping</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<section id="spotyping" class="level3">
+<h3 class="anchored" data-anchor-id="spotyping"><a href="https://github.com/xiaeryu/SpoTyping-v2.0">SpoTyping</a></h3>
+<p><em>SpoTyping</em> is a fast and accurate program for <em>in silico</em> spoligotyping of <em>Mycobacterium tuberculosis</em> isolates from next-generation sequencing reads. It predicts spoligotypes from sequencing reads, complete genomic sequences and assembled contigs. You can access the publication by <a href="https://genomemedicine.biomedcentral.com/articles/10.1186/s13073-016-0270-7">clicking here</a> or visit the <a href="https://github.com/xiaeryu/SpoTyping-v2.0">github page</a>.</p>
+<p>Before we explore the <code>SpoTyping</code> tool, let’s have a look at what <strong>spoligotyping</strong> is.</p>
+<p><em>Spoligotyping</em> is a simple method which allows simultaneous detection and typing of <em>M. tuberculosis</em> in clinical specimens and reduces the time between suspicion of the disease and typing from 1 or several months to 1 or 3 days. The method is based on polymorphism of the chromosomal <strong>direct repeat (DR)</strong> locus, which contains a variable number of short direct repeats interspersed with nonrepetitive spacers.</p>
+<p>The method is referred to as <strong>sp</strong>acer <strong>oligo</strong>nucleotide <strong>typing</strong> or “<strong>spoligotyping</strong>” because it is based on strain-dependent hybridization patterns of in vitro-amplified DNA with multiple spacer oligonucleotides.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/spoligotyping_1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">(A) Structure of the DR locus in the mycobacterial genome. The chromosomes of <em>M. tuberculosis</em> H37Rv and <em>M. bovis</em> BCG contain 48 and 41 DRs, respectively (depicted as rectangles), which are interspersed with unique spacers varying in length from 35 to 41 bp. The (numbered) spacers used correspond to 37 spacers from <em>M. tuberculosis</em> H37Rv and 6 from <em>M. bovis</em> BCG. The site of integration of insertion element <em>IS6110</em> is depicted. (B) Principle of <em>in vitro</em> amplification of the DR region by PCR. Any DR in the DR region may serve as a target for these primers; therefore, the amplified DNA is composed of a mixture of a large number of different-size fragments. Shown is the combination of fragments that would be produced by <em>in vitro</em> amplification of a DR target containing only five contiguous DRs. Kamerbeek <em>et. al.,</em> 1997</figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/spoligotyping_2.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Hybridization patterns (spoligotypes) of amplified mycobacterial DNAs of 35 <em>M. tuberculosis</em> and 5 <em>M. bovis</em> strains. The order of the spacers on the filter corresponds to their order in the genome. Note that the spoligotype of strains 6, 12, and 37 corresponds to that of strains from the Beijing genotypic group. Kamerbeek <em>et. al.,</em> 1997</figcaption><p></p>
+</figure>
+</div>
+<p>Most TB clinical isolates show unique hybridization patterns, whereas outbreak strains share the same spoligotype. Spoligotyping is able to differentiate <em>M. bovis</em> from <em>M. tuberculosis</em>, a distinction which is often difficult to make by traditional methods.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Sequences of 43 oligonucleotides mostly used in spoligotyping
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="table">
+<colgroup>
+<col style="width: 3%">
+<col style="width: 45%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 45%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Spacer no.</th>
+<th>Oligonucleotide sequence</th>
+<th></th>
+<th>Spacer no.</th>
+<th>Oligonucleotide sequence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>ATAGAGGGTCGCCGGTTCTGGATCA</td>
+<td></td>
+<td>23</td>
+<td>AGCATCGCTGATGCGGTCCAGCTCG</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>CCTCATAATTGGGCGACAGCTTTTG</td>
+<td></td>
+<td>24</td>
+<td>CCGCCTGCTGGGTGAGACGTGCTCG</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>CCGTGCTTCCAGTGATCGCCTTCTA</td>
+<td></td>
+<td>25</td>
+<td>GATCAGCGACCACCGCACCCTGTCA</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>ACGTCATACGCCGACCAATCATCAG</td>
+<td></td>
+<td>26</td>
+<td>CTTCAGCACCACCATCATCCGGCGC</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>TTTTCTGACCACTTGTGCGGGATTA</td>
+<td></td>
+<td>27</td>
+<td>GGATTCGTGATCTCTTCCCGCGGAT</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>CGTCGTCATTTCCGGCTTCAATTTC</td>
+<td></td>
+<td>28</td>
+<td>TGCCCCGGCGTTTAGCGATCACAAC</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>GAGGAGAGCGAGTACTCGGGGCTGC</td>
+<td></td>
+<td>29</td>
+<td>AAATACAGGCTCCACGACACGACCA</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>CGTGAAACCGCCCCCAGCCTCGCCG</td>
+<td></td>
+<td>30</td>
+<td>GGTTGCCCCGCGCCCTTTTCCAGCC</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>ACTCGGAATCCCATGTGCTGACAGC</td>
+<td></td>
+<td>31</td>
+<td>TCAGACAGGTTCGCGTCGATCAAGT</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>TCGACACCCGCTCTAGTTGACTTCC</td>
+<td></td>
+<td>32</td>
+<td>GACCAAATAGGTATCGGCGTGTTCA</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>GTGAGCAACGGCGGCGGCAACCTGG</td>
+<td></td>
+<td>33</td>
+<td>GACATGACGGCGGTGCCGCACTTGA</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>ATATCTGCTGCCCGCCCGGGGAGAT</td>
+<td></td>
+<td>34</td>
+<td>AAGTCACCTCGCCCACACCGTCGAA</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td>GACCATCATTGCCATTCCCTCTCCC</td>
+<td></td>
+<td>35</td>
+<td>TCCGTACGCTCGAAACGCTTCCAAC</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td>GGTGTGATGCGGATGGTCGGCTCGG</td>
+<td></td>
+<td>36</td>
+<td>CGAAATCCAGCACCACATCCGCAGC</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td>CTTGAATAACGCGCAGTGAATTTCG</td>
+<td></td>
+<td>37</td>
+<td>CGCGAACTCGTCCACAGTCCCCCTT</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td>CGAGTTCCCGTCAGCGTCGTAAATC</td>
+<td></td>
+<td>38</td>
+<td>CGTGGATGGCGGATGCGTTGTGCGC</td>
+</tr>
+<tr class="odd">
+<td>17</td>
+<td>GCGCCGGCCCGCGCGGATGACTCCG</td>
+<td></td>
+<td>39</td>
+<td>GACGATGGCCAGTAAATCGGCGTGG</td>
+</tr>
+<tr class="even">
+<td>18</td>
+<td>CATGGACCCGGGCGAGCTGCAGATG</td>
+<td></td>
+<td>40</td>
+<td>CGCCATCTGTGCCTCATACAGGTCC</td>
+</tr>
+<tr class="odd">
+<td>19</td>
+<td>TAACTGGCTTGGCGCTGATCCTGGT</td>
+<td></td>
+<td>41</td>
+<td>GGAGCTTTCCGGCTTCTATCAGGTA</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td>TTGACCTCGCCAGGAGAGAAGATCA</td>
+<td></td>
+<td>42</td>
+<td>ATGGTGGGACATGGACGAGCGCGAC</td>
+</tr>
+<tr class="odd">
+<td>21</td>
+<td>TCGATGTCGATGTCCCAATCGTCGA</td>
+<td></td>
+<td>43</td>
+<td>CGCAGAATCGCACCGGGTGCGGGAG</td>
+</tr>
+<tr class="even">
+<td>22</td>
+<td>ACCGCAGACGGCACGATTGAGACAA</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>You can read more on <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC229700/">Spoligotyping</a> by accessing this <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC229700/">publication</a>.</p>
+<p>Now, let’s move on to the typing tool.</p>
+<p><strong>SpoTyping</strong> basically extracts hexadecimal and binary spoligotype codes from fastq files.</p>
+<p>It achieves high accuracy for reads of both uniform and varying lengths, and is about 20 to 40 times faster than SpolPred — another spoligotyping tool. SpoTyping also integrates the function of producing a report summarizing associated epidemiological data from a global database of all isolates having the same spoligotype.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/spotyping.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">A schematic representation of the SpoTyping workflow. If the specified input contains sequencing reads, SpoTyping first concatenates the sequencing reads to form an artificial sequence. The artificial sequence, or genetic sequences when the input contains complete genomic sequence or assembled contigs, would be built into the BLAST database. After querying the 43 spacer sequences in the database, the results are parsed to count the number of hits for each spacer sequence. A hit threshold is set to define a spacer as ‘present’ in the genome, resulting in a 43-digit binary code with 1 as present and 0 as absent, which is further translated into the octal code of the spoligotype. The SITVIT database is then queried to identify matching isolates having the same spoligotype, where the associated data of the matched isolates are downloaded and summarized as pie charts. Xia, E., Teo, YY. &amp; Ong, R.TH 2015</figcaption><p></p>
+</figure>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Help
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do this to get the help information for <code>SpoTyping</code></p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SpoTyping.py</span> <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Usage: python SpoTyping.py [options] FASTQ_1/FASTA FASTQ_2(optional)
+
+Options:
+  --version             show program's version number and exit
+  -h, --help            show this help message and exit
+  --seq                 Set this if input is a fasta file that contains only a
+                        complete genomic sequence or assembled contigs from an
+                        isolate [Default is off]
+  -s SWIFT, --swift=SWIFT
+                        swift mode, either "on" or "off" [Defulat: on]
+  -m MIN_STRICT, --min=MIN_STRICT
+                        minimum number of error-free hits to support presence
+                        of a spacer [Default: 0.1*average read depth]
+  -r MIN_RELAX, --rmin=MIN_RELAX
+                        minimum number of 1-error-tolerant hits to support
+                        presence of a spacer [Default: 0.12 * average read
+                        depth]
+  -O OUTDIR, --outdir=OUTDIR
+                        output directory [Default: running directory]
+  -o OUTPUT, --output=OUTPUT
+                        basename of output files generated [Default:
+                        SpoTyping]                        
+...</code></pre>
+<p>You will notice that, what we just did was to call out a python script <code>SpoTyping.py</code> in the current directory. This is how <strong>SPoTyping</strong> functions. Without the <code>SpoTyping.py</code> script in the working directory, none of the commands used here will work.</p>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Usage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The general format of the command is:</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> SpoTyping.py [options] FASTQ_1 FASTQ_2<span class="er">(</span><span class="ex">optional</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Input
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Fastq file or pair-end fastq files</li>
+<li>Fasta file of a complete genomic sequence or assembled contigs of an isolate</li>
+</ul>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Output
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>In the output file specified: predicted spoligotype in the format of binary code and octal code.</li>
+<li>In the output log file: count of hits from BLAST result for each spacer sequence.</li>
+<li>In the <code>.xls</code> excel file: spoligotype query result downloaded from SITVIT WEB.</li>
+</ul>
+<p><strong>Note: if the same spoligotype is queried before and have an xls file in the output directory, it will not be queried again.</strong></p>
+</div>
+</div>
+<p>We are now ready to perform our SPoTyping.</p>
+<p>First, let’s try our hands on knowing what the <strong>spoligotype</strong> of our first genome is. As this is a TB specific tool, our first genome to analyse is <code>G26832</code> and we will first use the <code>G26832_R?.trim.fastq.gz</code> files as our input and also try with the <code>G26832.contigs</code>.</p>
+<p>Let’s go ahead and run the below command with no options to genotype our sample:</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+SpoTyping
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Because SpoTyping generated a lot of output, we will store all its output into a new directory.</p>
+<p>Let’s create our new directory to keep our output files:</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> spoligotype_results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>NB.</strong> We will also need to specify our output name <code>-o</code>.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<code>.fastq</code> as input
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb70"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SpoTyping.py</span> G26832_R1.trim.fastq.gz G26832_R2.trim.fastq.gz <span class="at">-o</span> spoligotypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This may take about a minute to run.</p>
+<pre><code>
+Building a new DB, current time: 12/05/2022 16:26:16
+New DB name:   /rds/user/pa486/hpc-work/workshop_files_Bact_Genomics_2023/12_genotyping_delete/spoligotypes.SpoTyping.tmp.0
+New DB title:  ./spoligotypes.SpoTyping.tmp.0
+Sequence type: Nucleotide
+Keep MBits: T
+Maximum file size: 3000000000B
+Adding sequences from FASTA; added 1 sequences in 3.40358 seconds.
+</code></pre>
+</div>
+</div>
+<p>Let’s have a look at the spoligotype pattern called.</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> spoligotypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>G26832_R1.trim.fastq.gz&amp;G26832_R2.trim.fastq.gz 1111111111111111111111000111111100001111111     777777743760771</code></pre>
+<p>Now let’s repeat the SpoTyping but this time with our contig file.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<code>.contig</code> as input
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>NB</strong>.</p>
+<ul>
+<li>Specifying the same output file will add the results to the existing one.</li>
+<li>When using contigs as inputs, you will need to include <code>--seq</code> option to tell SpoTyping that you are using an input fasta file that contains only complete genomic sequence or assembled contigs from an isolate.</li>
+</ul>
+<div class="sourceCode" id="cb74"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SpoTyping.py</span> <span class="at">--seq</span> G26832.contigs.fa <span class="at">-o</span> spoligotypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>
+Building a new DB, current time: 12/05/2022 16:34:48
+New DB name:   /rds/user/pa486/hpc-work/workshop_files_Bact_Genomics_2023/12_genotyping_delete/G26832.contigs.fa
+New DB title:  G26832.contigs.fa
+Sequence type: Nucleotide
+Keep MBits: T
+Maximum file size: 3000000000B
+Adding sequences from FASTA; added 179 sequences in 0.144553 seconds.
+</code></pre>
+</div>
+</div>
+<p>You can now look at both spoligotypes. Are they same?</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> spoligotypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>G26832_R1.trim.fastq.gz&amp;G26832_R2.trim.fastq.gz 1111111111111111111111000111111100001111111 777777743760771
+G26832.contigs.fa   1111111111111111111111000111111100001111111 777777743760771</code></pre>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 11.1.4.1:</em></strong> Perform SpoTyping on remaining TB genomes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In your working directory, you will find two other TB genomes.</p>
+<ol type="1">
+<li><p>Using the contig files run <code>SpoTyping</code> on these two genomes.</p></li>
+<li><p>Report your results.</p></li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-45-contents" aria-controls="callout-45" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-45" class="callout-45-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The two TB genomes left are G26831 and G26854.</p>
+<p>We perform SpoTyping by running the following commands:</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SpoTyping.py</span> <span class="at">--seq</span> G26831.contigs.fa <span class="at">-o</span> spoligotypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SpoTyping.py</span> <span class="at">--seq</span> G26854.contigs.fa <span class="at">-o</span> spoligotypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Suggestions:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It’s highly suggested to use the swift mode (set as the default) if the sequencing throughput is no less than 135Mbp.</p>
+<p>For sequencing experiments with throughputs below 135Mbp, please adjust the thresholds to be 0.0180 to 0.1486 times the estimated read depth for error-free hits and 0.0180 to 0.1488 times the estimated read depth for 1-error-tolerant hits. (The read depth is estimated by dividing the sequencing throughput by 4,500,000, which is the estimated Mtb genome length.)</p>
+<p>If you do wish to take in all reads for sequencing experiments with throughputs above 1260Mbp, please adjust the thresholds to be 0.0180 to 0.1486 times the estimated read depth for error-free hits and 0.0180 to 0.1488 times the estimated read depth for 1-error-tolerant hits.</p>
+</div>
+</div>
+<p>You can produce summary pie chart plot from the <code>.xls</code> files. We may not have time to do this but you can try it out in R.</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 11.1.4.2:</em></strong> Advance Exercise — Plotting in R
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Following the instructions below, make a plot of your results.</p>
+<p>First download the <code>.xls</code> file to your desktop or downloads</p>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li>R</li>
+<li>R package: gdata</li>
+</ul>
+<p><strong>Input:</strong></p>
+<ul>
+<li>The xls file downloaded from SITVIT WEB.</li>
+</ul>
+<p><strong>Output:</strong></p>
+<p>A pdf file with the information in the <code>.xls</code> file summarized with pie charts.</p>
+<p><strong>Usage:</strong></p>
+<p>Rscript SpoTyping_plot.r query_from_SITVIT.xls output.pdf</p>
+<p>An example call:</p>
+<p>Rscript SpoTyping_plot.r SITVIT_ONLINE.777777477760771.xls SITVIT_ONLINE.777777477760771.pdf</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-48-contents" aria-controls="callout-48" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-48" class="callout-48-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<!--FIXME: Put a solution here-->
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>The hexadecimal and octal codes generated from SpoTyping can predict the lineage of the TB sample you are dealing with.</p>
+<p>However, a more accurate TB lineage typing tool is TBprofiler. Let’s explore that in our next session.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Change working environment
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Still in the <code>genotyping_and_dr</code> directory run the below command to deactivate the <code>spoligotyping</code> environment and activate the <code>tbprofiler</code> environment:</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate tbprofiler</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="lineage-assignment-and-antimicrobial-resistance-prediction-using-tb-profiler" class="level3">
+<h3 class="anchored" data-anchor-id="lineage-assignment-and-antimicrobial-resistance-prediction-using-tb-profiler">lineage assignment and antimicrobial resistance prediction using <a href="https://github.com/jodyphelan/TBProfiler">tb-profiler</a></h3>
+<p><a href="https://github.com/jodyphelan/TBProfiler">tb-profiler</a> is a tool used to detect resistance and lineages of <em>M. tuberculosis</em> genomes.</p>
+<p>It is made up of a pipeline which by default uses trimmomatic to trim reads, aligns the reads to the H37Rv reference using bowtie2, BWA or minimap2 and then calls variants using bcftools. These variants are then compared to a drug-resistance database. The tool also predicts the number of reads supporting drug resistance variants as an insight into hetero-resistance (not applicable for minION data).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/tb-profiler_pipeline.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">TB-profiler pipeline</figcaption><p></p>
+</figure>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Keeping up to date
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that, like many other database-based tools TBProfiler is under constant rapid development. If you plan to use the program in your work please make sure you are using the most up to date version! Similarly, the database is not static and is continuously being improved so make sure you are using the most latest version. If you use TBProfiler in your work please state the version of both the tool and the database as they are developed independently from each other.</p>
+</div>
+</div>
+<p>There is an online version of the tool which is very useful for analysing few genomes. You can try it out later at your free time by following this <a href="https://tbdr.lshtm.ac.uk/">link</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/tb-profiler_online.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">tb-profiler online tool</figcaption><p></p>
+</figure>
+</div>
+<p>For this workshop, we will focus on analysing our genomes the command-line way so let’s get started.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Help
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+tb-profiler
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do this to view the various usage options of <code>tb-profiler</code></p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tb-profiler</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>usage: tb-profiler
+                   {profile,vcf_profile,fasta_profile,lineage,spoligotype,collate,reprofile,reformat,create_db,update_tbdb,batch,list_db,version}
+                   ...
+
+TBProfiler pipeline
+
+positional arguments:
+  {profile,vcf_profile,fasta_profile,lineage,spoligotype,collate,reprofile,reformat,create_db,update_tbdb,batch,list_db,version}
+                        Task to perform
+    profile             Run whole profiling pipeline
+    vcf_profile         Run profiling pipeline on VCF file. Warning: this assumes that you have good
+                        coverage across the genome
+    fasta_profile       Run profiling pipeline on Fasta file. Warning: this assumes that this is a good
+                        quality assembly which covers all drug resistance loci
+    lineage             Profile only lineage
+    spoligotype         Profile spoligotype (experimental feature)
+    collate             Collate results form multiple samples together
+...</code></pre>
+</div>
+</div>
+<p>The main positional argument we will explore in this workshop is the <code>profile</code>.</p>
+<p>Do this to get the help information for <code>tb-profiler profile</code></p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+tb-profiler profile
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb84"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tb-profiler</span> profile <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>usage: tb-profiler profile [-h] [--read1 READ1] [--read2 READ2] [--bam BAM] [--fasta FASTA] [--vcf VCF]
+                           [--platform {illumina,nanopore}] [--db DB] [--external_db EXTERNAL_DB]
+                           [--prefix PREFIX] [--csv] [--txt] [--pdf] [--output_template OUTPUT_TEMPLATE]
+                           [--add_columns ADD_COLUMNS] [--call_whole_genome] [--dir DIR]
+                           [--mapper {bwa,minimap2,bowtie2,bwa-mem2}]
+...
+optional arguments:
+  -h, --help            show this help message and exit
+
+Input options:
+  --read1 READ1, -1 READ1
+                        First read file (default: None)
+  --read2 READ2, -2 READ2
+                        Second read file (default: None)
+  --bam BAM, -a BAM     BAM file. Make sure it has been generated using the H37Rv genome
+                        (GCA_000195955.2) (default: None)
+  --fasta FASTA, -f FASTA
+...
+Output options:
+  --prefix PREFIX, -p PREFIX
+                        Sample prefix for all results generated (default: tbprofiler)
+  --csv                 Add CSV output (default: False)
+...</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>As you can see there are a lot of elaborate uses of <code>tb-profile profile</code> and it accepts various options as inputs and outputs information into various file formats.</p>
+<p>We will look at its very simple use.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Usage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The general format of the <code>tb-profiler</code> command is:</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tb-profiler</span> <span class="dt">{profile</span><span class="op">,</span><span class="dt">vcf_profile</span><span class="op">,</span><span class="dt">fasta_profile</span><span class="op">,</span><span class="dt">lineage</span><span class="op">,</span><span class="dt">spoligotype</span><span class="op">,</span><span class="dt">collate</span><span class="op">,</span><span class="dt">reprofile</span><span class="op">,</span><span class="dt">reformat</span><span class="op">,</span><span class="dt">create_db</span><span class="op">,</span><span class="dt">update_tbdb</span><span class="op">,</span><span class="dt">batch</span><span class="op">,</span><span class="dt">list_db</span><span class="op">,</span><span class="dt">version}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>All the commands you see in {} above are the positional arguments. You can try your hands on each one at your free time and see what it does. The simple way to see what each positional argument does is by calling out its help function. eg. <code>tb-profiler lineage --help</code> to call out the help function for the positional argument <code>lineage</code>.</p>
+<p>For now let’s focus on the <code>profile</code> argument.</p>
+<p>The general format of the <code>tb-profiler profile</code> command is:</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tb-profiler</span> profile <span class="at">--read1</span> /path/to/reads_1.fastq.gz <span class="at">--read2</span> /path/to/reads_2.fastq.gz <span class="at">-p</span> prefix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The first argument indicates the analysis type to perform. At the moment the tool currently only support the calling of small variants.</p>
+<p>The prefix (-p) is useful when you need to run more that one sample. This will store BAM, VCF and result files in respective directories.</p>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Input
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Depending on the positional argument called, the command will require various types of inputs. For the <code>profile</code> argument, a pair of fastq files as input files are required.</li>
+<li><a href="https://github.com/jodyphelan/tbdb">tbdb database</a>. Just like <strong>seroBA</strong>, <strong>tb-profiler</strong> also heavily depends on a database to run — without which the process will fail. This is how <strong>tb-profiler</strong> functions. The tb-profiler database <code>tbdb</code> was installed during the setting up of the environment and will be located in one of the sub-directories in our working <code>environment</code> probably named tbprofiler. <!--FIXME: point to the exact directory when the course structure is set up.--> It is possible to compile your own <code>tbdb</code> database and point your command to the location of the database with the option <code>--external_db</code>. You will find this useful if you need to update the native <code>tbdb</code> to include novel SNP data that are not already there.</li>
+</ul>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Updating the <code>tbdb</code> database
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>New mutations/genes are periodically added to the database. Run the following to make sure you are up to date before you run any analysis.</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tb-profiler</span> update_tbdb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Output
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>By default, for the <code>profile</code> argument, results are output in <code>.json</code> and text formats.</p></li>
+<li><p>Three directories are created where outputs are stored.</p>
+<ul>
+<li>vcf directory</li>
+<li>bam directory</li>
+<li>results directory — where the <code>.json</code> file are stored</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<p>You can explore more on the detailed use of <code>tb-profiler</code> by looking at its documentation <a href="https://jodyphelan.gitbook.io/tb-profiler/">here</a> or have a look at their publication <a href="https://genomemedicine.biomedcentral.com/articles/10.1186/s13073-019-0650-x">here</a>.</p>
+<p>We are now ready to perform our tb-profiling.</p>
+<p>First, let’s try our hands on knowing what the <strong>genotypic profile</strong> of our first genome is. Just like for spoligotyping, this is a TB-specific tool so we will focus on only the TB genomes. Our first genome to analyse is <code>G26832</code> and we will use the <code>G26832_R?.trim.fastq.gz</code> files as our input.</p>
+<p>Let’s go ahead and run the below command with no options to concurrently genotype our sample and identify the drugs that it may be resistant to:</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+tb-profiler profile — minimal options
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb89"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tb-profiler</span> profile <span class="at">--read1</span> G26832_R1.trim.fastq.gz <span class="at">--read2</span> G26832_R2.trim.fastq.gz <span class="at">--prefix</span> G26832</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will take about 7 minutes to run</p>
+<pre><code>Using ref file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.fasta
+Using gff file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.gff
+Using bed file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.bed
+Using version file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.version.json
+Using json_db file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.dr.json
+Using variables file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.variables.json
+Using spoligotype_spacers file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.spoligotype_spacers.txt
+Using spoligotype_annotations file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.spoligotype_list.csv
+Using barcode file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.barcode.bed
+
+Running command:
+set -u pipefail; trimmomatic PE -threads 1 -phred33 G26832_R1.trim.fastq.gz G26832_R2.trim.fastq.gz -baseout ./fdc5e931-5501-4f08-a0f7-89a8b758422a LEADING:3 TRAILING:3 SLIDINGWINDOW:4:20 MINLEN:36
+
+Running command:
+set -u pipefail; cat ./fdc5e931-5501-4f08-a0f7-89a8b758422a_1U ./fdc5e931-5501-4f08-a0f7-89a8b758422a_2U &gt; ./fdc5e931-5501-4f08-a0f7-89a8b758422a_TU
+...
+...
+
+Writing outputs
+---------------
+Writing json file: ./results/G26832.results.json</code></pre>
+</div>
+</div>
+<p>You can have a look at the results from the results directory</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> results/G26832.results.json</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This may not be readily helpful to you.</p>
+<p>Let’s try and rerun the above command but now specifying other option that will be useful to us:</p>
+<ul>
+<li><code>--csv</code> — to save an output in a <code>.csv</code> format</li>
+<li><code>--txt</code> — to save an output in a text format</li>
+<li><code>--no_trim</code> — to ignore trimming to speed up the process as we have already trimmed our reads.</li>
+<li><code>--threads</code> — to specify the amount of computing resources to allocate to the run.</li>
+<li><code>--external_db</code> — to specify an external database. Very useful if you have build your own database and have included extra drug resistant SNPs for instance.</li>
+<li><code>--dir</code> — we will use this to specify a storage directory and not use the deafult <code>results</code>.</li>
+<li><code>--spoligotype</code> — to perform experimental spoligotyping. This is enabled for bam and fastq input.</li>
+</ul>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+tb-profiler profile — more options
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We will now include more options and rerun our analysis, this time specifying our own directory.</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tb-profiler</span> profile <span class="at">--read1</span> G26832_R1.trim.fastq.gz <span class="at">--read2</span> G26832_R2.trim.fastq.gz <span class="at">--csv</span> <span class="at">--txt</span> <span class="at">--pdf</span> <span class="at">--no_trim</span> <span class="at">--threads</span> 4 <span class="at">--spoligotype</span> <span class="at">--prefix</span> G26832 <span class="at">--dir</span> tbprofiler_results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Using ref file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.fasta
+Using gff file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.gff
+Using bed file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.bed
+Using version file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.version.json
+Using json_db file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.dr.json
+Using variables file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.variables.json
+Using spoligotype_spacers file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.spoligotype_spacers.txt
+Using spoligotype_annotations file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.spoligotype_list.csv
+Using barcode file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.barcode.bed
+
+Running command:
+set -u pipefail; bwa mem -t 4 -K 10000000 -c 100 -R '@RG\tID:G26831\tSM:G26831\tPL:illumina' -M -T 50 /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.fasta G26831_R1.trim.fastq.gz G26831_R2.trim.fastq.gz | samtools sort -@ 4 -o tbprofiler_results/ad5e1742-3bd6-415d-86a2-72e32d68a49f.pair.bam -
+...
+...
+Writing outputs
+---------------
+Writing json file: tbprofiler_results/results/G26831.results.json
+Writing text file: tbprofiler_results/results/G26831.results.txt
+Writing csv file: tbprofiler_results/results/G26831.results.csv</code></pre>
+<p>Notice that, with the addition of more threads and the –no_trim flags, we have significantly reduced our running time to less than 3 minutes.</p>
+</div>
+</div>
+<p>Let’s have a quick look at the <code>.csv</code> output</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb94"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 22 tbprofiler_results/results/G26832.results.csv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>TBProfiler report
+=================
+
+The following report has been generated by TBProfiler.
+
+Summary
+-------
+ID,G26832
+Date,Tue Dec  6 13:44:47 2022
+Strain,lineage4.6.2.2
+Drug-resistance,Sensitive
+Median Depth,133
+
+Lineage report
+--------------
+Lineage,Estimated Fraction,Spoligotype,Rd
+lineage4,1.000,LAM;T;S;X;H,None
+lineage4.6,0.999,T;LAM,None
+lineage4.6.2,0.996,T;LAM,RD726
+lineage4.6.2.2,0.998,LAM10-CAM,RD726
+</code></pre>
+</div>
+</div>
+</div>
+<p>The output looks great!</p>
+<p>There are lots of interesting summaries about our genome. Can you interpret the output?</p>
+<section id="summarising-runs" class="level4">
+<h4 class="anchored" data-anchor-id="summarising-runs">Summarising runs</h4>
+<p>The results from numerous runs can be collated into one table.</p>
+<p>First, let’s run the full analysis on our remaining TB genomes so we have more results to collate.</p>
+<p>We will do this with a <code>for loop</code>:</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> G<span class="pp">*</span>_R1.trim.fastq.gz<span class="kw">;</span> <span class="cf">do</span> <span class="ex">tb-profiler</span> profile <span class="at">--csv</span> <span class="at">--txt</span> <span class="at">--pdf</span> <span class="at">--no_trim</span> <span class="at">--spoligotype</span> <span class="at">--prefix</span> <span class="va">${i</span><span class="op">%</span>_R1.trim.fastq.gz<span class="va">}</span> <span class="at">--threads</span> 4 <span class="at">--read1</span> <span class="va">$i</span> <span class="at">--read2</span> <span class="va">${i</span><span class="op">%</span>_R1.trim.fastq.gz<span class="va">}</span>_R2.trim.fastq.gz <span class="at">--dir</span> tbprofiler_results<span class="kw">;</span> <span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, let’s <code>cd</code> into the <code>tbprofiler_results</code> and using the command below, let’s collate our results from the three genomes:</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> tbprofiler_results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tb-profiler</span> collate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Using ref file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.fasta
+Using gff file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.gff
+Using bed file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.bed
+Using version file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.version.json
+Using json_db file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.dr.json
+Using variables file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.variables.json
+Using spoligotype_spacers file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.spoligotype_spacers.txt
+Using spoligotype_annotations file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.spoligotype_list.csv
+Using barcode file: /home/pa486/miniconda3/envs/tbprofiler/share/tbprofiler//tbdb.barcode.bed
+100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00&lt;00:00, 44.33it/s]</code></pre>
+<p>The above command, which runs in seconds, will automatically create a number of collated result files from all the individual result files in the tbprofiler_results directory. If you would like to generate this file for a subset of the runs you can provide a list with the run names using the –samples flag. The prefix for the output files is <code>tbprofiler</code> by default but this can be changed with the –prefix flag.</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 11.1.4.3:</em></strong> Interpreting your findings
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You have results of three TB genomes.</p>
+<p>Using any results file of your choice, go ahead and interpret your findings.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-61-contents" aria-controls="callout-61" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-61" class="callout-61-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>This will be discussed in class</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Let’s remember to <code>cd</code> back into our <code>working directory</code>.</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ../</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If the <code>bam</code> and <code>vcf</code> directories created are not needed you can go ahead and remove them as they occupy a lot of space.</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> tbprofiler_results/vcf tbprofiler_results/bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<!--FIXME: Work on adding this session to future courses
+
+[iTOL files](https://jodyphelan.gitbook.io/tb-profiler/quickstart/generating-summary-files)
+Several files are produced by the tb-profile collate function. Among these are several config files that can be used with iTOL to annotate phylogenetic trees. A small tree and config files have been placed in the example_data directory. To use navigate to the iTOL website and upload the tbprofiler.tree file using the upload button on the navigation bar. Once this has been uploaded you will be taken to a visualisation of the tree. To add the annotation, click on the '+' button on the lower right hand corner and select the iTOL config files. You should now see a figure similar to the one below. The following annotations are included:
+-->
+</section>
+</section>
+</section>
+<section id="antimicrobial-susceptibility-testing" class="level2">
+<h2 class="anchored" data-anchor-id="antimicrobial-susceptibility-testing">11.1.5 Antimicrobial Susceptibility Testing</h2>
+<p>We have already performed some antimicrobial susceptibility analysis on TB pathogens using <code>tb-profiler</code>.</p>
+<p>Now, let’s look at other tools to perform antimicrobial resistance (AMR) prediction.</p>
+<p>Like the serotyping and the genotyping analysis we have already been previewed to, there exists many AMR prediction tools. In this course, we will introduce you to one which is very widely used — <strong>ARIBA</strong></p>
+<p>Available tools used to perform AMR predictions include:</p>
+<ul>
+<li><a href="https://github.com/sanger-pathogens/ariba">ARIBA</a></li>
+<li><a href="https://github.com/katholt/srst2">Short Read Sequence Typing for Bacterial Pathogens</a></li>
+<li><a href="https://github.com/Mykrobe-tools/mykrobe">Mykrobe</a></li>
+<li><a href="https://github.com/zwets/resfinder">ResFinder</a></li>
+<li><a href=""></a> ARG-ANNOT</li>
+<li><a href="https://github.com/tomdeman-bio/Sequence-Search-Tool-for-Antimicrobial-Resistance-SSTAR-">SSTAR</a></li>
+<li><a href="https://github.com/amromics/amromics">Amromics</a></li>
+<li><a href="https://github.com/NCBI-Hackathons/MetagenomicAntibioticResistance">NastyBugs</a></li>
+<li><a href="https://github.com/appliedbinf/pima">PIMA</a></li>
+<li><a href="https://github.com/msberends/AMR">AMR for R</a></li>
+<li><a href="https://github.com/jiwoongbio/VAMPr">VAMPr</a></li>
+<li><a href="https://github.com/Kincekara/C-BIRD">C-BIRD</a></li>
+</ul>
+<p>Note that most of these tools also have functionalities of performing genotyping to identify the <strong>ST</strong> of the bacteria.</p>
+<p>Now let’s focus of <strong>ARIBA</strong></p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Change working environment
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Still in the <code>genotyping_and_dr</code> directory run the below command to deactivate the <code>tbprofiler</code> environment and activate the <code>ariba</code> environment:</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate ariba</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<section id="antimicrobial-resistance-identification-by-assembly-ariba" class="level3">
+<h3 class="anchored" data-anchor-id="antimicrobial-resistance-identification-by-assembly-ariba"><a href="https://github.com/sanger-pathogens/ariba">Antimicrobial Resistance Identification By Assembly (ARIBA)</a></h3>
+<p><strong>ARIBA</strong> is a tool that identifies antibiotic resistance genes by running local assemblies. It can also be used for <a href="https://github.com/sanger-pathogens/ariba/wiki/MLST-calling-with-ARIBA">MLST calling</a>. The input is a FASTA file of reference sequences (can be a mix of genes and noncoding sequences) and paired sequencing reads. ARIBA reports which of the reference sequences were found, plus detailed information on the quality of the assemblies and any variants between the sequencing reads and the reference sequences.</p>
+<p>In addition to the <a href="https://github.com/sanger-pathogens/ariba">github page</a> you can have a look at their <a href="https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.000131">publication</a> for more details to the use of the tool.</p>
+<p><strong>ARIBA</strong> was developed to identify AMR determinants from public or custom databases using paired read data as input.</p>
+<p>Briefly, reference sequences in the AMR database are clustered by similarity using <a href="https://academic.oup.com/bioinformatics/article/26/5/680/212234?login=true">CD-HIT</a>. Reads are mapped to the reference sequences using <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4937194/">minimap</a> to produce a set of reads for each cluster. These reads map to at least one of the sequences in that cluster. The reads for each cluster and their sequence pairs are assembled independently using <a href="https://github.com/lh3/fermi-lite">fermi-lite</a> under a variety of parameter combinations, and the closest reference sequence to the resulting contigs is identified with the program nucmer from the <a href="https://genomebiology.biomedcentral.com/articles/10.1186/gb-2004-5-2-r12">MUMmer package</a>. The assembly is compared to the reference sequence to identify completeness and any variants between the sequences using the nucmer and show-snps programs from MUMmer. The reads for the cluster are mapped to the assembly with <a href="https://www.nature.com/articles/nmeth.1923">Bowtie2</a> and variants are called with <a href="https://academic.oup.com/bioinformatics/article/25/16/2078/204688?login=true">SAMtools</a>. Finally, a detailed report is made of all the sequences identified in the sample, including, but not limited to, the presence or absence of variants pre-defined to be of importance to AMR.</p>
+<p><a href="../fig/ariba_workflow.png">Overview of the ARIBA mapping and targeted assembly pipeline</a> retrieved from https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.000131</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Help — ariba
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do this to get the help information for <code>ariba</code> which shows all the available commands</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ariba</span> <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>usage: ariba &lt;command&gt; &lt;options&gt;
+
+ARIBA: Antibiotic Resistance Identification By Assembly
+
+optional arguments:
+  -h, --help      show this help message and exit
+
+Available commands:
+  
+    aln2meta      Converts multi-aln fasta and SNPs to metadata
+    expandflag    Expands flag column of report file
+    flag          Translate the meaning of a flag
+    getref        Download reference data
+    micplot       Make violin/dot plots using MIC data
+    prepareref    Prepare reference data for input to "run"
+    prepareref_tb
+                  Prepare reference TB data for input to "run"
+    pubmlstget    Download species from PubMLST and make db
+    pubmlstspecies
+                  Get list of available species from PubMLST
+    refquery      Get cluster or sequence info from prepareref output
+    run           Run the local assembly pipeline
+    summary       Summarise multiple reports made by "run"
+    test          Run small built-in test dataset
+    version       Get versions and exit</code></pre>
+</div>
+</div>
+<p>The main commands we will explore in this workshop are the <code>run</code> — to run the local assembly pipeline and the <code>summary</code> — to summarise multiple reports made by “run”.</p>
+<p>Do this to get the help information for <code>ariba run</code></p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Help — ariba run
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb106"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ariba</span> run <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>usage: ariba run [options] &lt;prepareref_dir&gt; &lt;reads1.fq&gt; &lt;reads2.fq&gt; &lt;outdir&gt;
+
+Runs the local assembly pipeline. Input is dir made by prepareref, and paired reads
+
+positional arguments:
+  prepareref_dir        Name of output directory when "ariba prepareref" was run
+  reads_1               Name of fwd reads fastq file
+  reads_2               Name of rev reads fastq file
+  outdir                Output directory (must not already exist)
+
+optional arguments:
+  -h, --help            show this help message and exit
+...</code></pre>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Help — ariba summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb108"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ariba</span> summary <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>usage: ariba summary [options] &lt;outprefix&gt; [report1.tsv report2.tsv ...]
+
+Make a summary of multiple ARIBA report files, and also make Phandango files
+
+positional arguments:
+  outprefix             Prefix of output files
+  infiles               Files to be summarised
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -f FILENAME, --fofn FILENAME
+                        File of filenames of ariba reports to be summarised. Must be used if no input
+                        files listed after the outfile. The first column should be the filename. An
+                        optional second column can be used to specify a sample name 
+...</code></pre>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Usage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The general format for running <code>ariba</code> is:</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ariba</span> <span class="op">&lt;</span>command<span class="op">&gt;</span> <span class="op">&lt;</span>options<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When specifying the <code>run</code> command, the general format is:</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ariba</span> run [options] <span class="op">&lt;</span>prepareref_dir<span class="op">&gt;</span> <span class="op">&lt;</span>reads1.fq<span class="op">&gt;</span> <span class="op">&lt;</span>reads2.fq<span class="op">&gt;</span> <span class="op">&lt;</span>outdir<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When specifying the <code>summary</code> command, the general format is:</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ariba</span> summary [options] <span class="op">&lt;</span>outprefix<span class="op">&gt;</span> [report1.tsv report2.tsv ...]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Input
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>run</code> command requires two main inputs:</p>
+<ul>
+<li><p>a FASTA file of reference sequences (This should be prepared before hand following instructions from <a href="https://github.com/sanger-pathogens/ariba">ariba github page</a>. The reference database used are mostly from NCBI or <a href="https://card.mcmaster.ca/">CARD</a>. For this workshop, we have prepared this file for you called <code>amr_ref_db.card.prepareref</code>.</p></li>
+<li><p>a pair of fastq files as your input sample files.</p></li>
+</ul>
+<p>The <code>summary</code> command requires only one input:</p>
+<ul>
+<li>The <code>report.tsv</code> files</li>
+</ul>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Output
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>run</code> command returns seven files stored in the specified output directory. The files are:</p>
+<ul>
+<li>assembled_genes.fa.gz</li>
+<li>assembled_seqs.fa.gz</li>
+<li>assemblies.fa.gz</li>
+<li>debug.report.tsv</li>
+<li>log.clusters.gz</li>
+<li>report.tsv</li>
+<li>version_info.txt</li>
+</ul>
+<p>The most important for us is the <code>report.tsv</code>. However, we may not be able to readily interpret the content now. This is summarised to a more informative file with the <code>summary</code> command.</p>
+<p>The <code>summary</code> command returns three files stored with the specified output file prefix. The files are:</p>
+<ul>
+<li><file_name>.csv</file_name></li>
+<li><file_name>.phandango.csv</file_name></li>
+<li><file_name>.phandango.tre</file_name></li>
+</ul>
+</div>
+</div>
+<p>We are now ready to perform our AMR prediction.</p>
+<p>First, let’s try our hands on knowing what the predicted <strong>AMR</strong> pattern of our first genome is. Our first genome to analyse is <code>G26832</code> and we will use the <code>G26832_R?.trim.fastq.gz</code> files as our input.</p>
+<p>Let’s go ahead and run the below command with no options to perform local assemblies and call variants from our sample:</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+ariba
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb113"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ariba</span> run amr_ref_db.card.prepareref G26832_R1.trim.fastq.gz G26832_R2.trim.fastq.gz G26832_ariba_output</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This should take about 4 minutes to run</p>
+<pre><code>AAC_2___Ic detected 1 threads available to it
+AAC_2___Ic reported completion
+Brachyspira_hyodysenteriae_23S detected 1 threads available to it
+Brachyspira_hyodysenteriae_23S reported completion
+Campylobacter_jejuni_23S detected 1 threads available to it
+Campylobacter_jejuni_23S reported completion
+Chlamydomonas_reinhardtii_23S detected 1 threads available to it
+Chlamydomonas_reinhardtii_23S reported completion
+Clostridioides_difficile_23S detected 1 threads available to it
+Clostridioides_difficile_23S reported completion
+Cutibacterium_acnes_16S detected 1 threads available to it
+Cutibacterium_acnes_16S reported completion
+Erm_37_ detected 1 threads available to it
+Erm_37_ reported completion
+Escherichia_coli_23S detected 1 threads available to it
+Escherichia_coli_23S reported completion
+Helicobacter_pylori_23S detected 1 threads available to it
+Helicobacter_pylori_23S reported completion
+Moraxella_catarrhalis_23S detected 1 threads available to it
+Moraxella_catarrhalis_23S reported completion
+Myco- detected 1 threads available to it
+Myco- reported completion
+Mycobacterium_tuberculosis_- detected 1 threads available to it
+Mycobacterium_tuberculosis_- reported completion
+Mycobacterium_tuberculosis_16S+ detected 1 threads available to it
+...</code></pre>
+</div>
+</div>
+<p>Download the <code>G26832_ariba_output/report.tsv</code> file onto your desktop and have a look at it.</p>
+<p>Do you find it informative?</p>
+<p>Let’s perform a second run on our genome <code>G26831</code>.</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ariba</span> run amr_ref_db.card.prepareref G26831_R1.trim.fastq.gz G26831_R2.trim.fastq.gz G26831_ariba_output</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>… and now summarise data from both runs with the <code>summary</code> command:</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ariba</span> summary ariba_summary <span class="pp">*</span>_ariba_output/report.tsv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As already previewed to, the <code>summary</code> command produces three files:</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> ariba<span class="pp">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>--- ariba_summary.csv
+--- ariba_summary.phandango.csv
+--- ariba_summary.phandango.tre</code></pre>
+<p>Let’s have a look at the <code>ariba_summary.csv</code> file by downloading onto our desktop and viewing with an appropriate spreadsheet application.</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 11.1.5.1:</em></strong> analysing all samples with ariba using a <code>for loop</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>Using a <code>for loop</code>, run ariba on all the samples in the current working directory and then summarise their output.</p></li>
+<li><p>Report and interpret what you see.</p></li>
+<li><p>You will notice that the file names have the format <code>G26832_ariba_output/report.tsv</code>. The workflow modifies our original sample names in the <code>summary.csv</code> file, by adding information about the location of the <code>report.tsv</code> file. We only want to keep the sample names, in this example just <code>G26832</code>. Write a simple script to clean the file names in the <code>summary.csv</code> file.</p></li>
+<li><p>What other way could you have explored to avoid having the long file names in the <code>summary.csv</code> file?</p></li>
+<li><p>Have a look at the other two files generated in the summary output by downloading them and dragging and dropping them into <a href="http://jameshadfield.github.io/phandango/#/">phandango</a>.</p></li>
+</ol>
+<p>Phandango allows an interactive visualization of genome phylogenies.</p>
+<p>You can perform this exercise in groups. Each group will present on their results.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-71-contents" aria-controls="callout-71" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-71" class="callout-71-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Don’t expect to see the solution yet.</p>
+<!--FIXME: Release this solution after the class
+
+1. We run the analysis on all our samples with the `for loop` below. We will include `--threads 4` to make it run faster. This will however take about 15 minutes to complete:
+
+```bash
+for i in *_R1.trim.fastq.gz; do ariba run --threads 4 amr_ref_db.card.prepareref $i ${i%_R1.trim.fastq.gz}_R2.trim.fastq.gz ${i%_R1.trim.fastq.gz}_ariba_output; done
+```
+
+We summarise our outputs with the below command
+
+```bash
+ariba summary ariba_summary *_ariba_output/report.tsv
+``` 
+
+2. Now download the `ariba_summary.csv` file and present your findings
+
+
+3. Let's have a look at one of the headings
+
+```bash
+grep G26832 ariba_summary.csv 
+```
+```
+G26832_ariba_output/report.tsv,yes,no,no,no,no ...
+```
+
+What we want to do is clean the sample names, so that we end up with:
+
+```
+G26832
+```
+
+We will do this by using `sed`:
+
+```bash
+cat ariba_summary.csv | sed 's/_ariba_output\/report.tsv//' > ariba_summary_cleaned.csv
+```
+
+Notice how we use the escape character `\` to avoid getting errors with the `/` in our long file name. We also make sure to redirect the result to a new file `ariba_summary_cleaned`.
+
+
+4. Among several possibilities, we could have copied all the `report.tsv` files from their respective directory into a new directory `ariba_tsv_reports` with the commands:
+
+```bash
+mkdir ariba_tsv_reports
+```
+
+```bash
+for i in *_R1.trim.fastq.gz; do cp ${i%_R1.trim.fastq.gz}_ariba_output/report.tsv ariba_tsv_reports/${i%_R1.trim.fastq.gz}.tsv; done
+```
+
+Let's navigate to the `ariba_tsv_reports` directory:
+
+```bash
+cd ariba_tsv_reports
+```
+
+...and then run `ariba summary` with the below command
+
+```bash
+ariba summary ariba_summary_all *tsv
+```
+
+Now download the `ariba_summary_all.csv` file and see if we have the desired results.
+
+-->
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="deactivate-ariba-environment" class="level3">
+<h3 class="anchored" data-anchor-id="deactivate-ariba-environment">deactivate <code>ariba</code> environment</h3>
+<p>Now that we are done with all our analysis, let’s deactivate the <code>ariba</code> environment:</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="credit" class="level2">
+<h2 class="anchored" data-anchor-id="credit">11.1.6 Credit</h2>
+<p>Information on this page has been adapted and modified from the following source(s):</p>
+<ul>
+<li><p>https://github.com/tseemann/mlst</p></li>
+<li><p>https://en.wikipedia.org/wiki/Serotype</p></li>
+<li><p>https://github.com/sanger-pathogens/seroba</p></li>
+<li><p>https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.000186</p></li>
+<li><p>https://github.com/xiaeryu/SpoTyping-v2.0</p></li>
+<li><p>https://genomemedicine.biomedcentral.com/articles/10.1186/s13073-016-0270-7</p></li>
+<li><p>https://www.ncbi.nlm.nih.gov/pmc/articles/PMC229700/</p></li>
+<li><p>https://github.com/jodyphelan/TBProfiler</p></li>
+<li><p>https://github.com/sanger-pathogens/ariba</p></li>
+<li><p>https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.000131</p></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../materials/10-intro_phylogenetics/10.1-intro_phylogenetics.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">10.1 Introduction to Phylogenetics</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../materials/12-intro_hpc/12.1-intro_hpc.html" class="pagination-link">
+        <span class="nav-page-text">12.1 Introduction to High Performance Computing</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">Licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://creativecommons.org/images/deed/cc_icon_black_x2.png" class="img-fluid" width="25"> Dr Prince Asare and Dr Andries van Tonder</div>
+  </div>
+</footer>
+
+
+
+</body></html>

@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.112">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>6.1 Assembly and Annotation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../materials/07-software_management/7.1-software_management.html" rel="next">
+<link href="../../materials/05-short_read_mapping/5.1-short_read_mapping.html" rel="prev">
+<link href="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university-of-cambridge-favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/NMIMR_Logo_whitebg.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../setup.html">Setup</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../materials.html" aria-current="page">Materials</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../unix_cheat_sheet.html">Unix-Cheat-Sheet</a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/avantonder/Ghana_course"><i class="bi bi-github" role="img" aria-label="Introduction to bacterial genomics GitHub">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/NMIMR_UG"><i class="bi bi-twitter" role="img" aria-label="Noguchi Memorial Institute for Medical Research Twitter">
+</i> 
+ </a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">6.1 Assembly and Annotation</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials.html" class="sidebar-item-text sidebar-link">Materials</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">1. Introduction to WGS</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro_wgs/1.1-intro_wgs.html" class="sidebar-item-text sidebar-link">1.1 Introduction to Whole Genome Sequencing (WGS)</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">2. Introduction to Unix</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.1-unix_overview.html" class="sidebar-item-text sidebar-link">2.1 The Unix Shell</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.2-files_directories.html" class="sidebar-item-text sidebar-link">2.2 Navigating Files and Directories</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.3-text_manipulation.html" class="sidebar-item-text sidebar-link">2.3 Text Manipulation</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.4-combining_commands.html" class="sidebar-item-text sidebar-link">2.4 Combining Commands</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.5-using_remote_resources.html" class="sidebar-item-text sidebar-link">2.5 Using remote resources</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.6-vscode_overview.html" class="sidebar-item-text sidebar-link">2.6 Visual Studio Code</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.7-bonus_find_and_grep.html" class="sidebar-item-text sidebar-link">2.7 <em>Bonus</em> : Finding Things</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.8-bonus_loops.html" class="sidebar-item-text sidebar-link">2.8 <em>Bonus</em>: Loops</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.9-bonus_shell_scripts.html" class="sidebar-item-text sidebar-link">2.9 <em>Bonus</em>: Shell Scripts</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">3. Common File Formats</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-file_formats/3.1-file_formats.html" class="sidebar-item-text sidebar-link">3.1 Common File Formats</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">4. Sequencing QC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-sequence_qc/4.1-sequence_qc.html" class="sidebar-item-text sidebar-link">4.1 Sequencing Quality Control</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">5. Short Read Mapping</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-short_read_mapping/5.1-short_read_mapping.html" class="sidebar-item-text sidebar-link">5.1 Short Read Mapping</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">6. Assembly and Annotation</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/06-assembly_annotation/6.1-assembly_annotation.html" class="sidebar-item-text sidebar-link active">6.1 Assembly and Annotation</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">7. Software Management</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/07-software_management/7.1-software_management.html" class="sidebar-item-text sidebar-link">7.1 Managing Software</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">8. Workflow Managers</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.1-workflow_managers.html" class="sidebar-item-text sidebar-link">8.1 Workflow Managers</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.2-nfcore.html" class="sidebar-item-text sidebar-link">8.2 nf-core pipelines</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">9. The nf-core/bactmap Pipeline</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.1-bactmap_run.html" class="sidebar-item-text sidebar-link">9.1 The nf-core/bactmap pipeline</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.2-bactmap_results.html" class="sidebar-item-text sidebar-link">9.2 nf-core/bactmap Results</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">10. Introduction to Phylogenetics</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/10-intro_phylogenetics/10.1-intro_phylogenetics.html" class="sidebar-item-text sidebar-link">10.1 Introduction to Phylogenetics</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">11. Bacterial Genotyping and AMR prediction</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/11-genotyping/11.1-genotyping.html" class="sidebar-item-text sidebar-link">11.1 Bacterial Genotyping and Drug Resistance Prediction</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">12. Introduction to HPC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/12-intro_hpc/12.1-intro_hpc.html" class="sidebar-item-text sidebar-link">12.1 Introduction to High Performance Computing</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">6.1 Background</a>
+  <ul class="collapse">
+  <li><a href="#genome-assemblers" id="toc-genome-assemblers" class="nav-link" data-scroll-target="#genome-assemblers">Genome assemblers</a></li>
+  </ul></li>
+  <li><a href="#de-novo-genome-assembly" id="toc-de-novo-genome-assembly" class="nav-link" data-scroll-target="#de-novo-genome-assembly">6.2 <em>de novo</em> genome assembly</a>
+  <ul class="collapse">
+  <li><a href="#de-novo-genome-assembly-with-shovill" id="toc-de-novo-genome-assembly-with-shovill" class="nav-link" data-scroll-target="#de-novo-genome-assembly-with-shovill"><em>de novo</em> genome assembly with <code>Shovill</code></a></li>
+  </ul></li>
+  <li><a href="#assembly-quality-assessment" id="toc-assembly-quality-assessment" class="nav-link" data-scroll-target="#assembly-quality-assessment">6.3 Assembly quality assessment</a>
+  <ul class="collapse">
+  <li><a href="#assembly-qc-with-quast" id="toc-assembly-qc-with-quast" class="nav-link" data-scroll-target="#assembly-qc-with-quast">Assembly QC with <code>QUAST</code></a></li>
+  </ul></li>
+  <li><a href="#genome-annotation" id="toc-genome-annotation" class="nav-link" data-scroll-target="#genome-annotation">6.4 Genome annotation</a>
+  <ul class="collapse">
+  <li><a href="#annotation-with-prokka" id="toc-annotation-with-prokka" class="nav-link" data-scroll-target="#annotation-with-prokka">Annotation with <code>Prokka</code></a></li>
+  </ul></li>
+  <li><a href="#credit" id="toc-credit" class="nav-link" data-scroll-target="#credit">Credit</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">6.1 Assembly and Annotation</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p><strong>Teaching: 50 min</strong> || <strong>Exercises: 20 min</strong></p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Questions:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>What is <em>de novo</em> genome assembly?</li>
+<li>How do I assemble my genome?</li>
+<li>How do I assess the quality of my genome?</li>
+<li>What is genome annotation?</li>
+<li>How do I annotate my genome?</li>
+</ul>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Learning Objectives:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Understand what <em>de novo</em> genome assembly is and how it differs from reference-based assembly.</li>
+<li>Assemble sequence data with <code>shovill</code></li>
+<li>Generate metrics for your assembly with <code>QUAST</code>.</li>
+<li>Annotate your genome with <code>prokka</code></li>
+</ul>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Keypoints:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Understand what <em>de novo</em> genome assembly is and how we can use <code>shovill</code> to create one.</li>
+<li>Extract and interprete the assembly metrics using <code>QUAST</code> to decide how good your assembly is.</li>
+<li>Understand what genome annotation is and how these can be added using <code>prokka</code>.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">6.1 Background</h2>
+<p>There are two approaches for genome assembly: reference-based (or comparative) or <em>de novo</em>. In a reference-based assembly, we use a reference genome as a guide to map our sequence data to and thus reassemble our sequence this way (this is what we did in the previous module). Alternatively, we can create a ‘new’ (<em>de novo</em>) assembly that does not rely on a map or reference and more closely reflects the actual genome structure of the isolate that was sequenced.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/genome-assembly.jpeg" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Genome assembly</figcaption><p></p>
+</figure>
+</div>
+<section id="genome-assemblers" class="level3">
+<h3 class="anchored" data-anchor-id="genome-assemblers">Genome assemblers</h3>
+<p>Several tools are available for <em>de novo</em> genome assembly depending on whether you’re trying to assemble short-read sequence data, long reads or else a combination of both. Two of the most commonly used assemblers for short-read Illumina data are <code>Velvet</code> and <code>SPAdes</code>. SPAdes has become the <em>de facto</em> standard de novo genome assembler for Illumina whole genome sequencing data of bacteria and is a major improvement over previous assemblers like Velvet. However, some of its components can be slow and it traditionally did not handle overlapping paired-end reads well. <code>Shovill</code> is a pipeline which uses <code>SPAdes</code> at its core, but alters the steps before and after the primary assembly step to get similar results in less time. Shovill also supports other assemblers like <code>SKESA</code>, <code>Velvet</code> and <code>Megahit</code>.</p>
+<details>
+<summary>
+Disk Usage I — Before analysis
+</summary>
+<p>Before we start performing any assemblies, let’s pause and check the space of our current working directory as we did for our previous lesson.</p>
+<p>You can do this with the <strong>d</strong>isk <strong>u</strong>sage <code>du</code> command</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>
+Current Disk Space In assembly_annotation_MTB Directory
+</summary>
+~247MB
+</details>
+Now, keep this value in mind, and this time, don’t forget it. We will come back to it at the end of this chapter.
+</details>
+</section>
+</section>
+<section id="de-novo-genome-assembly" class="level2">
+<h2 class="anchored" data-anchor-id="de-novo-genome-assembly">6.2 <em>de novo</em> genome assembly</h2>
+<section id="de-novo-genome-assembly-with-shovill" class="level3">
+<h3 class="anchored" data-anchor-id="de-novo-genome-assembly-with-shovill"><em>de novo</em> genome assembly with <a href="https://github.com/tseemann/shovill"><code>Shovill</code></a></h3>
+<p>We’re going to use <code>Shovill</code> to create our <em>de novo</em> genome assemblies. Let’s navigate the module directory and activate the <code>shovill</code> environment:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> workshop_files_Bact_Genomics_2023/06_assembly_annotation </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate shovill</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Help
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do this to get the help information for <code>Shovill</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">shovill</span> <span class="at">-h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SYNOPSIS</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">De</span> novo assembly pipeline for Illumina paired reads</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">USAGE</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">shovill</span> [options] <span class="at">--outdir</span> DIR <span class="at">--R1</span> R1.fq.gz <span class="at">--R2</span> R2.fq.gz</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">GENERAL</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--help</span>          This help</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--version</span>       Print version and exit</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--check</span>         Check dependencies are installed</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="ex">INPUT</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--R1</span> XXX        Read 1 FASTQ <span class="er">(</span><span class="ex">default:</span> <span class="st">''</span><span class="kw">)</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--R2</span> XXX        Read 2 FASTQ <span class="er">(</span><span class="ex">default:</span> <span class="st">''</span><span class="kw">)</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--depth</span> N       Sub-sample <span class="at">--R1</span>/--R2 to this depth. Disable with <span class="at">--depth</span> 0 <span class="er">(</span><span class="ex">default:</span> 150<span class="kw">)</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--gsize</span> XXX     Estimated genome size eg. 3.2M <span class="op">&lt;</span>blank=AUTODETECT<span class="op">&gt;</span> <span class="er">(</span><span class="ex">default:</span> <span class="st">''</span><span class="kw">)</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ex">OUTPUT</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--outdir</span> XXX    Output folder <span class="er">(</span><span class="ex">default:</span> <span class="st">''</span><span class="kw">)</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--force</span>         Force overwite of existing output folder <span class="er">(</span><span class="ex">default:</span> OFF<span class="kw">)</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--minlen</span> N      Minimum contig length <span class="op">&lt;</span>0=AUTO<span class="op">&gt;</span> <span class="er">(</span><span class="ex">default:</span> 0<span class="kw">)</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--mincov</span> n.nn   Minimum contig coverage <span class="op">&lt;</span>0=AUTO<span class="op">&gt;</span> <span class="er">(</span><span class="ex">default:</span> 2<span class="kw">)</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--namefmt</span> XXX   Format of contig FASTA IDs in <span class="st">'printf'</span> style <span class="er">(</span><span class="ex">default:</span> <span class="st">'contig%05d'</span><span class="kw">)</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--keepfiles</span>     Keep intermediate files <span class="er">(</span><span class="ex">default:</span> OFF<span class="kw">)</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="ex">RESOURCES</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--tmpdir</span> XXX    Fast temporary directory <span class="er">(</span><span class="ex">default:</span> <span class="st">''</span><span class="kw">)</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--cpus</span> N        Number of CPUs to use <span class="er">(</span><span class="ex">0=ALL</span><span class="kw">)</span> <span class="kw">(</span><span class="ex">default:</span> 8<span class="kw">)</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--ram</span> n.nn      Try to keep RAM usage below this many GB <span class="er">(</span><span class="ex">default:</span> 16<span class="kw">)</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="ex">ASSEMBLER</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--assembler</span> XXX Assembler: megahit skesa velvet spades <span class="er">(</span><span class="ex">default:</span> <span class="st">'spades'</span><span class="kw">)</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--opts</span> XXX      Extra assembler options in quotes eg. spades: <span class="st">'--sc'</span> <span class="er">(</span><span class="ex">default:</span> <span class="st">''</span><span class="kw">)</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--kmers</span> XXX     K-mers to use <span class="op">&lt;</span>blank=AUTO<span class="op">&gt;</span> <span class="er">(</span><span class="ex">default:</span> <span class="st">''</span><span class="kw">)</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="ex">MODULES</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--trim</span>          Enable adaptor trimming <span class="er">(</span><span class="ex">default:</span> OFF<span class="kw">)</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--noreadcorr</span>    Disable read error correction <span class="er">(</span><span class="ex">default:</span> OFF<span class="kw">)</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--nostitch</span>      Disable read stitching <span class="er">(</span><span class="ex">default:</span> OFF<span class="kw">)</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--nocorr</span>        Disable post-assembly correction <span class="er">(</span><span class="ex">default:</span> OFF<span class="kw">)</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="ex">HOMEPAGE</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  <span class="ex">https://github.com/tseemann/shovill</span> <span class="at">-</span> Torsten Seemann</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>We’ve chosen one of the TB genomes from our course dataset to assemble with <code>Shovill</code>: ERX1275297_ERR1203055 (TBNm 2359).</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Usage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The basic command for running <code>Shovill</code> is as follows:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">shovill</span> <span class="at">--outdir</span> <span class="op">&lt;</span>OUTDIR<span class="op">&gt;</span> --R1 <span class="op">&lt;</span>FWD FASTQ<span class="op">&gt;</span> --R2 <span class="op">&lt;</span>REV FASTQ<span class="op">&gt;</span> --gsize <span class="op">&lt;</span>GENOME SIZE<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The meaning of the options used is:</p>
+<table class="table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Input option</th>
+<th style="text-align: left;">Input required</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">–outdir</td>
+<td style="text-align: left;"><em>DIRECTORY</em></td>
+<td style="text-align: left;">directory to write the output files to</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">–R1</td>
+<td style="text-align: left;"><em>FILE</em></td>
+<td style="text-align: left;">Read 1 FASTQ file</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">–R2</td>
+<td style="text-align: left;"><em>FILE</em></td>
+<td style="text-align: left;">Read 2 FASTQ file</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">–gsize</td>
+<td style="text-align: left;"><em>TXT</em></td>
+<td style="text-align: left;">The estimated genome size that shovill will use to calculate read coverage</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Run shovill
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let’s build our first <em>de novo</em> assembly with shovill:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">shovill</span> <span class="at">--outdir</span> ERX1275297_ERR1203055 <span class="at">--R1</span> ERX1275297_ERR1203055_1.fastq.gz <span class="at">--R2</span> ERX1275297_ERR1203055_2.fastq.gz <span class="at">--gsize</span> 4.3M</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Hello ajv37</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> You ran: /home/ajv37/miniconda3/envs/shovill/bin/shovill <span class="at">--outdir</span> ERX1275297_ERR1203055 <span class="at">--R1</span> ERX1275297_ERR1203055_1.fastq.gz <span class="at">--R2</span> ERX1275297_ERR1203055_2.fastq.gz <span class="at">--gsize</span> 4.3M</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> This is shovill 1.1.0</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Written by Torsten Seemann</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Homepage is https://github.com/tseemann/shovill</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Operating system is linux</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Perl version is v5.32.1</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Machine has 64 CPU cores and 187.36 GB RAM</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Using bwa <span class="at">-</span> /home/ajv37/miniconda3/envs/shovill/bin/bwa <span class="kw">|</span> <span class="ex">Version:</span> 0.7.17-r1188</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Using flash <span class="at">-</span> /home/ajv37/miniconda3/envs/shovill/bin/flash <span class="kw">|</span> <span class="ex">FLASH</span> v1.2.11</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Using java <span class="at">-</span> /home/ajv37/miniconda3/envs/shovill/bin/java <span class="kw">|</span> <span class="ex">openjdk</span> version <span class="st">"11.0.8-internal"</span> 2020-07-14</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Using kmc <span class="at">-</span> /home/ajv37/miniconda3/envs/shovill/bin/kmc <span class="kw">|</span> <span class="ex">K-Mer</span> Counter <span class="er">(</span><span class="ex">KMC</span><span class="kw">)</span> <span class="ex">ver.</span> 3.2.1 <span class="er">(</span><span class="ex">2022-01-04</span><span class="kw">)</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Using lighter <span class="at">-</span> /home/ajv37/miniconda3/envs/shovill/bin/lighter <span class="kw">|</span> <span class="ex">Lighter</span> v1.1.2</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Using megahit <span class="at">-</span> /home/ajv37/miniconda3/envs/shovill/bin/megahit <span class="kw">|</span> <span class="ex">MEGAHIT</span> v1.2.9</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Using megahit_toolkit <span class="at">-</span> /home/ajv37/miniconda3/envs/shovill/bin/megahit_toolkit <span class="kw">|</span> <span class="ex">v1.2.9</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Using pigz <span class="at">-</span> /home/ajv37/miniconda3/envs/shovill/bin/pigz <span class="kw">|</span> <span class="ex">pigz</span> 2.6</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Using pilon <span class="at">-</span> /home/ajv37/miniconda3/envs/shovill/bin/pilon <span class="kw">|</span> <span class="ex">Pilon</span> version 1.24 Thu Jan 28 13:00:45 2021 <span class="at">-0500</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Using samclip <span class="at">-</span> /home/ajv37/miniconda3/envs/shovill/bin/samclip <span class="kw">|</span> <span class="ex">samclip</span> 0.4.0</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Using samtools <span class="at">-</span> /home/ajv37/miniconda3/envs/shovill/bin/samtools <span class="kw">|</span> <span class="ex">Version:</span> 1.16.1 <span class="er">(</span><span class="ex">using</span> htslib 1.16<span class="kw">)</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Using seqtk <span class="at">-</span> /home/ajv37/miniconda3/envs/shovill/bin/seqtk <span class="kw">|</span> <span class="ex">Version:</span> 1.3-r106</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="ex">[shovill]</span> Using skesa <span class="at">-</span> /home/ajv37/miniconda3/envs/shovill/bin/skesa <span class="kw">|</span> <span class="ex">SKESA</span> 2.4.0</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The following files will be created in the <code>ERX1275297_ERR1203055</code> directory:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Output file</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>contigs.fa</code></td>
+<td style="text-align: left;">The final assembly you should use</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>shovill.log</code></td>
+<td style="text-align: left;">Full log file for bug reporting</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>shovill.corrections</code></td>
+<td style="text-align: left;">List of post-assembly corrections</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>contigs.gfa</code></td>
+<td style="text-align: left;">Assembly graph</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>spades.fasta</code></td>
+<td style="text-align: left;">Raw assembled contigs</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Before we move on to the next step, let’s rename our assembly (<code>contigs.fa</code>) to something more useful:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ERX1275297_ERR1203055</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> contigs.fa ERX1275297_ERR1203055_contigs.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Finally, deactivate the <code>shovill</code> environment:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="assembly-quality-assessment" class="level2">
+<h2 class="anchored" data-anchor-id="assembly-quality-assessment">6.3 Assembly quality assessment</h2>
+<section id="assembly-qc-with-quast" class="level3">
+<h3 class="anchored" data-anchor-id="assembly-qc-with-quast">Assembly QC with <a href="https://quast.sourceforge.net/"><code>QUAST</code></a></h3>
+<p>Before we do any further analyses with our assemblies, we need to assess the quality. To do this we use a tool called <code>QUAST</code> which generates a number of useful metrics for assemblies. These include but aren’t limited to:</p>
+<ol type="1">
+<li>The total number of contigs greater than 0 bp. Ideally, we like to see assemblies in the smallest number of contigs (‘pieces’) as this means there is likely less missing data contained in gaps between contigs.</li>
+<li>The total length of the assembly. We normally know what the expected length of our assembly is (for more diverse organisms like <em>E. coli</em> there may be a range of genome sizes). The length of your assembly should be close to the expected genome size. If it’s too big or too small, either there is some kind of contamination or else you’ve sequenced the wrong species!</li>
+<li>The N50 of the assembly. This is the final metric often used to assess the quality of an assembly. The N50 is typically calculated by averaging the length of the largest contigs that account for 50% of the genome size. This is a bit more complicated conceptually but the higher the N50 the better. A large N50 implies that you have a small number of larger contigs in your assembly which equals a good assembly.</li>
+</ol>
+<p>Let’s activate the <code>quast</code> environment:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate quast</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Help
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do this to get the help information for <code>QUAST</code>:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quast</span> <span class="at">-h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">QUAST:</span> Quality Assessment Tool for Genome Assemblies</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Version:</span> 5.0.2</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Usage:</span> python /home/ajv37/.conda/envs/quast/bin/quast [options] <span class="op">&lt;</span>files_with_contigs<span class="op">&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Options:</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="ex">-o</span>  <span class="at">--output-dir</span>  <span class="op">&lt;</span>dirname<span class="op">&gt;</span>       Directory to store all result files [default: quast_results/results_<span class="op">&lt;</span>datetime<span class="op">&gt;</span>]</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="ex">-r</span>                <span class="op">&lt;</span>filename<span class="op">&gt;</span>      Reference genome file</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="ex">-g</span>  <span class="at">--features</span> [type:]<span class="op">&lt;</span>filename<span class="op">&gt;</span>  File with genomic feature coordinates in the reference <span class="er">(</span><span class="ex">GFF,</span> BED, NCBI or TXT<span class="kw">)</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>                                  <span class="ex">Optional</span> <span class="st">'type'</span> can be specified for extracting only a specific feature type from GFF</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="ex">-m</span>  <span class="at">--min-contig</span>  <span class="op">&lt;</span>int<span class="op">&gt;</span>           Lower threshold for contig length [default: 500]</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="ex">-t</span>  <span class="at">--threads</span>     <span class="op">&lt;</span>int<span class="op">&gt;</span>           Maximum number of threads [default: 25% of CPUs]</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="ex">Advanced</span> options:</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="ex">-s</span>  <span class="at">--split-scaffolds</span>                 Split assemblies by continuous fragments of N<span class="st">'s and add such "contigs" to the comparison</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="st">-l  --labels "label, label, ..."      Names of assemblies to use in reports, comma-separated. If contain spaces, use quotes</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="st">-L                                    Take assembly names from their parent directory names</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="st">-e  --eukaryote                       Genome is eukaryotic (primarily affects gene prediction)</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="st">    --fungus                          Genome is fungal (primarily affects gene prediction)</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="st">    --large                           Use optimal parameters for evaluation of large genomes</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="st">                                      In particular, imposes '</span>-e <span class="at">-m</span> 3000 <span class="at">-i</span> 500 <span class="at">-x</span> 7000<span class="st">' (can be overridden manually)</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="st">-k  --k-mer-stats                     Compute k-mer-based quality metrics (recommended for large genomes)</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="st">                                      This may significantly increase memory and time consumption on large genomes</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="st">    --k-mer-size                      Size of k used in --k-mer-stats [default: 101]</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="st">    --circos                          Draw Circos plot</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="st">-f  --gene-finding                    Predict genes using GeneMarkS (prokaryotes, default) or GeneMark-ES (eukaryotes, use --eukaryote)</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="st">    --mgm                             Use MetaGeneMark for gene prediction (instead of the default finder, see above)</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="st">    --glimmer                         Use GlimmerHMM for gene prediction (instead of the default finder, see above)</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="st">    --gene-thresholds &lt;int,int,...&gt;   Comma-separated list of threshold lengths of genes to search with Gene Finding module</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="st">                                      [default: 0,300,1500,3000]</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="st">    --rna-finding                     Predict ribosomal RNA genes using Barrnap</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="st">-b  --conserved-genes-finding         Count conserved orthologs using BUSCO (only on Linux)</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a><span class="st">    --operons  &lt;filename&gt;             File with operon coordinates in the reference (GFF, BED, NCBI or TXT)</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="st">    --est-ref-size &lt;int&gt;              Estimated reference size (for computing NGx metrics without a reference)</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="st">    --contig-thresholds &lt;int,int,...&gt; Comma-separated list of contig length thresholds [default: 0,1000,5000,10000,25000,50000]</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="st">-u  --use-all-alignments              Compute genome fraction, # genes, # operons in QUAST v1.* style.</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a><span class="st">                                      By default, QUAST filters Minimap'</span>s alignments to keep only best ones</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a><span class="ex">-i</span>  <span class="at">--min-alignment</span> <span class="op">&lt;</span>int<span class="op">&gt;</span>             The minimum alignment length [default: 65]</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--min-identity</span> <span class="op">&lt;</span>float<span class="op">&gt;</span>            The minimum alignment identity <span class="er">(</span><span class="ex">80.0,</span> 100.0<span class="kw">)</span> <span class="ex">[default:</span> 95.0]</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a><span class="ex">-a</span>  <span class="at">--ambiguity-usage</span> <span class="op">&lt;</span>none<span class="kw">|</span><span class="ex">one</span><span class="kw">|</span><span class="ex">all</span><span class="op">&gt;</span>  Use none, one, or all alignments of a contig when all of them</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>                                      <span class="ex">are</span> almost equally good <span class="er">(</span><span class="ex">see</span> <span class="at">--ambiguity-score</span><span class="kw">)</span> <span class="ex">[default:</span> one]</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--ambiguity-score</span> <span class="op">&lt;</span>float<span class="op">&gt;</span>         Score S for defining equally good alignments of a single contig. All alignments are sorted </span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>                                      <span class="ex">by</span> decreasing LEN <span class="pp">*</span> IDY% value. All alignments with LEN <span class="pp">*</span> IDY% <span class="op">&lt;</span> S <span class="pp">*</span> best<span class="er">(</span><span class="ex">LEN</span> <span class="pp">*</span> IDY%<span class="kw">)</span> <span class="ex">are</span> </span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>                                      <span class="ex">discarded.</span> S should be between 0.8 and 1.0 [default: 0.99]</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--strict-NA</span>                       Break contigs in any misassembly event when compute NAx and NGAx.</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>                                      <span class="ex">By</span> default, QUAST breaks contigs only by extensive misassemblies <span class="er">(</span><span class="ex">not</span> local ones<span class="kw">)</span></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a><span class="ex">-x</span>  <span class="at">--extensive-mis-size</span>  <span class="op">&lt;</span>int<span class="op">&gt;</span>       Lower threshold for extensive misassembly size. All relocations with inconsistency</span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>                                      <span class="fu">less</span> than extensive-mis-size are counted as local misassemblies [default: 1000]</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--scaffold-gap-max-size</span>  <span class="op">&lt;</span>int<span class="op">&gt;</span>    Max allowed scaffold gap length difference. All relocations with inconsistency</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>                                      <span class="fu">less</span> than scaffold-gap-size are counted as scaffold gap misassemblies [default: 10000]</span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--unaligned-part-size</span>  <span class="op">&lt;</span>int<span class="op">&gt;</span>      Lower threshold for detecting partially unaligned contigs. Such contig should have</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>                                      <span class="ex">at</span> least one unaligned fragment <span class="op">&gt;</span>= the threshold [default: 500]</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--skip-unaligned-mis-contigs</span>      Do not distinguish contigs with <span class="op">&gt;</span>= 50% unaligned bases as a separate group</span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>                                      <span class="ex">By</span> default, QUAST does not count misassemblies in them</span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--fragmented</span>                      Reference genome may be fragmented into small pieces <span class="er">(</span><span class="ex">e.g.</span> scaffolded reference<span class="kw">)</span> </span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--fragmented-max-indent</span>  <span class="op">&lt;</span>int<span class="op">&gt;</span>    Mark translocation as fake if both alignments are located no further than N bases </span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>                                      <span class="ex">from</span> the ends of the reference fragments [default: 85]</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>                                      <span class="ex">Requires</span> <span class="at">--fragmented</span> option</span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--upper-bound-assembly</span>            Simulate upper bound assembly based on the reference genome and reads</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--upper-bound-min-con</span>  <span class="op">&lt;</span>int<span class="op">&gt;</span>      Minimal number of <span class="st">'connecting reads'</span> needed for joining upper bound contigs into a scaffold</span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>                                      <span class="ex">[default:</span> 2 for mate-pairs and 1 for long reads]</span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--est-insert-size</span>  <span class="op">&lt;</span>int<span class="op">&gt;</span>          Use provided insert size in upper bound assembly simulation [default: auto detect from reads or 255]</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--plots-format</span>  <span class="op">&lt;</span>str<span class="op">&gt;</span>             Save plots in specified format [default: pdf].</span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>                                      <span class="ex">Supported</span> formats: emf, eps, pdf, png, ps, raw, rgba, svg, svgz</span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--memory-efficient</span>                Run everything using one thread, separately per each assembly.</span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>                                      <span class="ex">This</span> may significantly reduce memory consumption on large genomes</span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--space-efficient</span>                 Create only reports and plots files. Aux files including .stdout, .stderr, .coords will not be created.</span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>                                      <span class="ex">This</span> may significantly reduce space consumption on large genomes. Icarus viewers also will not be built</span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a><span class="ex">-1</span>  <span class="at">--pe1</span>     <span class="op">&lt;</span>filename<span class="op">&gt;</span>              File with forward paired-end reads <span class="er">(in</span> <span class="ex">FASTQ</span> format, may be gzipped<span class="kw">)</span></span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a><span class="ex">-2</span>  <span class="at">--pe2</span>     <span class="op">&lt;</span>filename<span class="op">&gt;</span>              File with reverse paired-end reads <span class="er">(in</span> <span class="ex">FASTQ</span> format, may be gzipped<span class="kw">)</span></span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--pe12</span>    <span class="op">&lt;</span>filename<span class="op">&gt;</span>              File with interlaced forward and reverse paired-end reads. <span class="er">(in</span> <span class="ex">FASTQ</span> format, may be gzipped<span class="kw">)</span></span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--mp1</span>     <span class="op">&lt;</span>filename<span class="op">&gt;</span>              File with forward mate-pair reads <span class="er">(in</span> <span class="ex">FASTQ</span> format, may be gzipped<span class="kw">)</span></span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--mp2</span>     <span class="op">&lt;</span>filename<span class="op">&gt;</span>              File with reverse mate-pair reads <span class="er">(in</span> <span class="ex">FASTQ</span> format, may be gzipped<span class="kw">)</span></span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--mp12</span>    <span class="op">&lt;</span>filename<span class="op">&gt;</span>              File with interlaced forward and reverse mate-pair reads <span class="er">(in</span> <span class="ex">FASTQ</span> format, may be gzipped<span class="kw">)</span></span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--single</span>  <span class="op">&lt;</span>filename<span class="op">&gt;</span>              File with unpaired short reads <span class="er">(in</span> <span class="ex">FASTQ</span> format, may be gzipped<span class="kw">)</span></span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--pacbio</span>     <span class="op">&lt;</span>filename<span class="op">&gt;</span>           File with PacBio reads <span class="er">(in</span> <span class="ex">FASTQ</span> format, may be gzipped<span class="kw">)</span></span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--nanopore</span>   <span class="op">&lt;</span>filename<span class="op">&gt;</span>           File with Oxford Nanopore reads <span class="er">(in</span> <span class="ex">FASTQ</span> format, may be gzipped<span class="kw">)</span></span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--ref-sam</span> <span class="op">&lt;</span>filename<span class="op">&gt;</span>              SAM alignment file obtained by aligning reads to reference genome file</span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--ref-bam</span> <span class="op">&lt;</span>filename<span class="op">&gt;</span>              BAM alignment file obtained by aligning reads to reference genome file</span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--sam</span>     <span class="op">&lt;</span>filename,filename,...<span class="op">&gt;</span> Comma-separated list of SAM alignment files obtained by aligning reads to assemblies</span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a>                                      <span class="kw">(</span><span class="ex">use</span> the same order as for files with contigs<span class="kw">)</span></span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--bam</span>     <span class="op">&lt;</span>filename,filename,...<span class="op">&gt;</span> Comma-separated list of BAM alignment files obtained by aligning reads to assemblies</span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a>                                      <span class="kw">(</span><span class="ex">use</span> the same order as for files with contigs<span class="kw">)</span></span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a>                                      <span class="ex">Reads</span> <span class="er">(</span><span class="ex">or</span> SAM/BAM file<span class="kw">)</span> <span class="ex">are</span> used for structural variation detection and</span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a>                                      <span class="ex">coverage</span> histogram building in Icarus</span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--sv-bedpe</span>  <span class="op">&lt;</span>filename<span class="op">&gt;</span>            File with structural variations <span class="er">(in</span> <span class="ex">BEDPE</span> format<span class="kw">)</span></span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a><span class="ex">Speedup</span> options:</span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--no-check</span>                        Do not check and correct input fasta files. Use at your own risk <span class="er">(</span><span class="ex">see</span> manual<span class="kw">)</span></span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--no-plots</span>                        Do not draw plots</span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--no-html</span>                         Do not build html reports and Icarus viewers</span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--no-icarus</span>                       Do not build Icarus viewers</span>
+<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--no-snps</span>                         Do not report SNPs <span class="er">(</span><span class="ex">may</span> significantly reduce memory consumption on large genomes<span class="kw">)</span></span>
+<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--no-gc</span>                           Do not compute GC% and GC-distribution</span>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--no-sv</span>                           Do not run structural variation detection <span class="er">(</span><span class="fu">make</span> sense only if reads are specified<span class="kw">)</span></span>
+<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--no-gzip</span>                         Do not compress large output files</span>
+<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--no-read-stats</span>                   Do not align reads to assemblies</span>
+<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a>                                      <span class="ex">Reads</span> will be aligned to reference and used for coverage analysis,</span>
+<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a>                                      <span class="ex">upper</span> bound assembly simulation, and structural variation detection.</span>
+<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a>                                      <span class="ex">Use</span> this option if you do not need read statistics for assemblies.</span>
+<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--fast</span>                            A combination of all speedup options except <span class="at">--no-check</span></span>
+<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a><span class="ex">Other:</span></span>
+<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--silent</span>                          Do not print detailed information about each step to stdout <span class="er">(</span><span class="ex">log</span> file is not affected<span class="kw">)</span></span>
+<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--test</span>                            Run QUAST on the data from the test_data folder, output to quast_test_output</span>
+<span id="cb12-106"><a href="#cb12-106" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--test-sv</span>                         Run QUAST with structural variants detection on the data from the test_data folder,</span>
+<span id="cb12-107"><a href="#cb12-107" aria-hidden="true" tabindex="-1"></a>                                      <span class="ex">output</span> to quast_test_output</span>
+<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a><span class="ex">-h</span>  <span class="at">--help</span>                            Print full usage message</span>
+<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a><span class="ex">-v</span>  <span class="at">--version</span>                         Print version</span>
+<span id="cb12-110"><a href="#cb12-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-111"><a href="#cb12-111" aria-hidden="true" tabindex="-1"></a><span class="ex">Online</span> QUAST manual is available at http://quast.sf.net/manual</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Usage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The basic command for running <code>QUAST</code> is as follows:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quast.py</span> <span class="at">--output-dir</span> <span class="op">&lt;</span>OUTDIR<span class="op">&gt;</span> <span class="op">&lt;</span>ASSEMBLY<span class="op">&gt;</span>  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The meaning of the option used is:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Input option</th>
+<th style="text-align: left;">Input required</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">–output-dir</td>
+<td style="text-align: left;"><em>DIRECTORY</em></td>
+<td style="text-align: left;">Directory to write the output files to</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Run QUAST
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let’s run <code>QUAST</code> on the genome we’ve just created to assess the quality:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quast.py</span> <span class="at">--output-dir</span> quast ERX1275297_ERR1203055_contigs.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Version:</span> 5.0.2</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ex">System</span> information:</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">OS:</span> Linux-3.10.0-1160.80.1.el7.x86_64-x86_64-with-redhat-7.9-Nitrogen <span class="er">(</span><span class="ex">linux_64</span><span class="kw">)</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Python</span> version: 3.7.12</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">CPUs</span> number: 64</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Started:</span> 2022-12-15 16:44:12</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="ex">Logging</span> to /rds/project/rds-PzYD5LltalA/Teaching/Ghana/shovill/ERX1275297_ERR1203055.1/quast/quast.log</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="ex">NOTICE:</span> Maximum number of threads is set to 16 <span class="er">(</span><span class="ex">use</span> <span class="at">--threads</span> option to set it manually<span class="kw">)</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="ex">CWD:</span> /rds/project/rds-PzYD5LltalA/Teaching/Ghana/shovill/ERX1275297_ERR1203055.1</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="ex">Main</span> parameters: </span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="ex">MODE:</span> default, threads: 16, minimum contig length: 500, minimum alignment length: 65, <span class="dt">\</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  ambiguity: one, threshold for extensive misassembly size: 1000</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The following files will be created in the <code>quast</code> directory:</p>
+<table class="table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 78%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Output file</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>report.txt</code></td>
+<td style="text-align: left;">Assessment summary in plain text format</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>report.tsv</code></td>
+<td style="text-align: left;">Tab-separated version of the summary, suitable for spreadsheets (Google Docs, Excel, etc)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>report.tex</code></td>
+<td style="text-align: left;">LaTeX version of the summary</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>icarus.html</code></td>
+<td style="text-align: left;">Icarus main menu with links to interactive viewers</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>report.pdf</code></td>
+<td style="text-align: left;">All other plots combined with all tables (file is created if matplotlib python library is installed)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>report.html</code></td>
+<td style="text-align: left;">HTML version of the report with interactive plots inside</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>transposed_report.txt</code></td>
+<td style="text-align: left;">Transposed assessment summary in plain text format</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>transposed_report.tsv</code></td>
+<td style="text-align: left;">Transposed tab-separated version of the summary</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>transposed_report.tex</code></td>
+<td style="text-align: left;">Transposed LaTeX version of the summary</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 6.1.1:</em></strong> Investigate the QUAST output
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Now that we’ve got the results from <code>QUAST</code>, how good is the assembly we created with <code>shovill</code>?</p>
+<ol type="1">
+<li>What is the total number of contigs?</li>
+<li>What is the total length of the assembly?</li>
+<li>What is the N50 of the assembly?</li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>There are a couple of ways we could answer the questions above as the assembly metrics can be parsed in different ways. Let’s parse the <code>report.tsv</code>:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> report.tsv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will provide all the information we need:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Assembly</span>    ERX1275297_ERR1203055_contigs</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># contigs (&gt;= 0 bp) 227</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># contigs (&gt;= 1000 bp)  86</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># contigs (&gt;= 5000 bp)  61</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># contigs (&gt;= 10000 bp) 55</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># contigs (&gt;= 25000 bp) 48</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># contigs (&gt;= 50000 bp) 35</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Total</span> length <span class="er">(</span><span class="op">&gt;</span>= <span class="ex">0</span> bp<span class="kw">)</span>  <span class="ex">4397844</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Total</span> length <span class="er">(</span><span class="op">&gt;</span>= <span class="ex">1000</span> bp<span class="kw">)</span>   <span class="ex">4361978</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="ex">Total</span> length <span class="er">(</span><span class="op">&gt;</span>= <span class="ex">5000</span> bp<span class="kw">)</span>   <span class="ex">4311192</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="ex">Total</span> length <span class="er">(</span><span class="op">&gt;</span>= <span class="ex">10000</span> bp<span class="kw">)</span>  <span class="ex">4270901</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="ex">Total</span> length <span class="er">(</span><span class="op">&gt;</span>= <span class="ex">25000</span> bp<span class="kw">)</span>  <span class="ex">4162429</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="ex">Total</span> length <span class="er">(</span><span class="op">&gt;</span>= <span class="ex">50000</span> bp<span class="kw">)</span>  <span class="ex">3732349</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co"># contigs   105</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="ex">Largest</span> contig  298563</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="ex">Total</span> length    4376331</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="ex">GC</span> <span class="er">(</span><span class="ex">%</span><span class="kw">)</span>  <span class="ex">65.58</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="ex">N50</span> 99158</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="ex">N75</span> 64010</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="ex">L50</span> 15</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="ex">L75</span> 28</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="co"># N's per 100 kbp   0.00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li>The total number of contigs &gt; 0bp is <code>227</code></li>
+<li>The total length of the assembly is <code>4397844</code></li>
+<li>The N50 of the assembly is <code>99158</code></li>
+</ol>
+<p>What do you think? Should we move forward with this assembly? The answer is yes!</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Finally, deactivate the <code>quast</code> environment:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="genome-annotation" class="level2">
+<h2 class="anchored" data-anchor-id="genome-annotation">6.4 Genome annotation</h2>
+<p>Genome annotation is a multi-level process that includes prediction of protein-coding genes (CDSs), as well as other functional genome units such as structural RNAs, tRNAs, small RNAs, pseudogenes, control regions, direct and inverted repeats, insertion sequences, transposons and other mobile elements. The most commonly used tools for annotating bacterial genomes are <code>Prokka</code> and, more recently, <code>Bakta</code>. Both use a tool called <code>prodigal</code> to predict the protein-coding regions along with other tools for predicting other genomic features such as <code>Aragorn</code> for tRNA. Once the genomic regions have been predicted, the tools use a database of existing bacterial genome annotations, normally generated from a large collection of genomes such as UniRef, to add this information to your genome.</p>
+<section id="annotation-with-prokka" class="level3">
+<h3 class="anchored" data-anchor-id="annotation-with-prokka">Annotation with <a href="https://github.com/tseemann/prokka"><code>Prokka</code></a></h3>
+<p><code>Prokka</code> is a software tool to annotate bacterial, archaeal and viral genomes quickly and produce standards-compliant output files (GenBank, EMBL and gff) for further analysis or viewing in genome browsers. It is suitable for annotating <em>de novo</em> assemblies of bacteria, but not appropriate for human genomes (or any other eukaryote).</p>
+<p>Before we run <code>Prokka</code>, let’s activate the environment:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate prokka</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Help
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do this to get the help information for <code>Prokka</code>:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">prokka</span> <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Name:</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Prokka</span> 1.14.6 by Torsten Seemann <span class="op">&lt;</span>torsten.seemann@gmail.com<span class="op">&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Synopsis:</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">rapid</span> bacterial genome annotation</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Usage:</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">prokka</span> [options] <span class="op">&lt;</span>contigs.fasta<span class="op">&gt;</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="ex">General:</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--help</span>             This help</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--version</span>          Print version and exit</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--citation</span>         Print citation for referencing Prokka</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--quiet</span>            No screen output <span class="er">(</span><span class="ex">default</span> OFF<span class="kw">)</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--debug</span>            Debug mode: keep all temporary files <span class="er">(</span><span class="ex">default</span> OFF<span class="kw">)</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="ex">Setup:</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--dbdir</span> [X]        Prokka database root folders <span class="er">(</span><span class="ex">default</span> <span class="st">'/home/ajv37/miniconda3/envs/prokka2/db'</span><span class="kw">)</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--listdb</span>           List all configured databases</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--setupdb</span>          Index all installed databases</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--cleandb</span>          Remove all database indices</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--depends</span>          List all software dependencies</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="ex">Outputs:</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--outdir</span> [X]       Output folder [auto] <span class="er">(</span><span class="ex">default</span> <span class="st">''</span><span class="kw">)</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--force</span>            Force overwriting existing output folder <span class="er">(</span><span class="ex">default</span> OFF<span class="kw">)</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--prefix</span> [X]       Filename output prefix [auto] <span class="er">(</span><span class="ex">default</span> <span class="st">''</span><span class="kw">)</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--addgenes</span>         Add <span class="st">'gene'</span> features for each <span class="st">'CDS'</span> feature <span class="er">(</span><span class="ex">default</span> OFF<span class="kw">)</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--addmrna</span>          Add <span class="st">'mRNA'</span> features for each <span class="st">'CDS'</span> feature <span class="er">(</span><span class="ex">default</span> OFF<span class="kw">)</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--locustag</span> [X]     Locus tag prefix [auto] <span class="er">(</span><span class="ex">default</span> <span class="st">''</span><span class="kw">)</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--increment</span> [N]    Locus tag counter increment <span class="er">(</span><span class="ex">default</span> <span class="st">'1'</span><span class="kw">)</span></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--gffver</span> [N]       GFF version <span class="er">(</span><span class="ex">default</span> <span class="st">'3'</span><span class="kw">)</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--compliant</span>        Force Genbank/ENA/DDJB compliance: <span class="at">--addgenes</span> <span class="at">--mincontiglen</span> 200 <span class="at">--centre</span> XXX <span class="er">(</span><span class="ex">default</span> OFF<span class="kw">)</span></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--centre</span> [X]       Sequencing centre ID. <span class="er">(</span><span class="ex">default</span> <span class="st">''</span><span class="kw">)</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--accver</span> [N]       Version to put in Genbank file <span class="er">(</span><span class="ex">default</span> <span class="st">'1'</span><span class="kw">)</span></span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a><span class="ex">Organism</span> details:</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--genus</span> [X]        Genus name <span class="er">(</span><span class="ex">default</span> <span class="st">'Genus'</span><span class="kw">)</span></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--species</span> [X]      Species name <span class="er">(</span><span class="ex">default</span> <span class="st">'species'</span><span class="kw">)</span></span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--strain</span> [X]       Strain name <span class="er">(</span><span class="ex">default</span> <span class="st">'strain'</span><span class="kw">)</span></span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--plasmid</span> [X]      Plasmid name or identifier <span class="er">(</span><span class="ex">default</span> <span class="st">''</span><span class="kw">)</span></span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a><span class="ex">Annotations:</span></span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--kingdom</span> [X]      Annotation mode: Archaea<span class="kw">|</span><span class="ex">Bacteria</span><span class="kw">|</span><span class="ex">Mitochondria</span><span class="kw">|</span><span class="ex">Viruses</span> <span class="er">(</span><span class="ex">default</span> <span class="st">'Bacteria'</span><span class="kw">)</span></span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--gcode</span> [N]        Genetic code / Translation table <span class="er">(</span><span class="bu">set</span> if <span class="at">--kingdom</span> is set<span class="kw">)</span> <span class="kw">(</span><span class="ex">default</span> <span class="st">'0'</span><span class="kw">)</span></span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--prodigaltf</span> [X]   Prodigal training file <span class="er">(</span><span class="ex">default</span> <span class="st">''</span><span class="kw">)</span></span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--gram</span> [X]         Gram: <span class="at">-</span>/neg +/pos <span class="er">(</span><span class="ex">default</span> <span class="st">''</span><span class="kw">)</span></span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--usegenus</span>         Use genus-specific BLAST databases <span class="er">(</span><span class="ex">needs</span> <span class="at">--genus</span><span class="kw">)</span> <span class="kw">(</span><span class="ex">default</span> OFF<span class="kw">)</span></span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--proteins</span> [X]     FASTA or GBK file to use as 1st priority <span class="er">(</span><span class="ex">default</span> <span class="st">''</span><span class="kw">)</span></span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--hmms</span> [X]         Trusted HMM to first annotate from <span class="er">(</span><span class="ex">default</span> <span class="st">''</span><span class="kw">)</span></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--metagenome</span>       Improve gene predictions for highly fragmented genomes <span class="er">(</span><span class="ex">default</span> OFF<span class="kw">)</span></span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--rawproduct</span>       Do not clean up /product annotation <span class="er">(</span><span class="ex">default</span> OFF<span class="kw">)</span></span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--cdsrnaolap</span>       Allow [tr]RNA to overlap CDS <span class="er">(</span><span class="ex">default</span> OFF<span class="kw">)</span></span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a><span class="ex">Matching:</span></span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--evalue</span> [n.n]     Similarity e-value cut-off <span class="er">(</span><span class="ex">default</span> <span class="st">'1e-09'</span><span class="kw">)</span></span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--coverage</span> [n.n]   Minimum coverage on query protein <span class="er">(</span><span class="ex">default</span> <span class="st">'80'</span><span class="kw">)</span></span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a><span class="ex">Computation:</span></span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--cpus</span> [N]         Number of CPUs to use [0=all] <span class="er">(</span><span class="ex">default</span> <span class="st">'8'</span><span class="kw">)</span></span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--fast</span>             Fast mode <span class="at">-</span> only use basic BLASTP databases <span class="er">(</span><span class="ex">default</span> OFF<span class="kw">)</span></span>
+<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--noanno</span>           For CDS just set /product=<span class="st">"unannotated protein"</span> <span class="er">(</span><span class="ex">default</span> OFF<span class="kw">)</span></span>
+<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--mincontiglen</span> [N] Minimum contig size [NCBI needs 200] <span class="er">(</span><span class="ex">default</span> <span class="st">'1'</span><span class="kw">)</span></span>
+<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--rfam</span>             Enable searching for ncRNAs with Infernal+Rfam <span class="er">(</span><span class="ex">SLOW!</span><span class="kw">)</span> <span class="kw">(</span><span class="ex">default</span> <span class="st">'0'</span><span class="kw">)</span></span>
+<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--norrna</span>           Don<span class="st">'t run rRNA search (default OFF)</span></span>
+<span id="cb21-57"><a href="#cb21-57" aria-hidden="true" tabindex="-1"></a><span class="st">  --notrna           Don'</span>t run tRNA search <span class="er">(</span><span class="ex">default</span> OFF<span class="kw">)</span></span>
+<span id="cb21-58"><a href="#cb21-58" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--rnammer</span>          Prefer RNAmmer over Barrnap for rRNA prediction <span class="er">(</span><span class="ex">default</span> OFF<span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Usage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The basic command for running <code>Prokka</code> is as follows:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">prokka</span> <span class="at">--outdir</span> <span class="op">&lt;</span>OUTPUT DIRECTORY<span class="op">&gt;</span> --prefix <span class="op">&lt;</span>OUTPUT PREFIX<span class="op">&gt;</span> <span class="op">&lt;</span>ASSEMBLY<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The meaning of the options used is:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Input option</th>
+<th style="text-align: left;">Input required</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">–outdir</td>
+<td style="text-align: left;"><em>DIRECTORY</em></td>
+<td style="text-align: left;">Name of output directory</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">–prefix</td>
+<td style="text-align: left;"><em>PREFIX</em></td>
+<td style="text-align: left;">Prefix for output files</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Run Prokka
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let’s run <code>Prokka</code> on the genome we created earlier to do produce annotation files for this sample:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">prokka</span> <span class="at">--prefix</span> ERX1275297_ERR1203055 <span class="at">--outdir</span> ERX1275297_ERR1203055 ERX1275297_ERR1203055_contigs.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[18:38:38]</span> This is prokka 1.14.6</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="ex">[18:38:38]</span> Written by Torsten Seemann <span class="op">&lt;</span>torsten.seemann@gmail.com<span class="op">&gt;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="ex">[18:38:38]</span> Homepage is https://github.com/tseemann/prokka</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="ex">[18:38:38]</span> Local time is Tue Jan 24 18:38:38 2023</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="ex">[18:38:38]</span> You are ajv37</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="ex">[18:38:38]</span> Operating system is linux</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="ex">[18:38:38]</span> You have BioPerl 1.7.8</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Argument</span> <span class="st">"1.7.8"</span> isn<span class="st">'t numeric in numeric lt (&lt;) at /home/ajv37/miniconda3/envs/prokka2/bin/prokka line 259.</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="st">[18:38:38] System has 64 cores.</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="st">[18:38:38] Will use maximum of 8 cores.</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="st">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The following files will be created:</p>
+<table class="table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 78%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Output file</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>ERX1275297_ERR1203055.tsv</code></td>
+<td style="text-align: left;">Tab-separated file of all features: locus_tag,ftype,len_bp,gene,EC_number,COG,product</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ERX1275297_ERR1203055.gff</code></td>
+<td style="text-align: left;">This is the master annotation in GFF3 format, containing both sequences and annotations. It can be viewed directly in Artemis or IGV.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>ERX1275297_ERR1203055.gbk</code></td>
+<td style="text-align: left;">This is a standard Genbank file derived from the master .gff. If the input to prokka was a multi-FASTA, then this will be a multi-Genbank, with one record for each sequence.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ERX1275297_ERR1203055.sqn</code></td>
+<td style="text-align: left;">An ASN1 format “Sequin” file for submission to Genbank. It needs to be edited to set the correct taxonomy, authors, related publication etc.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>ERX1275297_ERR1203055.fna</code></td>
+<td style="text-align: left;">Nucleotide FASTA file of the input contig sequences.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ERX1275297_ERR1203055.ffn</code></td>
+<td style="text-align: left;">Nucleotide FASTA file of all the prediction transcripts (CDS, rRNA, tRNA, tmRNA, misc_RNA)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>ERX1275297_ERR1203055.faa</code></td>
+<td style="text-align: left;">Protein FASTA file of the translated CDS sequences.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ERX1275297_ERR1203055.fsa</code></td>
+<td style="text-align: left;">Nucleotide FASTA file of the input contig sequences, used by “tbl2asn” to create the .sqn file. It is mostly the same as the .fna file, but with extra Sequin tags in the sequence description lines.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>ERX1275297_ERR1203055.tbl</code></td>
+<td style="text-align: left;">Feature Table file, used by “tbl2asn” to create the .sqn file.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ERX1275297_ERR1203055.txt</code></td>
+<td style="text-align: left;">Statistics relating to the annotated features found.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>ERX1275297_ERR1203055.log</code></td>
+<td style="text-align: left;">Contains all the output that Prokka produced during its run. This is a record of what settings you used, even if the –quiet option was enabled.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ERX1275297_ERR1203055.err</code></td>
+<td style="text-align: left;">Unacceptable annotations - the NCBI discrepancy report.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The file format most commonly used for downstream analyses such as manual curation or pan-genome analysis is the <code>gff</code> file. We covered <code>gff</code> files back in <a href="../../materials/03-file_formats/3.1-file_formats.html">Common File Formats</a> so you may want to remind yourself what’s inside them.</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 6.1.2:</em></strong> Investigate the Prokka output
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We can extract summary statistics for <code>Prokka</code> by examining the output files.</p>
+<ol type="1">
+<li>How many coding regions (CDS) did <code>Prokka</code> predict?</li>
+<li>How many rRNA genes were identified?</li>
+<li>How many repeat regions were identified?</li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The easiest way to pull out the summary statistics is to examine the <code>ERX1275297_ERR1203055.txt</code> file:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> ERX1275297_ERR1203055.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">organism:</span> Genus species strain </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="ex">contigs:</span> 227</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="ex">bases:</span> 4397844</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="ex">CDS:</span> 4076</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="ex">rRNA:</span> 3</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="ex">repeat_region:</span> 3</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="ex">tRNA:</span> 52</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="ex">tmRNA:</span> 1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li><code>Prokka</code> predicted 4076 CDSs in ERX1275297_ERR1203055</li>
+<li>3 rRNA genes were identified</li>
+<li>3 repeat_regions were identified</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Finally, deactivate the <code>prokka</code> environment:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>
+Disk Usage II — Cleaning up after analysis
+</summary>
+<p>Now that we are done investigating our assembling and annotating our genome, let’s pause again and check the space of our current working directory.</p>
+<p>You can do this with the <strong>d</strong>isk <strong>u</strong>sage <code>du</code> command</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>How much disk space have you used since the start of the analysis?</p>
+</details>
+</section>
+</section>
+<section id="credit" class="level2">
+<h2 class="anchored" data-anchor-id="credit">Credit</h2>
+<p>Information on this page has been adapted and modified from the following source(s): https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#genome-assembly</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../materials/05-short_read_mapping/5.1-short_read_mapping.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">5.1 Short Read Mapping</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../materials/07-software_management/7.1-software_management.html" class="pagination-link">
+        <span class="nav-page-text">7.1 Managing Software</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">Licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://creativecommons.org/images/deed/cc_icon_black_x2.png" class="img-fluid" width="25"> Dr Prince Asare and Dr Andries van Tonder</div>
+  </div>
+</footer>
+
+
+
+</body></html>

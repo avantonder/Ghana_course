@@ -1,0 +1,2106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.112">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2.2 Navigating Files and Directories</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../materials/02-unix_intro/2.3-text_manipulation.html" rel="next">
+<link href="../../materials/02-unix_intro/2.1-unix_overview.html" rel="prev">
+<link href="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university-of-cambridge-favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/NMIMR_Logo_whitebg.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../setup.html">Setup</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../materials.html" aria-current="page">Materials</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../unix_cheat_sheet.html">Unix-Cheat-Sheet</a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/avantonder/Ghana_course"><i class="bi bi-github" role="img" aria-label="Introduction to bacterial genomics GitHub">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/NMIMR_UG"><i class="bi bi-twitter" role="img" aria-label="Noguchi Memorial Institute for Medical Research Twitter">
+</i> 
+ </a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">2.2 Navigating Files and Directories</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials.html" class="sidebar-item-text sidebar-link">Materials</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">1. Introduction to WGS</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro_wgs/1.1-intro_wgs.html" class="sidebar-item-text sidebar-link">1.1 Introduction to Whole Genome Sequencing (WGS)</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">2. Introduction to Unix</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.1-unix_overview.html" class="sidebar-item-text sidebar-link">2.1 The Unix Shell</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.2-files_directories.html" class="sidebar-item-text sidebar-link active">2.2 Navigating Files and Directories</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.3-text_manipulation.html" class="sidebar-item-text sidebar-link">2.3 Text Manipulation</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.4-combining_commands.html" class="sidebar-item-text sidebar-link">2.4 Combining Commands</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.5-using_remote_resources.html" class="sidebar-item-text sidebar-link">2.5 Using remote resources</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.6-vscode_overview.html" class="sidebar-item-text sidebar-link">2.6 Visual Studio Code</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.7-bonus_find_and_grep.html" class="sidebar-item-text sidebar-link">2.7 <em>Bonus</em> : Finding Things</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.8-bonus_loops.html" class="sidebar-item-text sidebar-link">2.8 <em>Bonus</em>: Loops</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.9-bonus_shell_scripts.html" class="sidebar-item-text sidebar-link">2.9 <em>Bonus</em>: Shell Scripts</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">3. Common File Formats</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-file_formats/3.1-file_formats.html" class="sidebar-item-text sidebar-link">3.1 Common File Formats</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">4. Sequencing QC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-sequence_qc/4.1-sequence_qc.html" class="sidebar-item-text sidebar-link">4.1 Sequencing Quality Control</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">5. Short Read Mapping</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-short_read_mapping/5.1-short_read_mapping.html" class="sidebar-item-text sidebar-link">5.1 Short Read Mapping</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">6. Assembly and Annotation</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/06-assembly_annotation/6.1-assembly_annotation.html" class="sidebar-item-text sidebar-link">6.1 Assembly and Annotation</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">7. Software Management</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/07-software_management/7.1-software_management.html" class="sidebar-item-text sidebar-link">7.1 Managing Software</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">8. Workflow Managers</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.1-workflow_managers.html" class="sidebar-item-text sidebar-link">8.1 Workflow Managers</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.2-nfcore.html" class="sidebar-item-text sidebar-link">8.2 nf-core pipelines</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">9. The nf-core/bactmap Pipeline</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.1-bactmap_run.html" class="sidebar-item-text sidebar-link">9.1 The nf-core/bactmap pipeline</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.2-bactmap_results.html" class="sidebar-item-text sidebar-link">9.2 nf-core/bactmap Results</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">10. Introduction to Phylogenetics</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/10-intro_phylogenetics/10.1-intro_phylogenetics.html" class="sidebar-item-text sidebar-link">10.1 Introduction to Phylogenetics</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">11. Bacterial Genotyping and AMR prediction</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/11-genotyping/11.1-genotyping.html" class="sidebar-item-text sidebar-link">11.1 Bacterial Genotyping and Drug Resistance Prediction</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">12. Introduction to HPC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/12-intro_hpc/12.1-intro_hpc.html" class="sidebar-item-text sidebar-link">12.1 Introduction to High Performance Computing</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#the-file-system" id="toc-the-file-system" class="nav-link" data-scroll-target="#the-file-system">2.2.1 The file system</a></li>
+  <li><a href="#general-syntax-of-a-shell-command" id="toc-general-syntax-of-a-shell-command" class="nav-link" data-scroll-target="#general-syntax-of-a-shell-command">General syntax of a shell command</a></li>
+  <li><a href="#getting-help" id="toc-getting-help" class="nav-link" data-scroll-target="#getting-help">Getting help</a>
+  <ul class="collapse">
+  <li><a href="#the---help-option" id="toc-the---help-option" class="nav-link" data-scroll-target="#the---help-option">The <code>--help</code> option</a></li>
+  <li><a href="#the-man-command" id="toc-the-man-command" class="nav-link" data-scroll-target="#the-man-command">The <code>man</code> command</a></li>
+  </ul></li>
+  <li><a href="#exploring-other-directories" id="toc-exploring-other-directories" class="nav-link" data-scroll-target="#exploring-other-directories">2.2.2 Exploring Other Directories</a></li>
+  <li><a href="#creating-directories" id="toc-creating-directories" class="nav-link" data-scroll-target="#creating-directories">2.2.3 Creating directories</a>
+  <ul class="collapse">
+  <li><a href="#step-1-see-where-we-are-and-what-we-already-have" id="toc-step-1-see-where-we-are-and-what-we-already-have" class="nav-link" data-scroll-target="#step-1-see-where-we-are-and-what-we-already-have">Step 1: see where we are and what we already have</a></li>
+  <li><a href="#step-2-create-a-directory" id="toc-step-2-create-a-directory" class="nav-link" data-scroll-target="#step-2-create-a-directory">Step 2: Create a directory</a></li>
+  <li><a href="#step-3-create-a-text-file" id="toc-step-3-create-a-text-file" class="nav-link" data-scroll-target="#step-3-create-a-text-file">Step 3: Create a text file</a></li>
+  </ul></li>
+  <li><a href="#moving-files-and-directories" id="toc-moving-files-and-directories" class="nav-link" data-scroll-target="#moving-files-and-directories">2.2.4 Moving files and directories</a></li>
+  <li><a href="#copying-files-and-directories" id="toc-copying-files-and-directories" class="nav-link" data-scroll-target="#copying-files-and-directories">2.2.5 Copying files and directories</a></li>
+  <li><a href="#removing-files-and-directories" id="toc-removing-files-and-directories" class="nav-link" data-scroll-target="#removing-files-and-directories">2.2.6 Removing files and directories</a></li>
+  <li><a href="#operations-with-multiple-files-and-directories" id="toc-operations-with-multiple-files-and-directories" class="nav-link" data-scroll-target="#operations-with-multiple-files-and-directories">2.2.7 Operations with multiple files and directories</a>
+  <ul class="collapse">
+  <li><a href="#using-wildcards-for-accessing-multiple-files-at-once" id="toc-using-wildcards-for-accessing-multiple-files-at-once" class="nav-link" data-scroll-target="#using-wildcards-for-accessing-multiple-files-at-once">Using wildcards for accessing multiple files at once</a></li>
+  </ul></li>
+  <li><a href="#credit" id="toc-credit" class="nav-link" data-scroll-target="#credit">2.2.8 Credit</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">2.2 Navigating Files and Directories</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p><strong>Teaching: 40 min</strong> || <strong>Exercises: 20 min</strong></p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Questions:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>How can I move around on my computer?</li>
+<li>How can I see what files and directories I have?</li>
+<li>How can I specify the location of a file or directory on my computer?</li>
+<li>How can I create, copy, and delete files and directories?</li>
+<li>How can I edit files?</li>
+</ul>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Learning Objectives:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Explain the similarities and differences between a file and a directory.</li>
+<li>Translate an absolute path into a relative path and vice versa.</li>
+<li>Construct absolute and relative paths that identify specific files and directories.</li>
+<li>Use options and arguments to change the behaviour of a shell command.</li>
+<li>Demonstrate the use of tab completion, and explain its advantages.</li>
+<li>Create a directory hierarchy that matches a given diagram.</li>
+<li>Create files in that hierarchy using an editor or by copying and renaming existing files.</li>
+<li>Delete, copy and move specified files and/or directories.</li>
+</ul>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Key Points:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The file system is responsible for managing information on the disk.</li>
+<li>Information is stored in files, which are stored in directories (folders).</li>
+<li>Directories can also store other directories, which forms a directory tree.</li>
+<li><code>cd path</code> changes the current working directory.</li>
+<li><code>ls path</code> prints a listing of a specific file or directory; <code>ls</code> on its own lists the current working directory.</li>
+<li><code>pwd</code> prints the user’s current working directory.</li>
+<li><code>/</code> on its own is the root directory of the whole file system.</li>
+<li>A relative path specifies a location starting from the current location.</li>
+<li>An absolute path specifies a location from the root of the file system.</li>
+<li>Directory names in a path are separated with <code>/</code> on Unix, but <code>\\</code> on Windows.</li>
+<li><code>..</code> means ‘the directory above the current one’; <code>.</code> on its own means ‘the current directory’.</li>
+<li><code>cp old new</code> copies a file.</li>
+<li><code>mkdir path</code> creates a new directory.</li>
+<li><code>mv old new</code> moves (renames) a file or directory.</li>
+<li><code>rm path</code> removes (deletes) a file.</li>
+<li><code>*</code> matches zero or more characters in a filename, so <code>*.txt</code> matches all files ending in <code>.txt</code>.</li>
+<li><code>?</code> matches any single character in a filename, so <code>?.txt</code> matches <code>a.txt</code> but not <code>any.txt</code>.</li>
+<li>The shell does not have a trash bin: once something is deleted, it’s really gone.</li>
+<li>Most files’ names are <code>something.extension</code>. The extension isn’t required, and doesn’t guarantee anything, but is normally used to indicate the type of data in the file.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!--FIXME: Add a session on symbolic link here (ln -s )-->
+</section>
+<section id="the-file-system" class="level2">
+<h2 class="anchored" data-anchor-id="the-file-system">2.2.1 The file system</h2>
+<p>The part of the operating system responsible for managing files and directories is called the <strong>file system</strong>. It organizes our data into files, which hold information, and directories (also called “folders”), which hold files or other directories.</p>
+<p>Several commands are frequently used to create, inspect, rename, and delete files and directories. To start exploring them, we’ll go to our open shell window.</p>
+<p>First let’s find out where we are by running a command called <code>pwd</code> (which stands for “print working directory”). Directories are like <em>places</em> - at any time while we are using the shell we are in exactly one place, called our <strong>current working directory</strong>. Commands mostly read and write files in the current working directory, i.e.&nbsp;“here”, so knowing where you are before running a command is important. <code>pwd</code> shows you where you are:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>/home/ubuntu</code></pre>
+</div>
+</div>
+</div>
+<p>Here, the computer’s response is <code>/home/ubuntu</code>, which is your <strong>home directory</strong>:</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Home Directory Variation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The home directory path will look different on different operating systems. On Mac it may look like <code>/Users/ubuntu</code>, and on Windows it will be similar to <code>C:\Documents and Settings\ubuntu</code> or <code>C:\Users\ubuntu</code>.</p>
+<p>(Note that it may look slightly different for different versions of Windows, and <code>ubuntu</code> may be replaced with your <code>username</code>.) In future examples, we’ve used Linux output as the default - Mac and Windows output may differ slightly, but should be generally similar.</p>
+</div>
+</div>
+<p>To understand what a “home directory” is, let’s have a look at how the file system as a whole is organized. For the sake of this example, we’ll be illustrating the filesystem on a typical Linux computer. After this illustration, you’ll be learning commands to explore your own filesystem, which will be constructed in a similar way, but not be exactly identical.</p>
+<p>On a typical Linux computer, the filesystem looks like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/filesystem.svg" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">The File System</figcaption><p></p>
+</figure>
+</div>
+<p>At the top is the <strong>root directory</strong> that holds everything else. We refer to it using a slash character, <code>/</code>, on its own; this is the leading slash in <code>/home/ubuntu</code>.</p>
+<p>Inside that directory are several other directories:</p>
+<ul>
+<li><code>bin</code> (which is where some built-in programs are stored),</li>
+<li><code>usr</code> (for miscellaneous user files),</li>
+<li><code>home</code> (where users’ personal directories are located),</li>
+<li><code>tmp</code> (for temporary files that don’t need to be stored long-term), and so on.</li>
+</ul>
+<p>We know that our current working directory <code>/home/ubuntu</code> is stored inside <code>/home</code> because <code>/home</code> is the first part of its name. Similarly, we know that <code>/home</code> is stored inside the root directory <code>/</code> because its name begins with <code>/</code>.</p>
+<blockquote class="blockquote">
+<h3 id="slashes" class="anchored">Slashes</h3>
+<p>Notice that there are two meanings for the <code>/</code> character. When it appears at the front of a file or directory name, it refers to the root directory. When it appears <em>inside</em> a name, it’s just a separator.</p>
+</blockquote>
+<!--FIXME: Change the file directory system to represent that of the Linux environment that would be used for the training-->
+<p>Underneath <code>/home</code>, we find one directory for each user with an account on the machine, in this example <em>imhotep</em>, <em>larry</em>, and ubuntu (you).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/home-directories.svg" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Home Directories</figcaption><p></p>
+</figure>
+</div>
+<p>The user <em>imhotep</em>’s files are stored in <code>/home/imhotep</code>, user <em>larry</em>’s in <code>/home/larry</code>, and yours in <code>/home/ubuntu</code>. Because you are the current user in our examples here, this is why we get <code>/home/ubuntu</code> as our home directory. Typically, when you open a new command prompt you will be in your home directory to start.</p>
+<p>Now let’s learn the command that will let us see the contents of our own filesystem. We can see what’s in our home directory by running <code>ls</code>, which stands for “listing”:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Documents    Downloads    Music        Public
+Desktop      Movies       Pictures     Templates
+...</code></pre>
+</div>
+</div>
+</div>
+<p>(Again, your results may be slightly different depending on your operating system and how you have customized your filesystem.)</p>
+<p><code>ls</code> prints the names of the files and directories in the current directory. We can make its output more comprehensible by using the <code>-F</code> <strong>option</strong> (also known as a <strong>switch</strong> or a <strong>flag</strong>) , which tells <code>ls</code> to classify the output by adding a marker to file and directory names to indicate what they are:</p>
+<ul>
+<li>a trailing <code>/</code> indicates that this is a directory</li>
+<li><code>@</code> indicates a link</li>
+<li><code>*</code> indicates an executable</li>
+</ul>
+<p>Depending on your default options, the shell might also use colors to indicate whether each entry is a file or directory.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-F</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Documents/    Downloads/    Music/        Public/
+Desktop/      Movies/       Pictures/     Templates/
+...</code></pre>
+</div>
+</div>
+</div>
+<p>Here, we can see that our home directory contains mostly <strong>sub-directories</strong>. Any names in your output that don’t have a classification symbol, are plain old <strong>files</strong>.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Clearing your terminal
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If your screen gets too cluttered, you can clear your terminal using the <code>clear</code> command. You can still access previous commands using <kbd>↑</kbd> and <kbd>↓</kbd> to move line-by-line, or by scrolling in your terminal.</p>
+</div>
+</div>
+</section>
+<section id="general-syntax-of-a-shell-command" class="level2">
+<h2 class="anchored" data-anchor-id="general-syntax-of-a-shell-command">General syntax of a shell command</h2>
+<p>Consider the command below as a general example of a command, which we will dissect into its component parts:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-F</span> /</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/shell_command_syntax.svg" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">General syntax of a shell command</figcaption><p></p>
+</figure>
+</div>
+<p><code>ls</code> is the <strong>command</strong>, with an <strong>option</strong> <code>-F</code> and an <strong>argument</strong> <code>/</code>. We’ve already encountered options (also called <strong>switches</strong> or <strong>flags</strong>) which either start with a single dash (<code>-</code>) or two dashes (<code>--</code>), and they change the behaviour of a command. Arguments tell the command what to operate on (e.g.&nbsp;files and directories). Sometimes options and arguments are referred to as <strong>parameters</strong>. A command can be called with more than one option and more than one argument: but a command doesn’t always require an argument or an option.</p>
+<p>Each part is separated by spaces: if you omit the space between <code>ls</code> and <code>-F</code> the shell will look for a command called <code>ls-F</code>, which doesn’t exist. Also, capitalisation can be important: <code>ls -r</code> is different to <code>ls -R</code>. Also, <code>ls -s</code> is different to <code>ls -S</code>. Find out what each does.</p>
+<p>Putting all that together, our command above gives us a listing of files and directories in the <strong>root</strong> directory <code>/</code>. An example of the output you might get from the above command is given below:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-F</span> /</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>bin/  boot/  cdrom/  core  dev/  etc/  home/  home2/  initrd.img@  
+initrd.img.old@  lib/  lib32/  lib64/  lost+found/  media/  mnt/  
+opt/  proc/  root/  run/  sbin/  snap/  srv/  sys/  tmp/  usr/  var/</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="getting-help" class="level2">
+<h2 class="anchored" data-anchor-id="getting-help">Getting help</h2>
+<p><code>ls</code> has lots of other <strong>options</strong>. There are two common ways to find out how to use a command and what options it accepts:</p>
+<ol type="1">
+<li><p>We can pass a <code>--help</code> option to the command, such as:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>We can read its manual with <code>man</code>, such as:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">man</span> ls</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+<section id="the---help-option" class="level3">
+<h3 class="anchored" data-anchor-id="the---help-option">The <code>--help</code> option</h3>
+<p>Many bash commands, and programs that people have written that can be run from within bash, support a <code>--help</code> option to display more information on how to use the command or program.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Usage: ls [OPTION]... [FILE]...
+List information about the FILEs (the current directory by default).
+Sort entries alphabetically if none of -cftuvSUX nor --sort is specified.
+
+Mandatory arguments to long options are mandatory for short options too.
+  -a, --all                  do not ignore entries starting with .
+  -A, --almost-all           do not list implied . and ..
+      --author               with -l, print the author of each file
+  -b, --escape               print C-style escapes for nongraphic characters
+      --block-size=SIZE      scale sizes by SIZE before printing them; e.g.,
+                               '--block-size=M' prints sizes in units of
+                               1,048,576 bytes; see SIZE format below
+  -B, --ignore-backups       do not list implied entries ending with ~
+  -c                         with -lt: sort by, and show, ctime (time of last
+                               modification of file status information);
+                               with -l: show ctime and sort by name;
+                               otherwise: sort by ctime, newest first
+  -C                         list entries by columns
+      --color[=WHEN]         colorize the output; WHEN can be 'always' (default
+                               if omitted), 'auto', or 'never'; more info below
+  -d, --directory            list directories themselves, not their contents
+  -D, --dired                generate output designed for Emacs' dired mode
+  -f                         do not sort, enable -aU, disable -ls --color
+  -F, --classify             append indicator (one of */=&gt;@|) to entries
+      --file-type            likewise, except do not append '*'
+      --format=WORD          across -x, commas -m, horizontal -x, long -l,
+                               single-column -1, verbose -l, vertical -C
+      --full-time            like -l --time-style=full-iso
+  -g                         like -l, but do not list owner
+      --group-directories-first
+                             group directories before files;
+                               can be augmented with a --sort option, but any
+                               use of --sort=none (-U) disables grouping
+  -G, --no-group             in a long listing, don't print group names
+  -h, --human-readable       with -l and/or -s, print human readable sizes
+                               (e.g., 1K 234M 2G)
+      --si                   likewise, but use powers of 1000 not 1024
+...   ...                    ...     </code></pre>
+</div>
+</div>
+</div>
+<div class="callout-warning callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Unsupported command-line options
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you try to use an option (flag) that is not supported, <code>ls</code> and other commands will usually print an error message similar to:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-j</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>ls: invalid option -- 'j'
+Try 'ls --help' for more information.</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-man-command" class="level3">
+<h3 class="anchored" data-anchor-id="the-man-command">The <code>man</code> command</h3>
+<p>The other way to learn about <code>ls</code> is to type</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">man</span> ls</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will turn your terminal into a page with a description of the <code>ls</code> command and its options and, if you’re lucky, some examples of how to use it.</p>
+<p>To navigate through the <code>man</code> pages, you may use <kbd>↑</kbd> and <kbd>↓</kbd> to move line-by-line, or try <kbd>B</kbd> and <kbd>Spacebar</kbd> to skip up and down by a full page. To search for a character or word in the <code>man</code> pages, use <kbd>/</kbd> followed by the character or word you are searching for. Sometimes a search will result in multiple hits. If so, you can move between hits using <kbd>N</kbd> (for moving forward) and <kbd>Shift</kbd>+<kbd>N</kbd> (for moving backward).</p>
+<p>To <strong>quit</strong> the <code>man</code> pages, press <kbd>Q</kbd>.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Manual pages on the web
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Of course there is a third way to access help for commands: Searching the internet via your web browser. When using internet search, including the phrase <code>unix man page</code> in your search query will help to find relevant results.</p>
+<p>GNU provides links to its <a href="http://www.gnu.org/manual/manual.html">manuals</a> including the <a href="http://www.gnu.org/software/coreutils/manual/coreutils.html">core GNU utilities</a>, which covers many commands introduced within this lesson.</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.2.1.1:</em></strong> Exploring More <code>ls</code> Flags
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can also use two options at the same time. What does the command <code>ls</code> do when used with the <code>-l</code> option? What about if you use both the <code>-l</code> and the <code>-h</code> option?</p>
+<p>Some of its output is about properties that we do not cover in this lesson (such as file permissions and ownership), but the rest should be useful nevertheless.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The <code>-l</code> option makes <code>ls</code> use a <strong>l</strong>ong listing format, showing not only the file/directory names but also additional information such as the file size and the time of its last modification. If you use both the <code>-h</code> option and the <code>-l</code> option, this makes the file size “<strong>h</strong>uman readable”, i.e.&nbsp;displaying something like <code>5.3K</code> instead of <code>5369</code>. <!-- FIXME: Add the exact outputs from a Linux PC to the solution --></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.2.1.2:</em></strong> Listing in Reverse Chronological Order
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By default, <code>ls</code> lists the contents of a directory in alphabetical order by name. The command <code>ls -t</code> lists items by time of last change instead of alphabetically. The command <code>ls -r</code> lists the contents of a directory in reverse order. Which file is displayed last when you combine the <code>-t</code> and <code>-r</code> options? Hint: You may need to use the <code>-l</code> option to see the last changed dates.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The most recently changed file is listed last when using <code>-rtl</code>. This can be very useful for finding your most recent edits or checking to see if a new output file was written.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exploring-other-directories" class="level2">
+<h2 class="anchored" data-anchor-id="exploring-other-directories">2.2.2 Exploring Other Directories</h2>
+<!--FIXME: Edit this portion with the appropriate file and directory names respective to the Linux environment we will be using -->
+<p>Not only can we use <code>ls</code> on the current working directory, but we can use it to list the contents of a different directory. Let’s take a look at our <code>Desktop</code> directory by running <code>ls -F Desktop</code>, i.e., the command <code>ls</code> with the <code>-F</code> <strong>option</strong> and the <strong>argument</strong> <code>Desktop</code>. The argument <code>Desktop</code> tells <code>ls</code> that we want a listing of something other than our current working directory:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-F</span> Desktop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<!--FIXME: Add other directories found on the Desktop to the output below-->
+<pre><code>...
+workshop_files_Bact_Genomics_2023/
+...</code></pre>
+</div>
+</div>
+</div>
+<p>Note that if a directory named <code>Desktop</code> does not exist in your current working directory, this command will return an error. Typically, a <code>Desktop</code> directory exists in your home directory, which we assume is the current working directory of your bash shell.</p>
+<p>Your output should be a list of all the files and sub-directories in your Desktop directory, including the <code>workshop_files_Bact_Genomics_2023</code> directory. On many systems, the command line Desktop directory is the same as your GUI Desktop. Take a look at your Desktop to confirm that your output is accurate.</p>
+<p>As you may now see, using a bash shell is strongly dependent on the idea that your files and directories are organized in a hierarchical file system. Organizing things hierarchically in this way helps us keep track of our work: it’s possible to put hundreds of files in our home directory, just as it’s possible to pile hundreds of printed papers on our desk, but it’s a self-defeating strategy.</p>
+<p>Now that we know the <code>workshop_files_Bact_Genomics_2023</code> directory is located in our Desktop directory, we can do two things.</p>
+<p>First, we can look at its contents, using the same strategy as before, passing a directory name as an argument to <code>ls</code>:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-F</span> Desktop/workshop_files_Bact_Genomics_2023</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>01_intro_WGS/    02_unix_intro/    03_file_formats/    04_QC/    05_mapping/
+...</code></pre>
+</div>
+</div>
+</div>
+<p>Second, we can also change our location to that directory, so we are no longer located in our home directory.</p>
+<p>The command to change locations is <code>cd</code> followed by a directory name to change our working directory. <code>cd</code> stands for “<strong>change directory</strong>”, which is a bit misleading: the command doesn’t change the directory, it changes the shell’s idea of what directory we are in.</p>
+<p>Let’s say we want to move to the <code>02_unix_intro</code> directory we saw above. We can use the following series of commands to get there:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> Desktop</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> workshop_files_Bact_Genomics_2023</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> 02_unix_intro</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These commands will move us from our home directory onto our Desktop, then into the <code>workshop_files_Bact_Genomics_2023</code> directory, then into the <code>02_unix_intro</code> directory. You will notice that <code>cd</code> doesn’t print anything. This is normal. Many shell commands will not output anything to the screen when successfully executed. But if we run <code>pwd</code> after it, we can see that we are now in <code>/home/ubuntu/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro</code>. If we run <code>ls</code> without arguments now, it lists the contents of <code>/home/ubuntu/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro</code>, because that’s where we are now:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>/home/ubuntu/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro</code></pre>
+</div>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-F</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<!--FIXME: Update output information if necessary-->
+<pre><code>amino-acids.txt   elements/     pdb/            salmon.txt
+animals.txt       morse.txt     planets.txt     sunspot.txt</code></pre>
+</div>
+</div>
+</div>
+<p>We now know how to go down the directory tree, but how do we go up? We might try the following:</p>
+<div class="callout-warning callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Error
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> workshop_files_Bact_Genomics_2023</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>-bash: cd: workshop_files_Bact_Genomics_2023: No such file or directory</code></pre>
+</div>
+</div>
+<p>But we get an error! Why is this?</p>
+<p>With our methods so far, <code>cd</code> can only see sub-directories inside your current directory. There are different ways to see directories above your current location; we will start with the simplest.</p>
+<p>There is a shortcut in the shell to move up one directory level that looks like this:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>..</code> is a special directory name meaning “the directory containing this one”, or more succinctly, the <strong>parent</strong> of the current directory. Sure enough, if we run <code>pwd</code> after running <code>cd ..</code>, we’re back in <code>/home/ubuntu/Desktop/workshop_files_Bact_Genomics_2023</code>:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>/home/ubuntu/Desktop/workshop_files_Bact_Genomics_2023</code></pre>
+</div>
+</div>
+</div>
+<p>The special directory <code>..</code> doesn’t usually show up when we run <code>ls</code>. If we want to display it, we can give <code>ls</code> the <code>-a</code> option:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-F</span> <span class="at">-a</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<!--FIXME: Update output information if necessary-->
+<pre><code>./    01_intro_WGS/    03_file_formats/    05_mapping/
+../   02_unix_intro/   04_QC/              </code></pre>
+</div>
+</div>
+</div>
+<p><code>-a</code> stands for “show all”; it forces <code>ls</code> to show us file and directory names that begin with <code>.</code>, such as <code>..</code> (which, if we’re in <code>/home/ubuntu</code>, refers to the <code>/home</code> directory)</p>
+<p>As you can see, it also displays another special directory that’s just called <code>.</code>, which means “the current working directory”. It may seem redundant to have a name for it, but we will see some uses for it soon.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that in most command line tools, multiple options can be combined with a single <code>-</code> and no spaces between the options: <code>ls -F -a</code> is equivalent to <code>ls -Fa</code>.</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Other Hidden Files
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In addition to the hidden directories <code>..</code> and <code>.</code>, you may also see a file called <code>.bashrc</code>. This file usually contains shell configuration settings. You may also see other files and directories beginning with <code>.</code>. These are usually files and directories that are used to configure different programs on your computer. The prefix <code>.</code> is used to prevent these configuration files from cluttering the terminal when a standard <code>ls</code> command is used.</p>
+</div>
+</div>
+<p>These three commands are the basic commands for navigating the filesystem on your computer: <code>pwd</code>, <code>ls</code> and <code>cd</code>. Let’s explore some variations on those commands.</p>
+<p>What happens if you type <code>cd</code> on its own, without giving a directory?</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>How can you check what happened? <code>pwd</code> gives us the answer!</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>/Users/name_of_user</code></pre>
+</div>
+</div>
+</div>
+<p>It turns out that <code>cd</code> without an argument will return you to your home directory, which is great if you’ve got lost in your own filesystem.</p>
+<p>Let’s try returning to the <code>02_unix_intro</code> directory from before. Last time, we used three commands, but we can actually string together the list of directories to move to <code>02_unix_intro</code> in one step:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Check that we’ve moved to the right place by running <code>pwd</code> and <code>ls -F</code></p>
+<p>If we want to move up one level from the 02_unix_intro directory, we could use <code>cd ..</code>. But there is another way to move to any directory, regardless of your current location.</p>
+<p>So far, when specifying directory names, or even a directory path (as above), we have been using <strong>relative paths</strong>. When you use a relative path with a command like <code>ls</code> or <code>cd</code>, it tries to find that location from where we are, rather than from the root of the file system.</p>
+<p>However, it is possible to specify the <strong>absolute path</strong> to a directory by including its entire path from the root directory, which is indicated by a leading slash. The leading <code>/</code> tells the computer to follow the path from the root of the file system, so it always refers to exactly one directory, no matter where we are when we run the command.</p>
+<p>This allows us to move to our <code>workshop_files_Bact_Genomics_2023</code> directory from anywhere on the filesystem (including from inside <code>02_unix_intro</code>). To find the absolute path we are looking for, we can use <code>pwd</code> and then extract the piece we need to move to <code>workshop_files_Bact_Genomics_2023</code>.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>/home/ubuntu/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro</code></pre>
+</div>
+</div>
+</div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /home/ubuntu/Desktop/workshop_files_Bact_Genomics_2023</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Run <code>pwd</code> and <code>ls -F</code> to ensure that we are in the directory we expect.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Two More Shortcuts
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The shell interprets the tilde (<code>~</code>) character at the start of a path to mean “the current user’s home directory”. For example, for your home directory,<code>/home/ubuntu</code>, then <code>~/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro</code> is equivalent to <code>/home/ubuntu/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro</code>. This only works if it is the first character in the path: <code>here/there/~/elsewhere</code> is <em>not</em> <code>here/there/home/ubuntu/elsewhere</code>.</p>
+<p>Another shortcut is the dash (<code>-</code>) character. <code>cd</code> will translate <code>-</code> into <em>the previous directory I was in</em>, which is faster than having to remember, then type, the full path. This is a <em>very</em> efficient way of moving <em>back and forth between two directories</em> – i.e.&nbsp;if you execute <code>cd -</code> twice, you end up back in the starting directory.</p>
+<p>The difference between <code>cd ..</code> and <code>cd -</code> is that the former brings you <em>up</em>, while the latter brings you <em>back</em>.</p>
+<hr>
+<p>Try it! First navigate to <code>~/Desktop/workshop_files_Bact_Genomics_2023</code> (you should already be there).</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Desktop/workshop_files_Bact_Genomics_2023</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then <code>cd</code> into the <code>exercise-data/creatures</code> directory</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> 02_unix_intro/bacteria_rpob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now if you run</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="at">-</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>you’ll see you’re back in <code>~/Desktop/workshop_files_Bact_Genomics_2023</code>. Run <code>cd -</code> again and you’re back in <code>~/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro/bacteria_rpob</code></p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tab completion
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sometimes file and directory names get too long and it’s tedious to have to type the full name for example when moving with <code>cd</code>. We can let the shell do most of the work &gt; through what is called <strong>tab completion</strong>. Let’s say we are in the <code>/home/ubuntu/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro/</code> and we type:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> nor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>and then press <kbd>Tab</kbd> or <kbd>↹</kbd>(the tab key on the keyboard), the shell automatically completes the directory name:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> north-pacific-gyre/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If we press <kbd>Tab</kbd> or <kbd>↹</kbd> again, Bash will add <code>2012-07-03/</code> to the command, since it’s the only possible completion (<em>NB. this may not be the case if there is another directory in there</em>). Pressing <kbd>Tab</kbd> or <kbd>↹</kbd> again does nothing, since there are 19 possibilities; pressing <kbd>Tab</kbd> or <kbd>↹</kbd> twice brings up a list of all the files, and so on. This is very useful in practise and we will see more of it later.</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.2.2.1:</em></strong> Absolute vs Relative Paths
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Starting from <code>/home/amanda/data</code>, which of the following commands could Amanda use to navigate to her home directory, which is <code>/home/amanda</code>?</p>
+<ol type="1">
+<li><code>cd .</code></li>
+<li><code>cd /</code></li>
+<li><code>cd /home/amanda</code></li>
+<li><code>cd ../..</code></li>
+<li><code>cd ~</code></li>
+<li><code>cd home</code></li>
+<li><code>cd ~/data/..</code></li>
+<li><code>cd</code></li>
+<li><code>cd ..</code></li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>No: <code>.</code> stands for the current directory.</li>
+<li>No: <code>/</code> stands for the root directory.</li>
+<li>Yes: This is an example of using the full absolute path.</li>
+<li>No: this goes up two levels, i.e.&nbsp;ends in <code>/home</code>.</li>
+<li>Yes: <code>~</code> stands for the user’s home directory, in this case <code>/home/amanda</code>.</li>
+<li>No: this would navigate into a directory <code>home</code> in the current directory if it exists.</li>
+<li>Yes: unnecessarily complicated, but correct.</li>
+<li>Yes: shortcut to go back to the user’s home directory.</li>
+<li>Yes: goes up one level.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.2.2.2:</em></strong> Relative Path Resolution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using the filesystem diagram below, if <code>pwd</code> displays <code>/Users/thing</code>, what will <code>ls -F ../backup</code> display?</p>
+<ol type="1">
+<li><code>../backup: No such file or directory</code></li>
+<li><code>2012-12-01 2013-01-08 2013-01-27</code></li>
+<li><code>2012-12-01/ 2013-01-08/ 2013-01-27/</code></li>
+<li><code>original/ pnas_final/ pnas_sub/</code></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/filesystem-challenge.svg" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">File System for Challenge Questions</figcaption><p></p>
+</figure>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>No: there <em>is</em> a directory <code>backup</code> in <code>/Users</code>.</li>
+<li>No: this is the content of <code>Users/thing/backup</code>, but with <code>..</code> we asked for one level further up.</li>
+<li>No: see previous explanation.</li>
+<li>Yes: <code>../backup/</code> refers to <code>/Users/backup/</code>.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.2.2.3:</em></strong> <code>ls</code> Reading Comprehension
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using the filesystem diagram below, if <code>pwd</code> displays <code>/Users/backup</code>, and <code>-r</code> tells <code>ls</code> to display things in reverse order, what command(s) will result in the following output:</p>
+<pre><code>pnas_sub/ pnas_final/ original/</code></pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/filesystem-challenge.svg" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">File System for Challenge Questions</figcaption><p></p>
+</figure>
+</div>
+<ol type="1">
+<li><code>ls pwd</code></li>
+<li><code>ls -r -F</code></li>
+<li><code>ls -r -F /Users/backup</code></li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>No: <code>pwd</code> is not the name of a directory.</li>
+<li>Yes: <code>ls</code> without directory argument lists files and directories in the current directory.</li>
+<li>Yes: uses the absolute path explicitly.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="creating-directories" class="level2">
+<h2 class="anchored" data-anchor-id="creating-directories">2.2.3 Creating directories</h2>
+<p>We now know how to explore files and directories, but how do we create them in the first place?</p>
+<section id="step-1-see-where-we-are-and-what-we-already-have" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-see-where-we-are-and-what-we-already-have">Step 1: see where we are and what we already have</h3>
+<p>Let’s go back to our <code>workshop_files_Bact_Genomics_2023</code> directory on the Desktop and use <code>ls -F</code> to see what it contains:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>/home/ubuntu/Desktop/workshop_files_Bact_Genomics_2023</code></pre>
+</div>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb48"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-F</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>01_intro_WGS/    02_unix_intro/    03_file_formats/    04_QC/    05_mapping/
+...</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="step-2-create-a-directory" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-create-a-directory">Step 2: Create a directory</h3>
+<p>Let’s create a new directory called <code>thesis</code> using the command <code>mkdir thesis</code> (which has no output):</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> thesis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As you might guess from its name, <code>mkdir</code> means “<strong>make directory</strong>”. Since <code>thesis</code> is a relative path (i.e., does not have a leading slash, like <code>/what/ever/thesis</code>), the new directory is created in the current working directory:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-F</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<!--FIXME: Update the below output-->
+<pre><code>01_intro_WGS/    02_unix_intro/    03_file_formats/    04_QC/    05_mapping/
+thesis/
+...</code></pre>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<h3 id="two-ways-of-doing-the-same-thing" class="anchored">Two ways of doing the same thing</h3>
+<p>Using the shell to create a directory is no different than using a file explorer. If you open the current directory using your operating system’s graphical file explorer, the <code>thesis</code> directory will appear there too. While the shell and the file explorer are two different ways of interacting with the files, the files and directories themselves are the same.</p>
+</blockquote>
+<blockquote class="blockquote">
+<h3 id="good-names-for-files-and-directories" class="anchored">Good names for files and directories</h3>
+<p>Complicated names of files and directories can make your life painful when working on the command line. Here we provide a few useful tips for the names of your files.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+1. Don’t use spaces.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Spaces can make a name more meaningful, but since spaces are used to separate arguments on the command line it is better to avoid them in names of files and directories. You can use <code>-</code> or <code>_</code> instead (e.g.&nbsp;<code>north-pacific-gyre/</code> rather than <code>north pacific gyre/</code>).</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+2. Don’t begin the name with <code>-</code> (dash).
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Commands treat names starting with <code>-</code> as options.</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+3. Stick with letters, numbers, <code>.</code> (period or ‘full stop’), <code>-</code> (dash) and <code>_</code> (underscore).
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Many other characters have special meanings on the command line. We will learn about some of these during this lesson. There are special characters that can cause your command to not work as expected and can even result in data loss.</p>
+</div>
+</div>
+<p>If you need to refer to names of files or directories that have spaces or other special characters, you should surround the name in quotes (<code>""</code>).</p>
+</blockquote>
+<p>Since we’ve just created the <code>thesis</code> directory, there’s nothing in it yet:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-F</span> thesis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="step-3-create-a-text-file" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-create-a-text-file">Step 3: Create a text file</h3>
+<p>Let’s change our working directory to <code>thesis</code> using <code>cd</code>, then run a text editor called Nano to create a file called <code>firstdraft.txt</code>:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> thesis</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> firstdraft.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<h3 id="which-editor" class="anchored">Which Editor?</h3>
+<p>When we say, “<code>nano</code> is a <strong>text editor</strong>,” we really do mean “<strong>text</strong>”: it can only work with plain character data, not tables, images, or any other human-friendly media. We use it in examples because it is one of the least complex text editors. However, because of this trait, it may not be powerful enough or flexible enough for the work you may need to do after this workshop.</p>
+<p>On Unix systems (such as Linux and Mac OS X), many programmers use <a href="http://www.gnu.org/software/emacs/">Emacs</a> or <a href="http://www.vim.org/">Vim</a> (both of which require more time to learn), or a graphical editor such as <a href="http://projects.gnome.org/gedit/">Gedit</a>. On Windows, you may wish to use <a href="http://notepad-plus-plus.org/">Notepad++</a>. Windows also has a built-in editor called <code>notepad</code> that can be run from the command line in the same way as <code>nano</code> for the purposes of this lesson.</p>
+<p>No matter what editor you use, you will need to know where it searches for and saves files. If you start it from the shell, it will (probably) use your current working directory as its default location. If you use your computer’s start menu, it may want to save files in your desktop or documents directory instead. You can change this by navigating to another directory the first time you “<strong>Save As…</strong>”</p>
+</blockquote>
+<p>Let’s type in a few lines of text. Once we’re happy with our text, we can press <kbd>Ctrl</kbd>+<kbd>O</kbd> (press the <kbd>Ctrl</kbd> or Control key and, while holding it down, press the <kbd>O</kbd> key) to write our data to disk (we’ll be asked what file we want to save this to: press <kbd>Return</kbd> or <kbd>Enter</kbd> to accept the suggested default of <code>firstdraft.txt</code>).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/nano-screenshot.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Nano in Action</figcaption><p></p>
+</figure>
+</div>
+<p>Once our file is saved, we can use <code>Ctrl-X</code> to quit the editor and return to the shell. Note that pressing <code>Ctrl-X</code> without previously saving the file can achieve both aim of saving and exiting. You can try this out.</p>
+<blockquote class="blockquote">
+<h3 id="control-ctrl-or-key" class="anchored"><code>Control</code>, <code>Ctrl</code>, or <code>^</code> Key</h3>
+<p>The <kbd>Control</kbd> key is also called the <kbd>Ctrl</kbd> key. There are various ways in which using the Control key may be described. For example, you may see an instruction to press the Control key and, while holding it down, press the X key, described as any of:</p>
+<ul>
+<li><code>Control-X</code></li>
+<li><code>Control+X</code></li>
+<li><code>Ctrl-X</code></li>
+<li><code>Ctrl+X</code></li>
+<li><code>^X</code></li>
+<li><code>C-x</code></li>
+</ul>
+<p>In nano, along the bottom of the screen you’ll see <code>^G Get Help ^O WriteOut</code>. This means that you can use <code>Control-G</code> to get help and <code>Control-O</code> to save your file.</p>
+</blockquote>
+<p><code>nano</code> doesn’t leave any output on the screen after it exits, but <code>ls</code> now shows that we have created a file called <code>firstdraft.txt</code>:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb55"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>firstdraft.txt</code></pre>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.2.3.1:</em></strong> Creating Files a Different Way
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We have seen how to create text files using the <code>nano</code> editor. Now, try the following command:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> my_file.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li><p>What did the <code>touch</code> command do? When you look at your current directory using the GUI file explorer, does the file show up?</p></li>
+<li><p>Use <code>ls -l</code> to inspect the files. How large is <code>my_file.txt</code>?</p></li>
+<li><p>When might you want to create a file this way?</p></li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-26" class="callout-26-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>The <code>touch</code> command generates a new file called <code>my_file.txt</code> in your current directory. You can observe this newly generated file by typing <code>ls</code> at the command line prompt. <code>my_file.txt</code> can also be viewed in your GUI file explorer.</p></li>
+<li><p>When you inspect the file with <code>ls -l</code>, note that the size of <code>my_file.txt</code> is 0 bytes. In other words, it contains no data. If you open <code>my_file.txt</code> using your text editor it is blank.</p></li>
+<li><p>Some programs do not generate output files themselves, but instead require that empty files have already been generated. When the program is run, it searches for an existing file to populate with its output. The touch command allows you to efficiently generate a blank text file to be used by such programs.</p></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<h3 id="whats-in-a-name" class="anchored">What’s In A Name?</h3>
+<p>You may have noticed that all of the files in our data directory are named “<strong>something dot something</strong>”, and in this part of the lesson, we always used the extension <code>.txt</code>. This is just a convention: we can call a file <code>mythesis</code> or almost anything else we want. However, most people use two-part names most of the time to help them (and their programs) tell different kinds of files apart. The second part of such a name is called the <strong>filename extension</strong>, and indicates what type of data the file holds: <code>.txt</code> signals a plain text file, <code>.pdf</code> indicates a PDF document, <code>.cfg</code> is a configuration file full of parameters for some program or other, <code>.png</code> is a PNG image, and so on.</p>
+<p>This is just a convention, albeit an important one. Files contain bytes: it’s up to us and our programs to interpret those bytes according to the rules for plain text files, PDF documents, configuration files, images, and so on.</p>
+<p><strong>NB.</strong> Naming a PNG image of a whale as <code>whale.mp3</code> doesn’t somehow magically turn it into a recording of whalesong, though it <em>might</em> cause the operating system to try to open it with a music player when someone double-clicks it.</p>
+</blockquote>
+</section>
+</section>
+<section id="moving-files-and-directories" class="level2">
+<h2 class="anchored" data-anchor-id="moving-files-and-directories">2.2.4 Moving files and directories</h2>
+<p>Returning to the <code>workshop_files_Bact_Genomics_2023</code> directory,</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Desktop/workshop_files_Bact_Genomics_2023/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In our <code>thesis</code> directory we have a file <code>firstdraft.txt</code> which isn’t a particularly informative name, so let’s change the file’s name using <code>mv</code>, which is short for “move”:</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> thesis/firstdraft.txt thesis/second_draft.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The first argument tells <code>mv</code> what we are “<strong>moving</strong>”, while the second is where it’s to go. In this case, we are moving <code>thesis/firstdraft.txt</code> to <code>thesis/seconddrafts.txt</code>, which has the same effect as renaming the file. Sure enough, <code>ls</code> shows us that <code>thesis</code> now contains one file called <code>second_draft.txt</code>:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb60"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> thesis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>second_draft.txt</code></pre>
+</div>
+</div>
+</div>
+<div class="callout-warning callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>One has to be careful when specifying the target file name, since <code>mv</code> will silently overwrite any existing file with the same name, which could lead to data loss.</p>
+</div>
+</div>
+<p>An additional option, <code>mv -i</code> (or <code>mv --interactive</code>), can be used to make <code>mv</code> ask you for confirmation before overwriting.</p>
+<p>Note that <code>mv</code> also works on directories.</p>
+<p>Let’s move <code>second_draft.txt</code> into the current working directory. We use <code>mv</code> once again, but this time we’ll just use the name of a directory as the second argument to tell <code>mv</code> that we want to keep the filename, but put the file somewhere new. (This is why the command is called “<strong>move</strong>”.) In this case, the directory name we use is the special directory name <code>.</code> that we mentioned earlier.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> thesis/second_draft.txt .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The effect is to move the file from the directory it was in to the current working directory (<code>.</code>). <code>ls</code> now shows us that <code>thesis</code> is empty:</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> thesis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Further, <code>ls</code> with a filename or directory name as an argument only lists that file or directory. We can use this to see that <code>second_draft.txt</code> is still in our current directory:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb64"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> second_draft.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>second_draft.txt</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="copying-files-and-directories" class="level2">
+<h2 class="anchored" data-anchor-id="copying-files-and-directories">2.2.5 Copying files and directories</h2>
+<p>The <code>cp</code> command works very much like <code>mv</code>, except it copies a file instead of moving it. We can check that it did the right thing using <code>ls</code> with two paths as arguments — like most Unix commands, <code>ls</code> can be given multiple paths at once:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb66"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> second_draft.txt thesis/third_draft.txt</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> second_draft.txt thesis/third_draft.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>second_draft.txt   thesis/third_draft.txt</code></pre>
+</div>
+</div>
+</div>
+<p>We can also copy a directory and all its contents by using the <a href="https://en.wikipedia.org/wiki/Recursion">recursive</a> option <code>-r</code>, e.g.&nbsp;to back up a directory:</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> thesis thesis_backup</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can check the result by listing the contents of both the <code>thesis</code> and <code>thesis_backup</code> directory:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb69"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> thesis thesis_backup</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>thesis:
+third_draft.txt
+
+thesis_backup:
+third_draft.txt</code></pre>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.2.5.1:</em></strong> Renaming Files
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Suppose that you created a plain-text file in your current directory to contain a list of the statistical tests you will need to do to analyze your data, and named it: <code>statstics.txt</code> After creating and saving this file you realize you misspelled the filename! You want to correct the mistake, which command could you use to do so?</p>
+<ol type="1">
+<li><code>cp statstics.txt statistics.txt</code></li>
+<li><code>mv statstics.txt statistics.txt</code></li>
+<li><code>mv statstics.txt .</code></li>
+<li><code>cp statstics.txt .</code></li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-29-contents" aria-controls="callout-29" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-29" class="callout-29-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>No.&nbsp;While this would create a file with the correct name, the incorrectly named file still exists in the directory and would need to be deleted.</li>
+<li>Yes, this would work to rename the file.</li>
+<li>No, the period(.) indicates where to move the file, but does not provide a new file name; identical file names cannot be created.</li>
+<li>No, the period(.) indicates where to copy the file, but does not provide a new file name; identical file names cannot be created.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.2.5.2:</em></strong> Moving and Copying
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What is the output of the closing <code>ls</code> command in the sequence shown below? You can try the commands starting from <code>/home/ubuntu/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro/mycobacteria_rpob</code>.</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>/home/ubuntu/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro/mycobacteria_rpob</code></pre>
+<div class="sourceCode" id="cb73"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Mycobacterium_tuberculosis_H37Rv_rpob.fasta</code></pre>
+<div class="sourceCode" id="cb75"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> recombine</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> Mycobacterium_tuberculosis_H37Rv_rpob.fasta recombine/</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> recombine/Mycobacterium_tuberculosis_H37Rv_rpob.fasta ../Mycobacterium_tuberculosis_H37Rv_rpob-saved.fasta</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li><code>Mycobacterium_tuberculosis_H37Rv_rpob-saved.fasta recombine</code></li>
+<li><code>recombine</code></li>
+<li><code>Mycobacterium_tuberculosis_H37Rv_rpob.fasta recombine</code></li>
+<li><code>Mycobacterium_tuberculosis_H37Rv_rpob-saved.fasta</code></li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-31-contents" aria-controls="callout-31" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-31" class="callout-31-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>We start in the <code>/home/ubuntu/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro/mycobacteria_rpob</code> directory, and create a new folder called <code>recombine</code>.</li>
+<li>The second line moves (<code>mv</code>) the file <code>Mycobacterium_tuberculosis_H37Rv_rpob.fasta</code> to the new folder (<code>recombine</code>).</li>
+<li>The third line makes a copy of the file we just moved.</li>
+</ul>
+<p>The tricky part here is where the file was copied to. Recall that <code>..</code> means “<strong>go up a level</strong>”, so the copied file is now in <code>/home/ubuntu/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro</code>. - Notice that <code>..</code> is interpreted with respect to the current working directory, <strong>not</strong> with respect to the location of the file being copied. So, the only thing that will show using ls (in <code>/home/ubuntu/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro/mycobacteria_rpob</code>) is the recombine folder.</p>
+<ol type="1">
+<li>No, see explanation above. <code>Mycobacterium_tuberculosis_H37Rv_rpob-saved.fasta</code> is located in <code>/home/ubuntu/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro</code></li>
+<li>Yes</li>
+<li>No, see explanation above. <code>Mycobacterium_tuberculosis_H37Rv_rpob.fasta</code> is located at <code>/home/ubuntu/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro/mycobacteria_rpob/recombine</code></li>
+<li>No, see explanation above. <code>Mycobacterium_tuberculosis_H37Rv_rpob-saved.fasta</code> is located at <code>/home/ubuntu/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro</code></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="removing-files-and-directories" class="level2">
+<h2 class="anchored" data-anchor-id="removing-files-and-directories">2.2.6 Removing files and directories</h2>
+<p>Returning to the <code>workshop_files_Bact_Genomics_2023</code> directory, let’s tidy up this directory by removing the <code>second_draft.txt</code> file we created. The Unix command we will use for this is <code>rm</code> (short for ‘remove’):</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> second_draft.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can confirm the file has gone using <code>ls</code>:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb77"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> second_draft.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>ls: cannot access 'second_draft.txt': No such file or directory</code></pre>
+</div>
+</div>
+</div>
+<p>You can also check by simply executing <code>ls</code></p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout-caution callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Deleting Is Forever
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>The Unix shell doesn’t have a trash bin</strong> that we can recover deleted files from (though most graphical interfaces to Unix do). Instead, when we delete files, they are unlinked from the file system so that their storage space on disk can be recycled. Tools for finding and recovering deleted files do exist, but there is no guarantee they will work in any particular situation, since the computer may recycle the file’s disk space right away.</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.2.6.1:</em></strong> Using <code>rm</code> Safely
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What happens when we execute <code>rm -i thesis_backup/third_draft.txt</code>? Why would we want this protection when using <code>rm</code>?</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-34-contents" aria-controls="callout-34" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-34" class="callout-34-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb80"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rm:</span> remove regular file <span class="st">'thesis_backup/third_draft.txt'</span><span class="pp">?</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>-i</code> option will prompt before (every) removal (use <kbd>Y</kbd> to confirm deletion or <kbd>N</kbd> to keep the file). - The Unix shell doesn’t have a trash bin, so all the files removed will disappear forever. - By using the <code>-i</code> option, we have the chance to check that we are deleting only the files that we want to remove.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>If we try to remove the <code>thesis</code> directory using <code>rm thesis</code>, we get an error message:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb81"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> thesis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>rm: cannot remove `thesis': Is a directory</code></pre>
+</div>
+</div>
+</div>
+<p>This happens because <code>rm</code> by default only works on files, not directories.</p>
+<p><code>rm</code> can remove a directory <em>and all its contents</em> if we use the recursive option <code>-r</code>, and it will do so <em>without any confirmation prompts</em>:</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> thesis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Given that there is no way to retrieve files deleted using the shell, <code>rm -r</code> <em>should be used with great caution</em> (you might consider adding the interactive option <code>rm -r -i</code>).</p>
+</section>
+<section id="operations-with-multiple-files-and-directories" class="level2">
+<h2 class="anchored" data-anchor-id="operations-with-multiple-files-and-directories">2.2.7 Operations with multiple files and directories</h2>
+<p>Oftentimes one needs to copy or move several files at once. This can be done by providing a list of individual filenames, or specifying a naming pattern using wildcards.</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.2.7.1:</em></strong> Copy with Multiple Filenames
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For this exercise, you can test the commands in the <code>workshop_files_Bact_Genomics_2023/02_unix_intro</code> directory. In the example below, what does <code>cp</code> do when given several filenames and a directory name?</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> backup</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> nucleotides.txt bacteria.txt backup/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the example below, what does <code>cp</code> do when given three or more file names?</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb85"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-F</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<!--FIXME: Update output below-->
+<pre><code>nucleotides.txt  bacteria.txt  backup/  elements/  morse.txt  
+pdb/  planets.txt  salmon.txt  sunspot.txt</code></pre>
+</div>
+</div>
+</div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> nucleotides.txt bacteria.txt morse.txt </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-36-contents" aria-controls="callout-36" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-36" class="callout-36-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>If given more than one file name followed by a directory name (i.e.&nbsp;the destination directory must be the last argument), <code>cp</code> copies the files to the named directory. If given three file names, <code>cp</code> throws an error such as the one below, because it is expecting a directory name as the last argument.</p>
+<pre><code>cp: target ‘morse.txt’ is not a directory</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="using-wildcards-for-accessing-multiple-files-at-once" class="level3">
+<h3 class="anchored" data-anchor-id="using-wildcards-for-accessing-multiple-files-at-once">Using wildcards for accessing multiple files at once</h3>
+<section id="wildcards" class="level4">
+<h4 class="anchored">Wildcards</h4>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+*
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>*</code> is a <strong>wildcard</strong>, which matches zero or more characters. Let’s consider the <code>workshop_files_Bact_Genomics_2023/02_unix_intro/molecules</code> directory: <code>*.pdb</code> matches <code>ethane.pdb</code>, <code>propane.pdb</code>, and every file that ends with ‘.pdb’. On the other hand, <code>p*.pdb</code> only matches <code>pentane.pdb</code> and <code>propane.pdb</code>, because the ‘p’ at the front only matches filenames that begin with the letter ‘p’.</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>?</code> is also a wildcard, but it matches exactly one character. So <code>?ethane.pdb</code> would match <code>methane.pdb</code> whereas <code>*ethane.pdb</code> matches both <code>ethane.pdb</code>, and <code>methane.pdb</code>.</p>
+</div>
+</div>
+<p>Wildcards can be used in combination with each other e.g.&nbsp;<code>???ane.pdb</code> matches three characters followed by <code>ane.pdb</code>, giving <code>cubane.pdb  ethane.pdb  octane.pdb</code>.</p>
+<p>When the shell sees a wildcard, it expands the wildcard to create a list of matching filenames <em>before</em> running the command that was asked for. As an exception, if a wildcard expression does not match any file, Bash will pass the expression as an argument to the command as it is. For example typing <code>ls *.pdf</code> in the <code>molecules</code> directory (which contains only files with names ending with <code>.pdb</code>) results in an error message that there is no file called <code>*.pdf</code>.</p>
+<p>However, generally commands like <code>wc</code> and <code>ls</code> see the lists of file names matching these expressions, but not the wildcards themselves. It is the shell, not the other programs, that deals with expanding wildcards, and this is an example of orthogonal design.</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.2.7.2:</em></strong> List filenames matching a pattern
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When run in the <code>molecules</code> directory, which <code>ls</code> command(s) will produce this output?</p>
+<p><code>ethane.pdb   methane.pdb</code></p>
+<ol type="1">
+<li><code>ls *t*ane.pdb</code></li>
+<li><code>ls *t?ne.*</code></li>
+<li><code>ls *t??ne.pdb</code></li>
+<li><code>ls ethane.*</code></li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-40-contents" aria-controls="callout-40" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-40" class="callout-40-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The answer is <code>3.</code></p>
+<p><code>1.</code> shows all files whose names contain zero or more characters (<code>*</code>) followed by the letter <code>t</code>, then zero or more characters (<code>*</code>) followed by <code>ane.pdb</code>. This gives <code>ethane.pdb  methane.pdb  octane.pdb  pentane.pdb</code>.</p>
+<p><code>2.</code> shows all files whose names start with zero or more characters (<code>*</code>) followed by the letter <code>t</code>, then a single character (<code>?</code>), then <code>ne.</code> followed by zero or more characters (<code>*</code>). This will give us <code>octane.pdb</code> and <code>pentane.pdb</code> but doesn’t match anything which ends in <code>thane.pdb</code>.</p>
+<p><code>3.</code> fixes the problems of option 2 by matching two characters (<code>??</code>) between <code>t</code> and <code>ne</code>. This is the solution.</p>
+<p><code>4.</code> only shows files starting with <code>ethane.</code>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.2.7.3:</em></strong> More on Wildcards
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Look into the <code>exp</code> directory in <code>~/Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro/exp</code> that has the following structure:</p>
+<pre><code>exp
+├── 2015-10-23-calibration.txt
+├── 2015-10-23-dataset1.txt
+├── 2015-10-23-dataset2.txt
+├── 2015-10-23-dataset_overview.txt
+├── 2015-10-26-calibration.txt
+├── 2015-10-26-dataset1.txt
+├── 2015-10-26-dataset2.txt
+├── 2015-10-26-dataset_overview.txt
+├── 2015-11-23-calibration.txt
+├── 2015-11-23-dataset1.txt
+├── 2015-11-23-dataset2.txt
+├── 2015-11-23-dataset_overview.txt</code></pre>
+<p>Suppose you want to:</p>
+<ol type="1">
+<li><p>backup all dataset file to <code>backup/datasets</code> and all calibration files to <code>backup/calibration</code></p></li>
+<li><p>copy all the dataset files created on the 23rd to <code>send_to_bob/all_datasets_created_on_a_23rd</code> and all November files (calibration) and dataset) to <code>send_to_bob/all_november_files</code> so you can send to a colleague.</p></li>
+</ol>
+<p>Which commands would you use to do that?</p>
+<p>The resulting directory structure should look like this</p>
+<pre><code>exp
+├── 2015-10-23-calibration.txt
+├── 2015-10-23-dataset1.txt
+├── 2015-10-23-dataset2.txt
+├── 2015-10-23-dataset_overview.txt
+├── 2015-10-26-calibration.txt
+├── 2015-10-26-dataset1.txt
+├── 2015-10-26-dataset2.txt
+├── 2015-10-26-dataset_overview.txt
+├── 2015-11-23-calibration.txt
+├── 2015-11-23-dataset1.txt
+├── 2015-11-23-dataset2.txt
+├── 2015-11-23-dataset_overview.txt
+├── backup
+│&nbsp;&nbsp; ├── calibration
+│&nbsp;&nbsp; │&nbsp;&nbsp; ├── 2015-10-23-calibration.txt
+│&nbsp;&nbsp; │&nbsp;&nbsp; ├── 2015-10-26-calibration.txt
+│&nbsp;&nbsp; │&nbsp;&nbsp; └── 2015-11-23-calibration.txt
+│&nbsp;&nbsp; └── datasets
+│&nbsp;&nbsp;     ├── 2015-10-23-dataset1.txt
+│&nbsp;&nbsp;     ├── 2015-10-23-dataset2.txt
+│&nbsp;&nbsp;     ├── 2015-10-23-dataset_overview.txt
+│&nbsp;&nbsp;     ├── 2015-10-26-dataset1.txt
+│&nbsp;&nbsp;     ├── 2015-10-26-dataset2.txt
+│&nbsp;&nbsp;     ├── 2015-10-26-dataset_overview.txt
+│&nbsp;&nbsp;     ├── 2015-11-23-dataset1.txt
+│&nbsp;&nbsp;     ├── 2015-11-23-dataset2.txt
+│&nbsp;&nbsp;     └── 2015-11-23-dataset_overview.txt
+└── send_to_bob
+    ├── all_datasets_created_on_a_23rd
+    │&nbsp;&nbsp; ├── 2015-10-23-dataset1.txt
+    │&nbsp;&nbsp; ├── 2015-10-23-dataset2.txt
+    │&nbsp;&nbsp; ├── 2015-10-23-dataset_overview.txt
+    │&nbsp;&nbsp; ├── 2015-11-23-dataset1.txt
+    │&nbsp;&nbsp; ├── 2015-11-23-dataset2.txt
+    │&nbsp;&nbsp; └── 2015-11-23-dataset_overview.txt
+    └── all_november_files
+        ├── 2015-11-23-calibration.txt
+        ├── 2015-11-23-dataset1.txt
+        ├── 2015-11-23-dataset2.txt
+        └── 2015-11-23-dataset_overview.txt</code></pre>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-42-contents" aria-controls="callout-42" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-42" class="callout-42-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<!--FIXME: Hide and release this solution after the class to serve as a real exercise-->
+<p>Solution is scheduled to be released after class. <!-- 
+```bash
+mkdir backup
+mkdir backup/calibration
+mkdir backup/datasets
+mkdir send_to_bob
+mkdir send_to_bob/all_datasets_created_on_a_23rd
+mkdir send_to_bob/all_november_files
+cp *dataset*.txt backup/datasets
+cp *calibration.txt backup/calibration
+cp 2015-11-* send_to_bob/all_november_files/
+cp *-23-dataset* send_to_bob/all_datasets_created_on_a_23rd/
+```
+--></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.2.7.4:</em></strong> Reproduce a folder structure
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You’re starting a new experiment, and would like to duplicate the directory structure from your previous experiment so you can add new data.</p>
+<p>Assume that the previous experiment is in a folder called ‘2016-05-18’, which contains a <code>data</code> folder that in turn contains folders named <code>raw</code> and <code>processed</code> that contain data files. The goal is to copy the folder structure of the <code>2016-05-18-data</code> folder into a folder called <code>2016-05-20</code> so that your final directory structure looks like this:</p>
+<pre><code>2016-05-20/
+└── data
+    ├── processed
+    └── raw</code></pre>
+<p>Which of the following set of commands would achieve this objective? What would the other commands do? Try them out in the <code>workshop_files_Bact_Genomics_2023/02_unix_intro</code> directory.</p>
+<section id="section-2" class="level3">
+<h3 class="anchored" data-anchor-id="section-2">1.</h3>
+<div class="sourceCode" id="cb92"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> 2016-05-20</span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> 2016-05-20/data</span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> 2016-05-20/data/processed</span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> 2016-05-20/data/raw</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="section-3" class="level3">
+<h3 class="anchored" data-anchor-id="section-3">2.</h3>
+<div class="sourceCode" id="cb93"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> 2016-05-20</span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> 2016-05-20</span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> data</span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> data</span>
+<span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> raw processed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="section-4" class="level3">
+<h3 class="anchored" data-anchor-id="section-4">3.</h3>
+<div class="sourceCode" id="cb94"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> 2016-05-20/data/raw</span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> 2016-05-20/data/processed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="section-5" class="level3">
+<h3 class="anchored" data-anchor-id="section-5">4.</h3>
+<div class="sourceCode" id="cb95"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> 2016-05-20</span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> 2016-05-20</span>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> data</span>
+<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> raw processed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-44-contents" aria-controls="callout-44" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-44" class="callout-44-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The first two sets of commands achieve this objective. The first set uses relative paths to create the top level directory before the subdirectories.</p>
+<p>The third set of commands will give an error because <code>mkdir</code> won’t create a subdirectory of a non-existent directory: the intermediate level folders must be created first.</p>
+<p>The final set of commands generates the ‘raw’ and ‘processed’ directories at the same level as the ‘data’ directory.</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="credit" class="level2">
+<h2 class="anchored" data-anchor-id="credit">2.2.8 Credit</h2>
+<p>Information on this page has been adapted and modified from the following source(s):</p>
+<ul>
+<li><p><em>Gabriel A. Devenyi (Ed.), Gerard Capes (Ed.), Colin Morris (Ed.), Will Pitchers (Ed.),Greg Wilson, Gerard Capes, Gabriel A. Devenyi, Christina Koch, Raniere Silva, Ashwin Srinath, … Vikram Chhatre. (2019, July). swcarpentry/shell-novice: Software Carpentry: the UNIX shell, June 2019 (Version v2019.06.1).</em></p></li>
+<li><p>https://github.com/cambiotraining/UnixIntro</p></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../materials/02-unix_intro/2.1-unix_overview.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2.1 The Unix Shell</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../materials/02-unix_intro/2.3-text_manipulation.html" class="pagination-link">
+        <span class="nav-page-text">2.3 Text Manipulation</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">Licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://creativecommons.org/images/deed/cc_icon_black_x2.png" class="img-fluid" width="25"> Dr Prince Asare and Dr Andries van Tonder</div>
+  </div>
+</footer>
+
+
+
+</body></html>

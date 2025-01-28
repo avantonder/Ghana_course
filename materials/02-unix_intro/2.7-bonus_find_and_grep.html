@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.112">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2.7 Bonus : Finding Things</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../materials/02-unix_intro/2.8-bonus_loops.html" rel="next">
+<link href="../../materials/02-unix_intro/2.6-vscode_overview.html" rel="prev">
+<link href="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university-of-cambridge-favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/NMIMR_Logo_whitebg.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../setup.html">Setup</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../materials.html" aria-current="page">Materials</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../unix_cheat_sheet.html">Unix-Cheat-Sheet</a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/avantonder/Ghana_course"><i class="bi bi-github" role="img" aria-label="Introduction to bacterial genomics GitHub">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/NMIMR_UG"><i class="bi bi-twitter" role="img" aria-label="Noguchi Memorial Institute for Medical Research Twitter">
+</i> 
+ </a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">2.7 <em>Bonus</em> : Finding Things</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials.html" class="sidebar-item-text sidebar-link">Materials</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">1. Introduction to WGS</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro_wgs/1.1-intro_wgs.html" class="sidebar-item-text sidebar-link">1.1 Introduction to Whole Genome Sequencing (WGS)</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">2. Introduction to Unix</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.1-unix_overview.html" class="sidebar-item-text sidebar-link">2.1 The Unix Shell</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.2-files_directories.html" class="sidebar-item-text sidebar-link">2.2 Navigating Files and Directories</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.3-text_manipulation.html" class="sidebar-item-text sidebar-link">2.3 Text Manipulation</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.4-combining_commands.html" class="sidebar-item-text sidebar-link">2.4 Combining Commands</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.5-using_remote_resources.html" class="sidebar-item-text sidebar-link">2.5 Using remote resources</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.6-vscode_overview.html" class="sidebar-item-text sidebar-link">2.6 Visual Studio Code</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.7-bonus_find_and_grep.html" class="sidebar-item-text sidebar-link active">2.7 <em>Bonus</em> : Finding Things</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.8-bonus_loops.html" class="sidebar-item-text sidebar-link">2.8 <em>Bonus</em>: Loops</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.9-bonus_shell_scripts.html" class="sidebar-item-text sidebar-link">2.9 <em>Bonus</em>: Shell Scripts</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">3. Common File Formats</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-file_formats/3.1-file_formats.html" class="sidebar-item-text sidebar-link">3.1 Common File Formats</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">4. Sequencing QC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-sequence_qc/4.1-sequence_qc.html" class="sidebar-item-text sidebar-link">4.1 Sequencing Quality Control</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">5. Short Read Mapping</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-short_read_mapping/5.1-short_read_mapping.html" class="sidebar-item-text sidebar-link">5.1 Short Read Mapping</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">6. Assembly and Annotation</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/06-assembly_annotation/6.1-assembly_annotation.html" class="sidebar-item-text sidebar-link">6.1 Assembly and Annotation</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">7. Software Management</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/07-software_management/7.1-software_management.html" class="sidebar-item-text sidebar-link">7.1 Managing Software</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">8. Workflow Managers</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.1-workflow_managers.html" class="sidebar-item-text sidebar-link">8.1 Workflow Managers</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.2-nfcore.html" class="sidebar-item-text sidebar-link">8.2 nf-core pipelines</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">9. The nf-core/bactmap Pipeline</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.1-bactmap_run.html" class="sidebar-item-text sidebar-link">9.1 The nf-core/bactmap pipeline</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.2-bactmap_results.html" class="sidebar-item-text sidebar-link">9.2 nf-core/bactmap Results</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">10. Introduction to Phylogenetics</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/10-intro_phylogenetics/10.1-intro_phylogenetics.html" class="sidebar-item-text sidebar-link">10.1 Introduction to Phylogenetics</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">11. Bacterial Genotyping and AMR prediction</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/11-genotyping/11.1-genotyping.html" class="sidebar-item-text sidebar-link">11.1 Bacterial Genotyping and Drug Resistance Prediction</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">12. Introduction to HPC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/12-intro_hpc/12.1-intro_hpc.html" class="sidebar-item-text sidebar-link">12.1 Introduction to High Performance Computing</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#grep" id="toc-grep" class="nav-link" data-scroll-target="#grep">2.7.1 <code>grep</code></a>
+  <ul class="collapse">
+  <li><a href="#wildcards" id="toc-wildcards" class="nav-link" data-scroll-target="#wildcards">Wildcards</a></li>
+  </ul></li>
+  <li><a href="#find" id="toc-find" class="nav-link" data-scroll-target="#find">2.7.2 <code>find</code></a></li>
+  <li><a href="#credit" id="toc-credit" class="nav-link" data-scroll-target="#credit">2.7.3 Credit</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">2.7 <em>Bonus</em> : Finding Things</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p><strong>Teaching: 20 min</strong> || <strong>Exercises: 10 min</strong></p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Questions:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>How can I find files?</li>
+<li>How can I find things in files?</li>
+</ul>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Learning Objectives:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Use <code>grep</code> to select lines from text files that match simple patterns.</li>
+<li>Use <code>find</code> to find files and directories whose names match simple patterns.</li>
+<li>Use the output of one command as the command-line argument(s) to another command.</li>
+<li>Explain what is meant by ‘text’ and ‘binary’ files, and why many common tools don’t handle the latter well.</li>
+</ul>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Key Points:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>find</code> finds files with specific properties that match patterns.</li>
+<li><code>grep</code> selects lines in files that match patterns.</li>
+<li><code>--help</code> is an option supported by many bash commands, and programs that can be run from within Bash, to display more information on how to use these commands or programs.</li>
+<li><code>man [command]</code> displays the manual page for a given command.</li>
+<li><code>$([command])</code> inserts a command’s output in place.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="grep" class="level2">
+<h2 class="anchored" data-anchor-id="grep">2.7.1 <code>grep</code></h2>
+<p>In the same way that many of us now use ‘Google’ as a verb meaning ‘to find’, Unix programmers often use the word ‘grep’. ‘grep’ is a contraction of ‘global/regular expression/print’, a common sequence of operations in early Unix text editors. It is also the name of a very useful command-line program.</p>
+<p><code>grep</code> finds and prints lines in files that match a pattern. For our examples, we will use a file that contains three haiku taken from a 1998 competition in <em>Salon</em> magazine. For this set of examples, we are going to be working in the <code>02_unix_intro/writing</code> subdirectory:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> Desktop/workshop_files_Bact_Genomics_2023/02_unix_intro/writing</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> haiku.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>The Tao that is seen
+Is not the true Tao, until
+You bring fresh toner.
+
+With searching comes loss
+and the presence of absence:
+"My Thesis" not found.
+
+Yesterday it worked
+Today it is not working
+Software is like that.</code></pre>
+</div>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Forever, or Five Years
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We haven’t linked to the original haiku because they don’t appear to be on <em>Salon</em>’s site any longer. As <a href="https://www.clir.org/wp-content/uploads/sites/6/ensuring.pdf">Jeff Rothenberg said</a>, ‘Digital information lasts forever — or five years, whichever comes first.’ Luckily, popular content often <a href="http://wiki.c2.com/?ComputerErrorHaiku">has backups</a>.</p>
+</div>
+</div>
+<p>Let’s find lines that contain the word ‘not’:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> not haiku.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Is not the true Tao, until
+"My Thesis" not found
+Today it is not working</code></pre>
+</div>
+</div>
+</div>
+<p>Here, <code>not</code> is the pattern we’re searching for. The grep command searches through the file, looking for matches to the pattern specified. To use it type <code>grep</code>, then the pattern we’re searching for and finally the name of the file (or files) we’re searching in.</p>
+<p>The output is the three lines in the file that contain the letters ‘not’.</p>
+<p>By default, grep searches for a pattern in a case-sensitive way. In addition, the search pattern we have selected does not have to form a complete word, as we will see in the next example.</p>
+<p>Let’s search for the pattern: ‘The’.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> The haiku.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>The Tao that is seen
+"My Thesis" not found.</code></pre>
+</div>
+</div>
+</div>
+<p>This time, two lines that include the letters ‘The’ are outputted, one of which contained our search pattern within a larger word, ‘Thesis’.</p>
+<p>To restrict matches to lines containing the word ‘The’ on its own, we can give <code>grep</code> with the <code>-w</code> option. This will limit matches to word boundaries.</p>
+<p>Later in this lesson, we will also see how we can change the search behavior of grep with respect to its case sensitivity.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-w</span> The haiku.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>The Tao that is seen</code></pre>
+</div>
+</div>
+</div>
+<p>Note that a ‘word boundary’ includes the start and end of a line, so not just letters surrounded by spaces. Sometimes we don’t want to search for a single word, but a phrase. This is also easy to do with <code>grep</code> by putting the phrase in quotes.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-w</span> <span class="st">"is not"</span> haiku.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Today it is not working</code></pre>
+</div>
+</div>
+</div>
+<p>We’ve now seen that you don’t have to have quotes around single words, but it is useful to use quotes when searching for multiple words. It also helps to make it easier to distinguish between the search term or phrase and the file being searched. We will use quotes in the remaining examples.</p>
+<p>Another useful option is <code>-n</code>, which numbers the lines that match:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">"it"</span> haiku.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>5:With searching comes loss
+9:Yesterday it worked
+10:Today it is not working</code></pre>
+</div>
+</div>
+</div>
+<p>Here, we can see that lines 5, 9, and 10 contain the letters ‘it’.</p>
+<p>We can combine options (i.e.&nbsp;flags) as we do with other Unix commands. For example, let’s find the lines that contain the word ‘the’. We can combine the option <code>-w</code> to find the lines that contain the word ‘the’ and <code>-n</code> to number the lines that match:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="at">-w</span> <span class="st">"the"</span> haiku.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>2:Is not the true Tao, until
+6:and the presence of absence:</code></pre>
+</div>
+</div>
+</div>
+<p>Now we want to use the option <code>-i</code> to make our search case-insensitive:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="at">-w</span> <span class="at">-i</span> <span class="st">"the"</span> haiku.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>1:The Tao that is seen
+2:Is not the true Tao, until
+6:and the presence of absence:</code></pre>
+</div>
+</div>
+</div>
+<p>Now, we want to use the option <code>-v</code> to invert our search, i.e., we want to output the lines that do not contain the word ‘the’.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="at">-w</span> <span class="at">-v</span> <span class="st">"the"</span> haiku.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>1:The Tao that is seen
+3:You bring fresh toner.
+4:
+5:With searching comes loss
+7:"My Thesis" not found.
+8:
+9:Yesterday it worked
+10:Today it is not working
+11:Software is like that.</code></pre>
+</div>
+</div>
+</div>
+<p>If we use the <code>-r</code> (recursive) option, <code>grep</code> can search for a pattern recursively through a set of files in subdirectories.</p>
+<p>Let’s search recursively for <code>Yesterday</code> in the <code>workshop_files_Bact_Genomics_2023/02_unix_intro/writing</code> directory:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-r</span> Yesterday .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>./LittleWomen.txt:"Yesterday, when Aunt was asleep and I was trying to be
+ as still as a
+./LittleWomen.txt:Yesterday at dinner, when an Austrian officer stared at
+ us and then
+./LittleWomen.txt:Yesterday was a quiet day spent in teaching, sewing, and
+ writing in my
+./haiku.txt:Yesterday it worked</code></pre>
+</div>
+</div>
+</div>
+<p><code>grep</code> has lots of other options. To find out what they are, we can type:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Usage: grep [OPTION]... PATTERN [FILE]...
+Search for PATTERN in each FILE or standard input.
+PATTERN is, by default, a basic regular expression (BRE).
+Example: grep -i 'hello world' menu.h main.c
+
+Regexp selection and interpretation:
+  -E, --extended-regexp     PATTERN is an extended regular expression (ERE)
+  -F, --fixed-strings       PATTERN is a set of newline-separated fixed strings
+  -G, --basic-regexp        PATTERN is a basic regular expression (BRE)
+  -P, --perl-regexp         PATTERN is a Perl regular expression
+  -e, --regexp=PATTERN      use PATTERN for matching
+  -f, --file=FILE           obtain PATTERN from FILE
+  -i, --ignore-case         ignore case distinctions
+  -w, --word-regexp         force PATTERN to match only whole words
+  -x, --line-regexp         force PATTERN to match only whole lines
+  -z, --null-data           a data line ends in 0 byte, not newline
+
+Miscellaneous:
+...        ...        ...</code></pre>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.7.1.1:</em></strong> Using <code>grep</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Which command would result in the following output:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<pre><code>and the presence of absence:</code></pre>
+</div>
+</div>
+</div>
+<ol type="1">
+<li><code>grep "of" haiku.txt</code></li>
+<li><code>grep -E "of" haiku.txt</code></li>
+<li><code>grep -w "of" haiku.txt</code></li>
+<li><code>grep -i "of" haiku.txt</code></li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The correct answer is 3, because the <code>-w</code> option looks only for whole-word matches. The other options will also match ‘of’ when part of another word.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="wildcards" class="level3">
+<h3 class="anchored" data-anchor-id="wildcards">Wildcards</h3>
+<p><code>grep</code>‘s real power doesn’t come from its options, though; it comes from the fact that patterns can include wildcards. (The technical name for these is <strong>regular expressions</strong>, which is what the ’re’ in ‘grep’ stands for.) Regular expressions are both complex and powerful; if you want to do complex searches, please visit his <a href="http://v4.software-carpentry.org/regexp/index.html">link</a>.</p>
+<p>As taster, we can find lines that have an ‘o’ in the second position like this:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-E</span> <span class="st">"^.o"</span> haiku.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>You bring fresh toner.
+Today it is not working
+Software is like that.</code></pre>
+</div>
+</div>
+</div>
+<p>We use the <code>-E</code> option and put the pattern in quotes to prevent the shell from trying to interpret it. (If the pattern contained a <code>*</code>, for example, the shell would try to expand it before running <code>grep</code>.) The <code>^</code> in the pattern anchors the match to the start of the line. The <code>.</code> matches a single character (just like <code>?</code> in the shell), while the <code>o</code> matches an actual ‘o’.</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.7.1.2:</em></strong> Tracking a Species
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Leah has several hundred data files saved in one directory, each of which is formatted like this:</p>
+<pre><code>24/01/2023,Escherichia_coli,5
+24/01/2023,Mycobacteria_tuberculosis,22
+24/01/2023,Salmonella_enterica,7
+24/01/2023,Staphylococcus_aureus,19
+25/01/2023,Streptococcus_pneumoniae,2
+25/01/2023,Pseudomonas_aeruginosa,1
+25/01/2023,Haemophilus_influenzae ,18
+26/01/2023,Carsonella_ruddii,1
+26/01/2023,Escherichia_coli,6</code></pre>
+<p>She wants to write a shell script that takes a species as the first command-line argument and a directory as the second argument. The script should return one file called <code>&lt;species&gt;.txt</code> containing a list of dates and the number of that species seen on each date. For example using the data shown above, <code>Escherichia_coli.txt</code> would contain:</p>
+<pre><code>24/01/2023,5
+26/01/2023,6</code></pre>
+<p>Below, each line contains an individual command, or pipe. Arrange their sequence in one command in order to achieve Leah’s goal:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-d</span> : <span class="at">-f</span> 2</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-w</span> <span class="va">$1</span> <span class="at">-r</span> <span class="va">$2</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="va">$1</span><span class="ex">.txt</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-d</span> , <span class="at">-f</span> 1,3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Hint: use <code>man grep</code> to look for how to grep text recursively in a directory and <code>man cut</code> to select more than one field in a line. An example of such a file is provided in <code>workshop_files_Bact_Genomics_2023/02_unix_intro/bacteria_counts.csv</code></p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-w</span> <span class="va">$1</span> <span class="at">-r</span> <span class="va">$2</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> : <span class="at">-f</span> 2 <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> , <span class="at">-f</span> 1,3 <span class="op">&gt;</span> <span class="va">$1</span>.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Actually, you can swap the order of the two cut commands and it still works. At the command line, try changing the order of the cut commands, and have a look at the output from each step to see why this is the case.</p>
+<p>You would call the script above like this:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> count-species.sh Mycobacteria_tuberculosis .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.7.1.3:</em></strong> Little Women
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You and your friend, having just finished reading <em>Little Women</em> by Louisa May Alcott, are in an argument. Of the four sisters in the book, Jo, Meg, Beth, and Amy, your friend thinks that Jo was the most mentioned. You, however, are certain it was Amy. Luckily, you have a file <code>LittleWomen.txt</code> containing the full text of the novel (<code>workshop_files_Bact_Genomics_2023/02_unix_intro/writing/LittleWomen.txt</code>). Using a <code>for</code> loop, how would you tabulate the number of times each of the four sisters is mentioned? If you haven’t encountered <code>for loops</code> yet, you may want to go review the <a href="../../materials/02-unix_intro/2.8-bonus_loops.html">next bonus lesson</a> on <a href="../../materials/02-unix_intro/2.8-bonus_loops.html">loops</a>.</p>
+<details>
+<summary>
+Hint:
+</summary>
+One solution might employ the commands <code>grep</code> and <code>wc</code> and a <code>|</code>, while another might utilize <code>grep</code> options. There is often more than one way to solve a programming task, so a particular solution is usually chosen based on a combination of yielding the correct result, elegance, readability, and speed.
+</details>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sis <span class="kw">in</span> Jo Meg Beth Amy</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">$sis</span>:</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grep</span> <span class="at">-ow</span> <span class="va">$sis</span> LittleWomen.txt <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Alternative, slightly inferior solution:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sis <span class="kw">in</span> Jo Meg Beth Amy</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">$sis</span>:</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grep</span> <span class="at">-ocw</span> <span class="va">$sis</span> LittleWomen.txt</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This solution is inferior because <code>grep -c</code> only reports the number of lines matched. The total number of matches reported by this method will be lower if there is more than one match per line.</p>
+<p>Perceptive observers may have noticed that character names sometimes appear in all-uppercase in chapter titles (e.g.&nbsp;‘MEG GOES TO VANITY FAIR’). If you wanted to count these as well, you could add the <code>-i</code> option for case-insensitivity (though in this case, it doesn’t affect the answer to which sister is mentioned most frequently).</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="find" class="level2">
+<h2 class="anchored" data-anchor-id="find">2.7.2 <code>find</code></h2>
+<p>While <code>grep</code> finds lines in files, the <code>find</code> command finds files themselves. Again, it has a lot of options; to show how the simplest ones work, we’ll use the <code>workshop_files_Bact_Genomics_2023/02_unix_intro/</code> directory tree shown below.</p>
+<!--FIXME: Update the file structure and other outputs below -->
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<pre><code>.
+├── bacteria_counts.csv
+├── bacteria_rpob/
+│&nbsp;&nbsp; ├── bacteria_truncated_rpob.fasta
+|   ├── Mycobacterium_tuberculosis_H37Rv_rpob.fasta
+|   ├── rpob_gene.fasta
+|   ├── Salmonella_enterica.fasta
+|   ├── Staphylococcus_aureus.fasta
+|   ├── Streptococcus_pneumoniae.fasta
+├── bacteria.txt
+├── creatures/
+│&nbsp;&nbsp; ├── basilisk
+|   ├── minotaur.dat
+|   ├── unicorn.dat
+├── exp/
+│&nbsp;&nbsp; ├── 2015-10-23-calibration.txt
+|   ├── 2015-10-23-dataset_overview.txt
+|   ├── 2015-10-23-dataset1.txt
+     ...
+├── G26832.gff3.gz
+├── G26832.tsv
+├── molecules/
+│&nbsp;&nbsp; ├── cubane.pdb
+│&nbsp;&nbsp; ├── ethane.pdb
+│&nbsp;&nbsp; ├── methane.pdb
+│&nbsp;&nbsp; ├── octane.pdb
+│&nbsp;&nbsp; ├── pentane.pdb
+│&nbsp;&nbsp; └── propane.pdb
+...
+more here
+...
+└── writing/
+    ├── haiku.txt
+    └── LittleWomen.txt</code></pre>
+</div>
+</div>
+</div>
+<p>The <code>02_unix_intro</code> directory contains thirteen files, [<code>bacteria_counts.csv</code>, <code>bacteria.txt</code>, <code>G26832.gff3.gz</code>, <code>G26832.tsv</code> etc.] and ten directories: <code>bacteria_rpob</code>, <code>creatures</code>, <code>exp</code>, <code>molecules</code> etc., containing various files.</p>
+<p>For our first command, let’s run <code>find .</code> (remember to run this command from the <code>workshop_files_Bact_Genomics_2023/02_unix_intro</code> folder).</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>.
+.
+./sequencing_run1
+./sequencing_run1/sample2_run1.fastq
+./sequencing_run1/sample5_run1.fastq
+./sequencing_run1/sample3_run1.fastq
+./sequencing_run1/sample1_run1.fastq
+./sequencing_run1/sample4_run1.fastq
+./molecules
+./molecules/propane.pdb
+./molecules/.DS_Store
+./molecules/octane.pdb
+./molecules/cubane.pdb
+./molecules/ethane.pdb
+./molecules/pentane.pdb
+./molecules/methane.pdb
+./TBNmA041_annotation_truncated_1.tsv
+...</code></pre>
+</div>
+</div>
+</div>
+<p>As always, the <code>.</code> on its own means the current working directory, which is where we want our search to start. <code>find</code>’s output is the names of every file <strong>and</strong> directory under the current working directory. This can seem useless at first but <code>find</code> has many options to filter the output and in this lesson we will discover some of them.</p>
+<p>The first option in our list is <code>-type d</code> that means ‘things that are directories’. Sure enough, <code>find</code>’s output is the names of the nine directories (including <code>.</code>):</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> . <span class="at">-type</span> d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>.
+./sequencing_run1
+./molecules
+./sequencing
+./sequencing/run2
+./sequencing/run1
+./bacteria_rpob
+./sequencing_run2
+./north-pacific-gyre
+./north-pacific-gyre/2012-07-03
+./creatures
+./exp
+./mycobacteria_rpob
+./writing</code></pre>
+</div>
+</div>
+</div>
+<p>Notice that the objects <code>find</code> finds are not listed in any particular order. If we change <code>-type d</code> to <code>-type f</code>, we get a listing of all the files instead:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> . <span class="at">-type</span> f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>./sequencing_run1/sample2_run1.fastq
+./sequencing_run1/sample5_run1.fastq
+./sequencing_run1/sample3_run1.fastq
+./sequencing_run1/sample1_run1.fastq
+./sequencing_run1/sample4_run1.fastq
+./molecules/propane.pdb
+./molecules/.DS_Store
+./molecules/octane.pdb
+./molecules/cubane.pdb
+./molecules/ethane.pdb
+./molecules/pentane.pdb
+./molecules/methane.pdb
+./TBNmA041_annotation_truncated_1.tsv
+...</code></pre>
+</div>
+</div>
+</div>
+<p>Now let’s try matching by name:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> . <span class="at">-name</span> <span class="pp">*</span>.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<!--FIXME: Update this if different output in Linux-->
+<pre><code>find: morse.txt: unknown primary or operator</code></pre>
+</div>
+</div>
+</div>
+<p>We expected it to find all the text files, but it only prints out <code>./morse.txt</code>. The problem is that the shell expands wildcard characters like <code>*</code> <em>before</em> commands run. Since <code>*.txt</code> in the current directory expands to <code>./morse.txt</code>, the command we actually ran was:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> . <span class="at">-name</span> morse.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>find</code> did what we asked; we just asked for the wrong thing.</p>
+<p>To get what we want, let’s do what we did with <code>grep</code>: put <code>*.txt</code> in quotes to prevent the shell from expanding the <code>*</code> wildcard. This way, <code>find</code> actually gets the pattern <code>*.txt</code>, not the expanded filename <code>morse.txt</code>:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> . <span class="at">-name</span> <span class="st">"*.txt"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>./bacteria.txt
+./morse.txt
+./north-pacific-gyre/2012-07-03/NENE01729B.txt
+./north-pacific-gyre/2012-07-03/NENE02040B.txt
+./north-pacific-gyre/2012-07-03/NENE01729A.txt
+./north-pacific-gyre/2012-07-03/NENE02040A.txt
+./north-pacific-gyre/2012-07-03/NENE01971Z.txt
+...</code></pre>
+</div>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Listing vs.&nbsp;Finding
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>ls</code> and <code>find</code> can be made to do similar things given the right options, but under normal circumstances, <code>ls</code> lists everything it can, while <code>find</code> searches for things with certain properties and shows them.</p>
+</div>
+</div>
+<p>As we said earlier, the command line’s power lies in combining tools. We’ve seen how to do that with pipes; let’s look at another technique. As we just saw, <code>find . -name "*.txt"</code> gives us a list of all text files in or below the current directory. How can we combine that with <code>wc -l</code> to count the lines in all those files?</p>
+<p>The simplest way is to put the <code>find</code> command inside <code>$()</code>:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb45"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> <span class="va">$(</span><span class="fu">find</span> . <span class="at">-name</span> <span class="st">"*.txt"</span><span class="va">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>       8 ./bacteria.txt
+      50 ./morse.txt
+     300 ./north-pacific-gyre/2012-07-03/NENE01729B.txt
+     300 ./north-pacific-gyre/2012-07-03/NENE02040B.txt
+     300 ./north-pacific-gyre/2012-07-03/NENE01729A.txt
+     300 ./north-pacific-gyre/2012-07-03/NENE02040A.txt
+     300 ./north-pacific-gyre/2012-07-03/NENE01971Z.txt
+...</code></pre>
+</div>
+</div>
+</div>
+<p>When the shell executes this command, the first thing it does is run whatever is inside the <code>$()</code>. It then replaces the <code>$()</code> expression with that command’s output. Since the output of <code>find</code> are all the filenames <code>./bacteria.txt</code>, <code>./morse.txt</code>, <code>./north-pacific-gyre/2012-07-03/NENE01729B.txt</code>, etc. the shell constructs the command:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> ./bacteria.txt ./morse.txt ./north-pacific-gyre/2012-07-03/NENE01729B.txt etc.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>which is what we wanted. This expansion is exactly what the shell does when it expands wildcards like <code>*</code> and <code>?</code>, but lets us use any command we want as our own ‘wildcard’.</p>
+<p>It’s very common to use <code>find</code> and <code>grep</code> together. The first finds files that match a pattern; the second looks for lines inside those files that match another pattern. Here, for example, we can find txt files that contain the word “<strong>searching</strong>” by looking for the string ‘<strong>searching</strong>’ in all the <code>.txt</code> files in the current directory:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb48"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"searching"</span> <span class="va">$(</span><span class="fu">find</span> . <span class="at">-name</span> <span class="st">"*.txt"</span><span class="va">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>./writing/LittleWomen.txt:sitting on the top step, affected to be searching
+ for her book, but was
+./writing/haiku.txt:With searching comes loss</code></pre>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.7.2.1:</em></strong> Matching and Subtracting
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>-v</code> option to <code>grep</code> inverts pattern matching, so that only lines which do <em>not</em> match the pattern are printed. Given that, which of the following commands will find all <code>.pdb</code> files in <code>molecules/</code> except <code>octane.pdb</code>? Once you have thought about your answer, you can test the commands in the <code>workshop_files_Bact_Genomics_2023/02_unix_intro/molecules</code> directory.</p>
+<ol type="1">
+<li><code>find molecules -name "*.pdb" | grep -v octane</code></li>
+<li><code>find molecules -name *.pdb | grep -v octane</code></li>
+<li><code>grep -v "octane" $(find molecules -name "*.pdb")</code></li>
+<li>None of the above.</li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Option 1 is correct. Putting the match expression in quotes prevents the shell expanding it, so it gets passed to the <code>find</code> command.</p>
+<p>Option 2 also works in this instance because the shell tries to expand <code>*.pdb</code> but there are no <code>*.pdb</code> files in the current directory, so the wildcard expression gets passed to <code>find</code>.</p>
+<p>Option 3 is incorrect because it searches the contents of the files for lines which do not match ‘octane’, rather than searching the file names.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Binary Files
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We have focused exclusively on finding patterns in text files. What if your data is stored as images, in databases, or in some other format?</p>
+<p>A handful of tools extend <code>grep</code> to handle a few non text formats. But a more generalizable approach is to convert the data to text, or extract the text-like elements from the data. On the one hand, it makes simple things easy to do. On the other hand, complex things are usually impossible. For example, it’s easy enough to write a program that will extract X and Y dimensions from image files for <code>grep</code> to play with, but how would you write something to find values in a spreadsheet whose cells contained formulas?</p>
+<p>A last option is to recognize that the shell and text processing have their limits, and to use another programming language. When the time comes to do this, don’t be too hard on the shell: many modern programming languages have borrowed a lot of ideas from it, and imitation is also the sincerest form of praise.</p>
+</div>
+</div>
+<p>The Unix shell is older than most of the people who use it. It has survived so long because it is one of the most productive programming environments ever created — maybe even <em>the</em> most productive. Its syntax may be cryptic, but people who have mastered it can experiment with different commands interactively, then use what they have learned to automate their work. Graphical user interfaces may be easier to use at first, but once learned, the productivity in the shell is unbeatable. And as Alfred North Whitehead wrote in 1911, ‘Civilization advances by extending the number of important operations which we can perform without thinking about them.’</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.7.2.2:</em></strong> <code>find</code> Pipeline Reading Comprehension
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Write a short explanatory comment for the following shell script:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> <span class="va">$(</span><span class="fu">find</span> . <span class="at">-name</span> <span class="st">"*.pdb"</span><span class="va">)</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-n</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Find all files with a <code>.pdb</code> extension recursively from the current directory</li>
+<li>Count the number of lines each of these files contains</li>
+<li>Sort the output from step 2, numerically</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="credit" class="level2">
+<h2 class="anchored" data-anchor-id="credit">2.7.3 Credit</h2>
+<p>Information on this page has been adapted and modified from the following source:</p>
+<ul>
+<li>https://github.com/swcarpentry/shell-novice</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../materials/02-unix_intro/2.6-vscode_overview.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2.6 Visual Studio Code</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../materials/02-unix_intro/2.8-bonus_loops.html" class="pagination-link">
+        <span class="nav-page-text">2.8 <em>Bonus</em>: Loops</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">Licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://creativecommons.org/images/deed/cc_icon_black_x2.png" class="img-fluid" width="25"> Dr Prince Asare and Dr Andries van Tonder</div>
+  </div>
+</footer>
+
+
+
+</body></html>

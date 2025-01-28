@@ -1,0 +1,2546 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.112">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>5.1 Short Read Mapping</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../materials/06-assembly_annotation/6.1-assembly_annotation.html" rel="next">
+<link href="../../materials/04-sequence_qc/4.1-sequence_qc.html" rel="prev">
+<link href="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university-of-cambridge-favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/NMIMR_Logo_whitebg.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../setup.html">Setup</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../materials.html" aria-current="page">Materials</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../unix_cheat_sheet.html">Unix-Cheat-Sheet</a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/avantonder/Ghana_course"><i class="bi bi-github" role="img" aria-label="Introduction to bacterial genomics GitHub">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/NMIMR_UG"><i class="bi bi-twitter" role="img" aria-label="Noguchi Memorial Institute for Medical Research Twitter">
+</i> 
+ </a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">5.1 Short Read Mapping</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials.html" class="sidebar-item-text sidebar-link">Materials</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">1. Introduction to WGS</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro_wgs/1.1-intro_wgs.html" class="sidebar-item-text sidebar-link">1.1 Introduction to Whole Genome Sequencing (WGS)</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">2. Introduction to Unix</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.1-unix_overview.html" class="sidebar-item-text sidebar-link">2.1 The Unix Shell</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.2-files_directories.html" class="sidebar-item-text sidebar-link">2.2 Navigating Files and Directories</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.3-text_manipulation.html" class="sidebar-item-text sidebar-link">2.3 Text Manipulation</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.4-combining_commands.html" class="sidebar-item-text sidebar-link">2.4 Combining Commands</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.5-using_remote_resources.html" class="sidebar-item-text sidebar-link">2.5 Using remote resources</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.6-vscode_overview.html" class="sidebar-item-text sidebar-link">2.6 Visual Studio Code</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.7-bonus_find_and_grep.html" class="sidebar-item-text sidebar-link">2.7 <em>Bonus</em> : Finding Things</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.8-bonus_loops.html" class="sidebar-item-text sidebar-link">2.8 <em>Bonus</em>: Loops</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.9-bonus_shell_scripts.html" class="sidebar-item-text sidebar-link">2.9 <em>Bonus</em>: Shell Scripts</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">3. Common File Formats</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-file_formats/3.1-file_formats.html" class="sidebar-item-text sidebar-link">3.1 Common File Formats</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">4. Sequencing QC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-sequence_qc/4.1-sequence_qc.html" class="sidebar-item-text sidebar-link">4.1 Sequencing Quality Control</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">5. Short Read Mapping</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-short_read_mapping/5.1-short_read_mapping.html" class="sidebar-item-text sidebar-link active">5.1 Short Read Mapping</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">6. Assembly and Annotation</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/06-assembly_annotation/6.1-assembly_annotation.html" class="sidebar-item-text sidebar-link">6.1 Assembly and Annotation</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">7. Software Management</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/07-software_management/7.1-software_management.html" class="sidebar-item-text sidebar-link">7.1 Managing Software</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">8. Workflow Managers</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.1-workflow_managers.html" class="sidebar-item-text sidebar-link">8.1 Workflow Managers</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.2-nfcore.html" class="sidebar-item-text sidebar-link">8.2 nf-core pipelines</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">9. The nf-core/bactmap Pipeline</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.1-bactmap_run.html" class="sidebar-item-text sidebar-link">9.1 The nf-core/bactmap pipeline</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.2-bactmap_results.html" class="sidebar-item-text sidebar-link">9.2 nf-core/bactmap Results</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">10. Introduction to Phylogenetics</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/10-intro_phylogenetics/10.1-intro_phylogenetics.html" class="sidebar-item-text sidebar-link">10.1 Introduction to Phylogenetics</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">11. Bacterial Genotyping and AMR prediction</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/11-genotyping/11.1-genotyping.html" class="sidebar-item-text sidebar-link">11.1 Bacterial Genotyping and Drug Resistance Prediction</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">12. Introduction to HPC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/12-intro_hpc/12.1-intro_hpc.html" class="sidebar-item-text sidebar-link">12.1 Introduction to High Performance Computing</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">5.1.1 Background</a></li>
+  <li><a href="#activate-the-mapping-environment" id="toc-activate-the-mapping-environment" class="nav-link" data-scroll-target="#activate-the-mapping-environment">5.1.2 Activate the <code>mapping</code> environment</a></li>
+  <li><a href="#mapping-to-a-reference" id="toc-mapping-to-a-reference" class="nav-link" data-scroll-target="#mapping-to-a-reference">5.1.3 Mapping to a reference</a>
+  <ul class="collapse">
+  <li><a href="#disk-usage-i-before-analysis" id="toc-disk-usage-i-before-analysis" class="nav-link" data-scroll-target="#disk-usage-i-before-analysis">Disk Usage I — Before analysis</a></li>
+  <li><a href="#genome-indexing-with-bwa" id="toc-genome-indexing-with-bwa" class="nav-link" data-scroll-target="#genome-indexing-with-bwa">Genome Indexing with <code>bwa</code></a></li>
+  <li><a href="#read-mapping-bwa" id="toc-read-mapping-bwa" class="nav-link" data-scroll-target="#read-mapping-bwa">Read mapping <code>bwa</code></a></li>
+  <li><a href="#bam-sorting-with-samtools-sort" id="toc-bam-sorting-with-samtools-sort" class="nav-link" data-scroll-target="#bam-sorting-with-samtools-sort">BAM Sorting with <code>samtools sort</code></a></li>
+  <li><a href="#bam-indexing-with-samtools-index" id="toc-bam-indexing-with-samtools-index" class="nav-link" data-scroll-target="#bam-indexing-with-samtools-index">BAM Indexing with <code>samtools index</code></a></li>
+  <li><a href="#other-samtools-commands-to-explore" id="toc-other-samtools-commands-to-explore" class="nav-link" data-scroll-target="#other-samtools-commands-to-explore">Other <code>samtools</code> commands to explore</a></li>
+  </ul></li>
+  <li><a href="#genome-visualization" id="toc-genome-visualization" class="nav-link" data-scroll-target="#genome-visualization">5.1.4 Genome Visualization</a>
+  <ul class="collapse">
+  <li><a href="#integrative-genomics-viewer-igv" id="toc-integrative-genomics-viewer-igv" class="nav-link" data-scroll-target="#integrative-genomics-viewer-igv">Integrative Genomics Viewer (IGV)</a></li>
+  <li><a href="#artemis" id="toc-artemis" class="nav-link" data-scroll-target="#artemis">Artemis</a></li>
+  </ul></li>
+  <li><a href="#variant-calling" id="toc-variant-calling" class="nav-link" data-scroll-target="#variant-calling">5.1.5 Variant calling</a>
+  <ul class="collapse">
+  <li><a href="#bcftools-mpileup-call-and-view" id="toc-bcftools-mpileup-call-and-view" class="nav-link" data-scroll-target="#bcftools-mpileup-call-and-view">bcftools: mpileup, call and view</a></li>
+  <li><a href="#bcftools-filter" id="toc-bcftools-filter" class="nav-link" data-scroll-target="#bcftools-filter">bcftools filter</a></li>
+  </ul></li>
+  <li><a href="#generating-a-consensus-sequence" id="toc-generating-a-consensus-sequence" class="nav-link" data-scroll-target="#generating-a-consensus-sequence">5.1.6 Generating a consensus sequence</a>
+  <ul class="collapse">
+  <li><a href="#parse-vcf-files-into-fasta-format" id="toc-parse-vcf-files-into-fasta-format" class="nav-link" data-scroll-target="#parse-vcf-files-into-fasta-format">Parse <code>vcf</code> files into <code>fasta</code> format</a></li>
+  <li><a href="#disk-usage-ii-cleaning-up-after-analysis" id="toc-disk-usage-ii-cleaning-up-after-analysis" class="nav-link" data-scroll-target="#disk-usage-ii-cleaning-up-after-analysis">Disk Usage II — Cleaning up after analysis</a></li>
+  </ul></li>
+  <li><a href="#mapping-to-pseudogenome-bash-script-putting-it-all-together" id="toc-mapping-to-pseudogenome-bash-script-putting-it-all-together" class="nav-link" data-scroll-target="#mapping-to-pseudogenome-bash-script-putting-it-all-together">5.1.7 Mapping to pseudogenome bash script: Putting it all together</a>
+  <ul class="collapse">
+  <li><a href="#running-multiple-samples-with-a-simple-bash-script" id="toc-running-multiple-samples-with-a-simple-bash-script" class="nav-link" data-scroll-target="#running-multiple-samples-with-a-simple-bash-script">Running multiple samples with a simple bash script</a></li>
+  </ul></li>
+  <li><a href="#deactivate-mapping-environment" id="toc-deactivate-mapping-environment" class="nav-link" data-scroll-target="#deactivate-mapping-environment">5.1.8 Deactivate <code>mapping</code> environment</a></li>
+  <li><a href="#credit" id="toc-credit" class="nav-link" data-scroll-target="#credit">5.1.9 Credit</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">5.1 Short Read Mapping</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p><strong>Teaching: 90 min</strong> || <strong>Exercises: 20 min</strong></p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Questions:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>What is mapping?</li>
+<li>Can I visualize how my paired end reads map to a reference?</li>
+<li>How do I generate a <code>vcf</code> file and what information is contained within such a file?</li>
+<li>What are the steps involved in assembling <em>Mycobacterium tuberculosis</em> genome from next generation sequencing data?</li>
+<li>How can I do reference-based assembly of <em>Mycobacterium tuberculosis</em> genomes?</li>
+</ul>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Learning Objectives:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Understand what mapping is and why the need to map to a reference genome.</li>
+<li>To introduce mapping and variant calling software, BWA, SAMtools, bcftools.</li>
+<li>To show how sequence variation data such as SNPs and INDELs can be viewed in single and multiple BAM files, and VCF variant filtering using simple genome browsers.</li>
+<li>To recognise what the main steps are in processing raw sequencing short read data to generate consensus genome sequences.</li>
+<li>To show how short-read mapping can be executed with a simple script.</li>
+<li>To understand the relevance of file organization and cleaning up after analysis.</li>
+</ul>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Key Points:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Mapping your sequences to a reference assembled genome helps you compare your genome to the reference and be able to tease out genetic variants that may have phenotypic consequences.</li>
+<li>The main steps to generate MTB consensus sequences from a <em>clean</em> sequence date are:
+<ul>
+<li>map and sort reads to reference genome with tools like <code>bwa</code> and <code>samtools</code></li>
+<li>call variant/mutation with tools like <code>bcftools</code></li>
+<li>produce a consensus sequence</li>
+</ul></li>
+<li>Artemis and IGV are very useful tools to visualize SNPs and INDELs in mapped sequence reads and VCF files.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">5.1.1 Background</h2>
+<p>One of the main reasons why we will sequence the DNA of a particular organism is to be able to obtain a consensus genome from which further downstream analysis can be performed. Can you think of any analysis that you can use a consensus genome for? Okay, wait a minute, if you don’t know what a <strong>consensus genome</strong> is, we will explain it pretty soon. Basically, we will need to combine all the short reads we have generated from the Illumina sequencer into an assembled genome which we refer to as a <strong>consensus genome</strong>.</p>
+<p>Although different software/tools are used depending on which kind of sequencing platform was used to generate the sequences, the main goal is the same: to align the sequencing reads to a reference genome, and identify any DNA changes (SNPs or Indels) relative to the reference genome from which we can build a consensus genome based on the reference genomic position. This is called <strong>consensus assembly</strong>, since we are assembling the genome of our sample from the reads and generating a consensus sequence based on changes present in several reads covering a particular position of the genome.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/mapping_consensus.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Mapping: Consensus Assembly</figcaption><p></p>
+</figure>
+</div>
+<p>To achieve a consensus genome, the general data processing steps are:</p>
+<ul>
+<li>Map the reads to a reference genome.</li>
+<li>Perform variant calling (SNPs and indels) to identify changes relative to the reference sequence.</li>
+<li>Generate a consensus sequence for the sample based on those variants.</li>
+</ul>
+</section>
+<section id="activate-the-mapping-environment" class="level2">
+<h2 class="anchored" data-anchor-id="activate-the-mapping-environment">5.1.2 Activate the <code>mapping</code> environment</h2>
+<p>Now navigate into the <code>short_read_mapping_MTB/</code> directory and activate the <code>mapping</code> environment:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Desktop/workshop_files_Bact_Genomics_2023/05_mapping/short_read_mapping_MTB/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate mapping</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Have a quick look at the directory</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-al</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We are now ready to perform some mapping and consensus assembly.</p>
+</section>
+<section id="mapping-to-a-reference" class="level2">
+<h2 class="anchored" data-anchor-id="mapping-to-a-reference">5.1.3 Mapping to a reference</h2>
+<p>A common task in processing sequencing reads is to align them to a reference genome, which is typically referred to as <strong>read mapping</strong> or <strong>read alignment</strong>. We will continue exemplifying how this works for Illumina data, however the principle is similar for Nanopore data (although the software used is often different, due to the higher error rates and longer reads typical of the platform).</p>
+<p>Generally, these are the steps involved in read mapping:</p>
+<ul>
+<li><p><strong>Genome Indexing |</strong> Because reference genomes can be quite long, most mapping algorithms require that the genome is pre-processed, which is called genome indexing. You can think of a genome index in a similar way to an index at the end of a textbook, which tells you in which pages of the book you can find certain keywords. Similarly, a genome index is used by mapping algorithms to quickly search through its sequence and find a good match with the reads it is trying to align against it. Each mapping software requires its own index, but we <strong>only have to generate the genome index once</strong>.</p></li>
+<li><p><strong>Read mapping |</strong> This is the actual step of aligning the reads to a reference genome. There are different popular read mapping programs such as <code>bowtie2</code> or <code>bwa</code> (for this workshop, we will use the <code>bwa</code>). The input to these programs includes the genome index (from the previous step) and the FASTQ file(s) with reads. The output is an alignment in a file format called <strong>SAM</strong> (text-based format - takes a lot of space) or <strong>BAM</strong> (compressed binary format - much smaller file size). You have already encountered these file formats in our <a href="../../materials/03-file_formats/3.1-file_formats.html">file format</a> session.</p></li>
+<li><p><strong>BAM Sorting |</strong> The mapping programs output the sequencing reads in a random order (the order in which they were processed). But, for downstream analysis, it is good to <em>sort</em> the reads by their position in the genome, which makes it faster to process the file.</p></li>
+<li><p><strong>BAM Indexing |</strong> This is similar to the genome indexing we mentioned above, but this time creating an index for the alignment file. This index is often required for downstream analysis and for visualising the alignment with programs such as the integrated genome viewer (IGV).</p></li>
+</ul>
+<section id="disk-usage-i-before-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="disk-usage-i-before-analysis">Disk Usage I — Before analysis</h3>
+<p>Before we start performing any mapping analysis, let’s pause and check the space of our current working directory as we did for our previous lesson.</p>
+<p>You can do this with the <strong>d</strong>isk <strong>u</strong>sage <code>du</code> command</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>
+Current Disk Space In QC Directory
+</summary>
+~895MB
+</details>
+<p>Now, keep this value in mind, and this time, don’t forget it. We will come back to it at the end of this chapter.</p>
+</section>
+<section id="genome-indexing-with-bwa" class="level3">
+<h3 class="anchored" data-anchor-id="genome-indexing-with-bwa">Genome Indexing with <a href="https://bio-bwa.sourceforge.net/"><code>bwa</code></a></h3>
+<p><strong>Burrows-Wheeler Aligner (BWA)</strong> is a software package for mapping low-divergent sequences against a large reference genome, such as the human genome. It consists of three algorithms: BWA-backtrack, BWA-SW and BWA-MEM. The first algorithm is designed for Illumina sequence reads up to 100bp, while the rest two for longer sequences ranged from 70bp to 1Mbp. BWA-MEM and BWA-SW share similar features such as long-read support and split alignment, but BWA-MEM, which is the latest, is generally recommended for high-quality queries as it is faster and more accurate. BWA-MEM also has better performance than BWA-backtrack for 70-100bp Illumina reads.</p>
+<details>
+<summary>
+There are three algorithms, which one should I choose?
+</summary>
+For 70bp or longer Illumina, 454, Ion Torrent and Sanger reads, assembly contigs and BAC sequences, BWA-MEM is usually the preferred algorithm. For short sequences, BWA-backtrack may be better. BWA-SW may have better sensitivity when alignment gaps are frequent.
+</details>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Help
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do this to get the help information for <code>bwa</code></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bwa</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Program: bwa (alignment via Burrows-Wheeler transformation)
+Version: 0.7.17-r1188
+Contact: Heng Li &lt;lh3@sanger.ac.uk&gt;
+
+Usage:   bwa &lt;command&gt; [options]
+
+Command: index         index sequences in the FASTA format
+         mem           BWA-MEM algorithm
+         fastmap       identify super-maximal exact matches
+         pemerge       merge overlapping paired ends (EXPERIMENTAL)
+         aln           gapped/ungapped alignment
+         samse         generate alignment (single ended)
+         sampe         generate alignment (paired ended)
+         bwasw         BWA-SW for long queries
+
+         shm           manage indices in shared memory
+         fa2pac        convert FASTA to PAC format
+         pac2bwt       generate BWT from PAC
+         pac2bwtgen    alternative algorithm for generating BWT
+         bwtupdate     update .bwt to the new format
+         bwt2sa        generate SA from BWT and Occ
+
+Note: To use BWA, you need to first index the genome with `bwa index'.
+      There are three alignment algorithms in BWA: `mem', `bwasw', and
+      `aln/samse/sampe'. If you are not sure which to use, try `bwa mem'
+      first. Please `man ./bwa.1' for the manual.</code></pre>
+</div>
+</div>
+<p>As we stated in our previous lesson, the starting material we will be using for our mapping is the fastq sequence that passed our QC checks. You may recall that this was identified as a <em>Mycobacterium tuberculosis</em> species. This species belongs to the <em>Mycobacterium tuberculosis</em> complex (MTBC). Consequently, we would have to align it to an appropriate reference within the same species. Fortunately for the world of TB, as with many other pathogens, there is a reference genome (<a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_000962.3"><strong>MTB H37Rv</strong></a>) which was sequenced as far back in 1998 by <a href="https://www.nature.com/articles/31159">Cole et. al 1998</a>.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Usage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The general format of the command is:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bwa</span> <span class="op">&lt;</span>command<span class="op">&gt;</span> [options]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>You can now go ahead and perform reference indexing of the H37Rv using <code>bwa</code> with the below command.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Do this to make the index file:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bwa</span> index MTB_H37Rv.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[bwa_index] Pack FASTA... 0.13 sec
+[bwa_index] Construct BWT for the packed sequence...
+[bwa_index] 1.14 seconds elapse.
+[bwa_index] Update BWT... 0.03 sec
+[bwa_index] Pack forward-only FASTA... 0.02 sec
+[bwa_index] Construct SA from BWT and Occ... 0.40 sec
+[main] Version: 0.7.17-r1188
+[main] CMD: bwa index MTB_H37Rv.fasta
+[main] Real time: 1.843 sec; CPU: 1.742 sec</code></pre>
+</div>
+</div>
+</div>
+<p>You should now see five new files generated in your current directory.</p>
+<p>To see if the files have been created, run this command:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> MTB_H37Rv.fasta.<span class="pp">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>...
+--- 1.1M Jan 24 14:48 MTB_H37Rv.fasta.pac
+--- 4.3M Jan 24 14:48 MTB_H37Rv.fasta.bwt
+---   89 Jan 24 14:48 MTB_H37Rv.fasta.ann
+---   12 Jan 24 14:48 MTB_H37Rv.fasta.amb
+--- 2.2M Jan 24 14:48 MTB_H37Rv.fasta.sa</code></pre>
+</div>
+</div>
+</div>
+<p>To view the statistics for the forward reads use this command:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>That’s it – our reference index is now created</p>
+</section>
+<section id="read-mapping-bwa" class="level3">
+<h3 class="anchored" data-anchor-id="read-mapping-bwa">Read mapping <a href="https://bio-bwa.sourceforge.net/"><code>bwa</code></a></h3>
+<section id="usage-1" class="level4">
+<h4 class="anchored" data-anchor-id="usage-1">Usage</h4>
+<p>You have already encountered the general format of the command from above. Here, we will use the <code>mem</code> algorithm.</p>
+<p>The general command should look like this</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bwa</span> mem [options]] index_file_name read_1.fastq.gz read_2.fastq.gz <span class="op">&gt;</span> aln.sam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s now go ahead and perform the mapping/alignment with <code>bwa</code> with the below command.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Do this to perform the mapping/alignment:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bwa</span> mem <span class="at">-t</span> 4 MTB_H37Rv.fasta G26832_R1.trim.fastq.gz G26832_R2.trim.fastq.gz <span class="op">&gt;</span> G26832.aln.sam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 400806 sequences (40000169 bp)...
+[M::process] read 400548 sequences (40000024 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (146, 184906, 36, 147)
+[M::mem_pestat] analyzing insert size distribution for orientation FF...
+[M::mem_pestat] (25, 50, 75) percentile: (111, 222, 474)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 1200)
+[M::mem_pestat] mean and std.dev: (276.34, 242.38)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 1563)
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (179, 239, 304)</code></pre>
+</div>
+</div>
+<p>You should now see one new file generated in your current directory.</p>
+<pre><code>G26832.aln.sam</code></pre>
+<p>This is a huge file and you don’t want to open it completely.</p>
+<p>If you are eager to see what’s in it perform the command below:</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+peep into <code>.sam</code> file
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 4 G26832.aln.sam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>@SQ     SN:NC_000962.3  LN:4411532
+@PG     ID:bwa  PN:bwa  VN:0.7.17-r1188 CL:bwa mem -t 4 MTB_H37Rv.fasta G26832_R1.trim.fastq.gz G26832_R2.trim.fastq.gz
+D00535:103:CD2W4ANXX:8:2209:1263:2022   99      NC_000962.3     1225671 60      101M    =       1225828 258     CGGGTTCTGGTCGTCGGAGAACGCCGACCACCCGGGTGCCGCGCTGGTCGGGAACGACAGCTTACCCGCACTGATCGAATCGCCGATGGGCTGCACACCGC       BCABBGGGGGGGGGGGGGGFGGGGGGDGGGEGDGFGGGGGGGGGGDGGGGGDGGGGDGGGGEGGGGGGGGGGE=EGGGGGGGGGGGGGGGGGGGGGGECC@       NM:i:0  MD:Z:101        MC:Z:101M       AS:i:101    XS:i:0
+D00535:103:CD2W4ANXX:8:2209:1263:2022   147     NC_000962.3     1225828 60      101M    =       1225671 -258    GGAGCACTCGTCGCCGGAGAGGTTGCCGTGGTCGACTTGTTGTCGCCGCGGAGGCCGATCACCAGGATCACCACCAGTAGGATGACACCCAGCACCGCGAG       EGGGD6GCGDDADGGGGGGGGGDGDGGGGGGGGGGEEGGGGDGGDGGGGGG&lt;G&gt;/=GF@FFGG@CGG@BFBGGGGGGEGCGGGGGGGGGGGFGGGGB@BBB       NM:i:0  MD:Z:101        MC:Z:101M       AS:i:101    XS:i:0</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="bam-sorting-with-samtools-sort" class="level3">
+<h3 class="anchored" data-anchor-id="bam-sorting-with-samtools-sort">BAM Sorting with <a href="http://www.htslib.org/doc/samtools.html"><code>samtools sort</code></a></h3>
+<p>Samtools is a set of utilities that manipulate alignments in the SAM (Sequence Alignment/Map), BAM, and CRAM formats. It converts between the formats, does sorting, merging and indexing, and can retrieve reads in any regions swiftly.</p>
+<p>Each command has its own man page which can be viewed using e.g.&nbsp;<code>man samtools-view</code> or with a recent GNU man using <code>man samtools view</code>. You can also just use <code>samtools view --help</code> to call out the specific help function for a <code>samtools</code> command. For the <code>view</code> command, options exist to change the output format from SAM to BAM or CRAM, so this command also acts as a file format conversion utility.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Help
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do this to get the help information for samtools</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Program: samtools (Tools for alignments in the SAM format)
+Version: 1.15 (using htslib 1.14)
+
+Usage:   samtools &lt;command&gt; [options]
+
+Commands:
+  -- Indexing
+     dict           create a sequence dictionary file
+     faidx          index/extract FASTA
+     fqidx          index/extract FASTQ
+     index          index alignment
+
+  -- Editing
+     calmd          recalculate MD/NM tags and '=' bases
+     fixmate        fix mate information
+     reheader       replace BAM header
+     targetcut      cut fosmid regions (for fosmid pool only)
+     addreplacerg   adds or replaces RG tags
+     markdup        mark duplicates
+     ampliconclip   clip oligos from the end of reads
+...</code></pre>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Usage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The general format of the command is:</p>
+<pre><code>samtools &lt;command&gt; [options]</code></pre>
+</div>
+</div>
+<p>Before we proceed to sorting our <code>.sam</code> file, let’s convert it to a <code>.bam</code> file using the command <code>view</code>. This creates a much more smaller binary file which is easier to read by downstream analysis tools.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+We do this by running the following command:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-F</span> 4 <span class="at">--threads</span> 4 <span class="at">-bhS</span> G26832.aln.sam <span class="op">&gt;</span> G26832.aln.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Don’t expect a print out – the <code>.bam</code> file just get created in the background Perform a simple <code>ls</code> to confirm the new <code>.bam</code> file created.</p>
+<p>The optional arguments we have used in the above command have the following meaning:</p>
+<table class="table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 83%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>option</th>
+<th>interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>-F</code></td>
+<td>Used for filtering out (excluding) flagged reads in the alignment. Here. We are excluding unmapped reads</td>
+</tr>
+<tr class="even">
+<td><code>--threads</code></td>
+<td>Specifies the number of additional threads to use. 4 used in this case</td>
+</tr>
+<tr class="odd">
+<td><code>-b</code></td>
+<td>Specifies the output format in <code>.bam</code></td>
+</tr>
+<tr class="even">
+<td><code>-h</code></td>
+<td>Include header in SAM output</td>
+</tr>
+<tr class="odd">
+<td><code>-S</code></td>
+<td>Specifies that the input file is in <code>.sam</code> format</td>
+</tr>
+<tr class="even">
+<td><code>&gt;</code></td>
+<td>Direct the standard output to a relevant file name. You may also use <code>-o</code> in place of <code>&gt;</code> to specify the output file name</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Combining the last two commands
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>.sam</code> file we created with <code>bwa</code> is often not really needed and most pipelines instantly convert it to a <code>.bam</code> file. This helps save a lot of disk space.</p>
+<p>We can combine the two commands by simply using the pipe <code>|</code>. Do you remember its use from our previous lesson? We will see a lot of this in our scripts later.</p>
+<p>You don’t need to run the below command, but if you wanted to perform both analysis at a go you would run this command:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bwa</span> mem <span class="at">-t</span> 4 MTB_H37Rv.fasta G26832_R1.trim.fastq.gz G26832_R2.trim.fastq.gz <span class="kw">|</span> <span class="ex">samtools</span> view <span class="at">-F</span> 4 <span class="at">--threads</span> 4 <span class="at">-bhS</span> <span class="at">-o</span> G26832.aln.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>The general synthax for the <code>samtools sort</code> command is:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> sort [-l level] [-u] [-m maxMem] [-o out.bam] [-O format] [-M] [-K kmerLen]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a> <span class="ex">[-n]</span> [-t tag] [-T tmpprefix] [-@ threads] [in.sam<span class="kw">|</span><span class="ex">in.bam</span><span class="kw">|</span><span class="ex">in.cram]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can now go ahead and perform the BAM sorting with <code>samtools</code> using the below command.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do this to run the forward reads:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> sort <span class="at">-@</span> 4 <span class="at">-o</span> G26832.sorted.aln.bam <span class="at">-T</span> G26832 G26832.aln.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[bam_sort_core] merging from 0 files and 4 in-memory blocks...</code></pre>
+</div>
+</div>
+<p>Our sorted aligned file is now ready.</p>
+</section>
+<section id="bam-indexing-with-samtools-index" class="level3">
+<h3 class="anchored" data-anchor-id="bam-indexing-with-samtools-index">BAM Indexing with <a href="http://www.htslib.org/doc/samtools.html"><code>samtools index</code></a></h3>
+<p>We will use another command from <code>samtools</code> called the <code>samtools index</code> to index our <code>.sorted.aln.bam</code> file.</p>
+<p>This index coordinate-sorted BAM files for fast random access.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Usage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The general format of the command follows the same as listed in previous commands</p>
+</div>
+</div>
+<p>You can now go ahead and perform the indexing of the <code>.sorted.aln.bam</code> file with the below command.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>NB.</strong></p>
+<ul>
+<li><p>-b create a BAI index. This is currently the default when no format options are used.</p></li>
+<li><p>The BAI index format can handle individual chromosomes up to 512 Mbp (2^29 bases) in length. If your input file might contain reads mapped to positions greater than that, you will need to use a CSI index</p></li>
+<li><p>When no output filename is specified, for a BAM file <code>sorted.aln.bam</code>, either <code>sorted.aln.bam.bai</code> or <code>sorted.aln.bam.csi</code> will be created, depending on the index format selected.</p></li>
+</ul>
+<p>Do this to perform the indexing:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> index <span class="at">-@</span> 4 G26832.sorted.aln.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Don’t expect a print out in the terminal. Our indexed file should be created in the current directory</p>
+<pre><code>G26832.sorted.aln.bam.bai</code></pre>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 5.1.3.1:</em></strong> Obtain some mapping statistics with samtools
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>So far, we have explored three commands from the <code>samtools</code> – <code>samtools view</code>, <code>samtools sort</code> and <code>samtools index</code>. Check out the various commands of <code>samtools</code> using <code>help</code> or <code>man</code> and identify any command that can allow you to generate some mapping statistics.</p>
+<p>Go ahead and perform the analysis and output your results to <code>G26832.mapstats.txt</code>.</p>
+<p>This file can also be used to produce a quality control report.</p>
+<p>Have a look at the first 47 lines. This initial section contains a summary of the alignment and includes some general statistics. In particular, you can see how many bases mapped, and how much of the genome that was covered.</p>
+<p>Now look at the output and try to answer the questions below.</p>
+<ol type="1">
+<li>What is the total number of reads?</li>
+<li>What proportion of the reads were mapped?</li>
+<li>How many pairs were mapped to a different chromosome?</li>
+<li>What is the insert size mean and standard deviation?</li>
+<li>How many reads were paired properly?</li>
+</ol>
+<p>Finally, look out for the samtools command to create some QC plots from the output of the stats command.</p>
+<p><strong>NB.</strong> for all the statistics commands, the BAM index file needs to be present in the same directory.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Run the below command to perform the analysis:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> stats <span class="at">--threads</span> 4 G26832.sorted.aln.bam <span class="op">&gt;</span> G26832.mapstats.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>View the first 47 lines:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 47 G26832.mapstats.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This file contains a number of useful stats that we can use to get a better picture of our data, and it can even be plotted with <strong><code>plot-bamstats</code></strong>.</p>
+<p>First let’s have a closer look at some of the different stats. Each part of the file starts with a <code>#</code> followed by a description of the section and how to extract it from the file. Let’s have a look at all the sections in the file:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> ^<span class="st">'#'</span> G26832.mapstats.txt <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'Use'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Plot the bamstats:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plot-bamstats</span> <span class="at">-p</span> data/lane1-plots/ data/lane1.sorted.bam.bchk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="other-samtools-commands-to-explore" class="level3">
+<h3 class="anchored" data-anchor-id="other-samtools-commands-to-explore">Other <code>samtools</code> commands to explore</h3>
+<p>In addition to the <code>stats</code> command, you may want to explore the <code>flagstat</code> and ìdxstats` commands below at you free time.</p>
+<section id="samtools-flagstat" class="level4">
+<h4 class="anchored" data-anchor-id="samtools-flagstat">samtools flagstat</h4>
+<p><code>samtools flagstat</code> – counts the number of alignments in a BAN file for each FLAG type. The commands does a full pass through the input file to calculate and print statistics to stdout. It provides counts for each of 13 categories based primarily on bit flags in the FLAG field. Information on the meaning of the flags is given in the <a href="https://samtools.github.io/hts-specs/SAMv1.pdf">SAM specification document</a>.</p>
+<p>Each category in the output is broken down into QC pass and QC fail. In the default output format, these are presented as “#PASS + #FAIL” followed by a description of the category.</p>
+<p>The first row of output gives the total number of reads that are QC pass and fail (according to flag bit 0x200). For example:</p>
+<pre><code>4131522 + 2 in total (QC-passed reads + QC-failed reads)</code></pre>
+<p>Which would indicate that there are a total of 4131524 reads in the input file, 4131522 of which are marked as QC pass and 2 of which are marked as “not passing quality controls”</p>
+<p><a href="http://www.htslib.org/doc/samtools-flagstat.html">Click here</a> for more description on understanding the output of the command.</p>
+<p>You can go ahead and try out the command and have a look at its output.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> flagstat <span class="at">--threads</span> 4 G26832.sorted.aln.bam <span class="op">&gt;</span> G26832.flagstat.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="samtools-idxstats" class="level4">
+<h4 class="anchored" data-anchor-id="samtools-idxstats">samtools idxstats</h4>
+<p><code>samtools idxstats</code> – reports alignment summary statistics The command retrieves and print stats in the index file corresponding to the input file.</p>
+<p>The output is TAB-delimited with each line consisting of reference sequence name, sequence length, # mapped read-segments and # unmapped read-segments. It is written to stdout. Note this may count reads multiple times if they are mapped more than once or in multiple fragments.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> idxstats G26832.sorted.aln.bam <span class="op">&gt;</span> G26832.idxstats.tsv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="genome-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="genome-visualization">5.1.4 Genome Visualization</h2>
+<p>You can think of some benefits derived from manually visualizing genomes – Compared to cost of writing, debugging and running computational scripts, visual inspections may be low cost and may also have high performance. For instance what you physically see really makes sense (seeing patterns for instance) and you have the chance of also identifying issues and outliers even though laborious (debugging).</p>
+<p>There are over 40 genome browsers – some works only online, but there are others you can get a local copy. Which one you choose depends on a number of factors: - task at hand - kind of data - size of data - confidentiality of data (data privacy)</p>
+<p>We will not go deep into the tools used for <a href="https://www.youtube.com/watch?v=woKXw1R8LMA&amp;t=3s">browsing genomes</a>, however, we will attempt to give in-depth introduction into a couple of these tools.</p>
+<section id="integrative-genomics-viewer-igv" class="level3">
+<h3 class="anchored" data-anchor-id="integrative-genomics-viewer-igv"><a href="https://igv.org">Integrative Genomics Viewer (IGV)</a></h3>
+<p>The <a href="https://igv.org">Integrative Genomics Viewer (IGV)</a> is a high-performance, easy-to-use, interactive tool for the visual exploration of genomic data. It supports flexible integration of all the common types of genomic data and metadata, investigator-generated or publicly available, loaded from local or cloud sources.</p>
+<p>Datasets that can be analysed with IGV range from epigenomics, microarrays, NGS alignments, RNA-Seq to mRNA-, CNV- Seq.</p>
+<p>You can click <a href="https://software.broadinstitute.org/software/igv/">here</a> to <a href="https://software.broadinstitute.org/software/igv/">Download the IGV software</a> and also check out their <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3346182/">Publication</a>.</p>
+<p>Aligned reads from sequencing can be loaded into IGV in the BAM format, SAM format, or CRAM format. IGV requires that BAM and CRAM files have an associated index file.</p>
+<p>The main data file must include the .bam or .cram extension. The index file should have the same filename but with the .bai or .crai extension. For example, the index file for G26832.sorted.aln.bam would be named G26832.sorted.aln.bam.bai. When loading by URL, the URL to both the data file and the index file should be specified. When loading by file, IGV automatically searches for the index file within the same directory as the data file.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Using IGV: The basics
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>After installation of the software, the basic things to do to get you going are: - Launch the software - Select a reference genome - Load your data - Load any extra annotation data relative to your reference genome that you may need - Navigate through the data</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/IGV_primary_files_to_load.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Primary files to load</figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/IGV_30kb_view.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Zoom in to about 30kb to view the aligned reads</figcaption><p></p>
+</figure>
+</div>
+<p><strong>NB.</strong> For this workshop, we will focus on analysing our genomic data to look out for variants - SNPs and INDELs.</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 5.1.4.1:</em></strong> Open IGV and load data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Follow the steps outlined above and load your data into IGV. The data to load can be found in the genome_browser directory <strong>/Desktop/workshop_files_Bact_Genomics_2023/05_mapping/genome_browser/</strong>.</p>
+<p><em>You should have IGV already installed on your machines.</em></p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The solution to this exercise is your success in loading your data into IGV.</p>
+<ul>
+<li>Open <em>IGV</em> and go to <kbd>Genome → Load Genome from File…</kbd>.</li>
+<li>In the file browser that opens go to the folder <code>/Desktop/workshop_files_Bact_Genomics_2023/05_mapping/genome_browser/</code> and select the file <code>MTB_H37Rv.fasta</code> to open it. This is the reference file with no annotation.</li>
+<li>Next, go to <kbd>File → Load from File…</kbd>.</li>
+<li>In the file browser that opens go to the folder <code>/Desktop/workshop_files_Bact_Genomics_2023/05_mapping/genome_browser/</code> and select the file <code>G26832.sorted.aln.bam</code> to open it.</li>
+<li>Go back to <kbd>File → Load from file…</kbd> and this time load the gff file <code>MTB_H37Rv_annotation.gb</code> containing the annotations.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>There are a huge variety of features you can explore in IGV. <img src="../fig/IGV_more_features.png" class="img-fluid" alt="More features"></p>
+<p>Click to watch the YouTube video below for a brief introduction to IGV – Sequencing Data Basics.</p>
+<p align="center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/E_G8z_2gTYM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
+</iframe>
+</p>
+Click to watch the YouTube video below for a brief introduction on SNP analysis in IGV.
+<p align="center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/eZUI6lcIX3I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
+</iframe>
+</p>
+<section id="identifying-snps-homozygous-heterozygous-strand-bias" class="level4">
+<h4 class="anchored" data-anchor-id="identifying-snps-homozygous-heterozygous-strand-bias">Identifying SNPs | Homozygous, Heterozygous, Strand Bias</h4>
+<p>Important metrics for evaluating the validity of SNPs are: - Coverage - Amount of support - Strand bias / PCR artifacts - Mapping quality scores - Base quality scores</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/IGV_SNPs_1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Identifying Single Nucleotide Polymorphisms (SNPs)</figcaption><p></p>
+</figure>
+</div>
+<p><strong>Identifying Homozygous SNPs</strong> At position 2,259,657 the nucleotide <code>A</code> from the reference sequence has mutated to a <code>C</code> within our sample genome. This represents a single nucleotide polymorphism (SNP). If you scroll through, you see that all the 109 reads covering that position called the nucleotide <code>C</code> implying this is a true positive SNP and also called an homozygous SNP.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/IGV_SNPs_2.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Closer look into SNPs</figcaption><p></p>
+</figure>
+</div>
+<p><strong>Identifying Heterozygous SNPs</strong> In other SNP situations, you will find that only about half the number of reads covering that SNP site called a different nucleotide. Such SNPs are called heterozygous SNPs. This arise because there may be more than one population (<em>sub-population</em>) of bacteria within the sample. You can see a lot of this within the region 2,266,478 to 2,266,628. At position 2,266,598 you that out of the 205 reads, exactly half mapped to the nucleotide <code>C</code> and the remaining half mapped to the nucleotide <code>G</code>.</p>
+<p><strong>Detecting Strand Bias</strong> In some situations, due to sequencing errors, a false heterozygous SNP can be called. One way to detect false heterozygous SNPs is by looking at the number of forward and reverse reads that called that SNP. If you find that all the SNPs are found on only the forward reads and not reverse reads (or vice versa), then it probably was due to sequencing error. This type of error is called strand bias.</p>
+</section>
+<section id="identifying-insertions-and-deletions-indels" class="level4">
+<h4 class="anchored" data-anchor-id="identifying-insertions-and-deletions-indels">Identifying Insertions and Deletions (InDels)</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/IGV_indels.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Identifying INDELs</figcaption><p></p>
+</figure>
+</div>
+<p><strong>Identifying insertions</strong> At position 1894300 the nucleotide <code>GG</code> from the reference sequence has mutated to <code>GGTCTTGCCGCG</code> within our sample genome. This represents an insertion of 10 nucleotides. If you scroll through your genomic data, you see that more than 80% of the aligned reads have this mutation. Can you identify other insertions?</p>
+<p><strong>Identifying deletions</strong> At position 330711 the nucleotide <code>GCACCATGAACCATCTGGCGT</code> from the reference sequence has mutated to <code>G</code> within our sample genome. This represents a deletion of 20 nucleotides at that site. If you scroll through, you see that all the 68 aligned reads at that position have this mutation. Can you identify other deletions?</p>
+<p>Note that, these INDELS we have detected, may or may not have phenotypic consequences depending on the location.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+VCF files can also be loaded into IGV.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+We have not yet examined a VCF file. But you should already know how the file format looks like and what it likely contains. We will look into it more detailed in a matter of minutes. For now, click to watch the YouTube video below for a brief introduction on what VCF files are and how to browse VCF files in IGV.
+<p align="center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/EpD2ZHM7Q8Q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
+</iframe>
+</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 5.1.4.2:</em></strong> Informative INDELS
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Now you know what INDELS look like. Follow the steps above and load your sample <code>.vcf</code> and perform the following task. 1. Identify 2 informative insertions 2. Identify 2 informative deletions</p>
+<details>
+<summary>
+Hint
+</summary>
+Look for INDELS located within annotated genes
+</details>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<!--FIXME: Add the answer-->
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>If you have the time, watch the YouTube video below for some more detailed explanation into the use of IGV.</p>
+<p align="center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/woKXw1R8LMA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
+</iframe>
+</p>
+<p>Follow this <a href="https://github.com/sanger-pathogens/pathogen-informatics-training/blob/19186e1ffc7094a0903d18de380184f42494c116/Notebooks/IGV/IGV.pdf">link</a> to explore more on IGV.</p>
+</section>
+</section>
+<section id="artemis" class="level3">
+<h3 class="anchored" data-anchor-id="artemis"><a href="https://github.com/sanger-pathogens/Artemis">Artemis</a></h3>
+<p>The Artemis Software is a set of software tools for genome browsing and annotation. Several types/sets of information can be viewed simultaneously within different contexts. For example, Artemis gives you the two views of the same genome region, so you can zoom in to inspect detailed DNA sequence motifs, and also zoom out to view local gene architecture (e.g.&nbsp;operons), or even an entire chromosome or genome, all within one screen. It is also possible to perform analyses within Artemis and save the output for future reference.</p>
+<p>The Artemis Software includes: - Artemis - ACT - BamView - DNAPlotter</p>
+<p><strong>Artemis</strong> is a free genome browser and annotation tool that allows visualisation of sequence features, next generation data and the results of analyses within the context of the sequence, and also its six-frame translation. Artemis is written in Java, and is available for UNIX, Macintosh and Windows systems. It can read EMBL and GENBANK database entries or sequence in FASTA, indexed FASTA or raw format. Other sequence features can be in EMBL, GENBANK or GFF format.</p>
+<p><strong>ACT</strong> is a free tool for displaying pairwise comparisons between two or more DNA sequences. It can be used to identify and analyse regions of similarity and difference between genomes and to explore conservation of synteny, in the context of the entire sequences and their annotation.</p>
+<p><strong>DNAPlotter</strong> generates images of circular and linear DNA maps.</p>
+<p><strong>BamView</strong> is a standalone BAM/CRAM file viewer.</p>
+<section id="starting-up-the-artemis-software" class="level4">
+<h4 class="anchored" data-anchor-id="starting-up-the-artemis-software">Starting up the Artemis software</h4>
+<p>Double click the Artemis icon on the desktop. Alternatively, you can type <code>art</code> in the terminal and hit <kbd>Enter</kbd> to open artemis. A small start-up window will appear (see below). The directory <code>/Desktop/workshop_files_Bact_Genomics_2023/05_mapping/genome_browser/</code> all files you will need for this module. Now follow the sequence of numbers to load up the <code>MTB_H37Rv.fasta</code> reference sequence.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/artemis_1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Starting up the Artemis software</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="loading-an-annotation-file-entry-into-artemis" class="level4">
+<h4 class="anchored" data-anchor-id="loading-an-annotation-file-entry-into-artemis">Loading an annotation file (entry) into Artemis</h4>
+<p>Follow the numbers to load the annotation file <code>MTB_H37Rv_annotation.gb</code>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/artemis_2.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Loading an annotation file (entry) into Artemis</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="the-basics-of-artemis" class="level4">
+<h4 class="anchored" data-anchor-id="the-basics-of-artemis">The basics of Artemis</h4>
+<p>Let’s take a closer look at what Artemis offers us:</p>
+<ol type="1">
+<li><p>Drop-down menus: There are lots in there so don`t worry about all the details right now.</p></li>
+<li><p>Entry (top line): shows which entries are currently loaded with the default entry highlighted in yellow (this is the entry into which newly created features are created). Selected feature: the details of a selected feature are shown here; in this case gene STY0004 (yellow box surrounded by thick black line).</p></li>
+<li><p>This is the main sequence view panel. The central 2 grey lines represent the forward (top) and reverse (bottom) DNA strands. Above and below those are the 3 forward and 3 reverse reading frames. Stop codons are marked on the reading frames as black vertical bars. Genes and other annotated features (eg. Pfam and Prosite matches) are displayed as coloured boxes. We often refer to predicted genes as coding sequences or CDSs.</p></li>
+<li><p>This panel has a similar layout to the main panel but is zoomed in to show nucleotides and amino acids. Double click on a <strong>CDS</strong> in the main view to see the zoomed view of the start of that CDS. Note that both this and the main panel can be scrolled left and right (7, below) zoomed in and out (6, below).</p></li>
+<li><p>Feature panel: This panel contains details of the various features, listed in the order that they occur on the DNA. Any selected features are highlighted. The list can be scrolled (8, below).</p></li>
+<li><p>Sliders for zooming view panels.</p></li>
+<li><p>Sliders for scrolling along the DNA.</p></li>
+<li><p>Slider for scrolling feature list.</p></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/artemis_3.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">The basics of Artemis</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="getting-around-in-artemis" class="level4">
+<h4 class="anchored" data-anchor-id="getting-around-in-artemis">Getting around in Artemis</h4>
+<p>There are three main ways of getting to a particular DNA region in Artemis:</p>
+<p>-the Goto drop-down menu</p>
+<p>-the Navigator and</p>
+<p>-the Feature Selector</p>
+<p>The best method depends on what you are trying to do. Knowing which one to use comes with practice.</p>
+<p>The functions on the ‘Goto’ menu (below the Navigator option) are shortcuts for getting to locations within a selected feature or for jumping to the start or end of the DNA sequence. This is really intuitive. You can give it a try. The Navigator panel is also within the <code>Goto</code> menu and fairly intuitive so open it up and give it a try.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/artemis_4.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Getting around in Artemis</figcaption><p></p>
+</figure>
+</div>
+<p>It may seem that <code>Goto</code> <code>Start of Selection</code> and <code>Goto</code> <code>Feature Start</code> do the same thing. Well they do if you have a feature selected but <code>Goto</code> <code>Start of Selection</code> will also work for a region which you have selected by click-dragging in the main window. So yes, give it a try!</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Suggested tasks I:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>Zoom out, select / highlight a large region of sequence by clicking the left hand button and dragging the cursor then go to the start and end of this selected region.</p></li>
+<li><p>Select a CDS then go to the start and end.</p></li>
+<li><p>Go to the start and end of the genome sequence.</p></li>
+<li><p>Select a CDS. Within it, go to a base (nucleotide) and/or amino acid of your choice.</p></li>
+<li><p>Highlight a region then, from the right click menu, select <code>Zoom to Selection</code>.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Suggested tasks II:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Below are a few more suggested places to try your hands on.</p>
+<ol type="1">
+<li><p>Think of a number between 1 and 4411532 and go to that base (notice how the cursors on the horizontal sliders move with you).</p></li>
+<li><p>Your favourite gene name (it may not be there so you could try <code>rpob</code>).</p></li>
+<li><p>Use <code>Goto Feature With This Qualifier value</code> to search the contents of all qualifiers for a particular term. For example using the word <code>pseudogene</code> will take you to the next feature with the word <code>pseudogene</code> in any of its qualifiers. Note how repeated clicking of the <code>Goto</code> button takes you to the following pseudogene in the order that they occur on the chromosome.</p></li>
+<li><p>tRNA genes. Type <code>tRNA</code> in the <code>Goto Feature With This Key</code>.</p></li>
+<li><p>Regulator-binding DNA consensus sequence (real or made up!). Note that degenerate base values can be used.</p></li>
+<li><p>Amino acid consensus sequences (real or made up!). You can use <code>X</code>s Note that it searches all six reading frames regardless of whether the amino acids are encoded or not. Try searching for the protein <code>SSTYI</code></p></li>
+</ol>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Feature Keys and Qualifiers – a brief explanation of what they are and a sample of the ones we use.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Feature Keys:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>They describe features with DNA coordinates and once marked, they all appear in the Artemis main window. The ones we use are:</p>
+<ul>
+<li>CDS: Marks the extent of the coding sequence.</li>
+<li>RBS: Ribosomal binding site</li>
+<li>misc_feature: Miscellaneous feature in the DNA</li>
+<li>rRNA: Ribosomal RNA</li>
+<li>repeat_region</li>
+<li>repeat_unit</li>
+<li>stem_loop</li>
+<li>tRNA: Transfer RNA</li>
+</ul>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Qualifiers:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>They describe features in relation to their coordinates.</p>
+<p>Once marked they appear in the lower part of the Artemis window. They describe the feature whose coordinates appear in the <em>location</em> part of the editing window. The ones commonly use for annotation at the Sanger Institute are:</p>
+<p>-class: Classification scheme used <em>in-house</em> -colour: Also used in-house in order to differentiate between different types of genes and other features. -gene: Descriptive gene a name, eg. ilvE, argA etc. -label: Allows you to label a gene/feature in the main view panel. -note: This qualifier allows for the inclusion of free text. This could be a description of the evidence supporting the functional prediction or other notable features/information which cannot be described using other qualifiers. -product: The assigned possible function for the protein goes here. -pseudo: Matches in different frames to consecutive segments of the same protein in the databases can be linked or joined as one and edited in one window. They are marked as pseudogenes. They are normally not functional and are considered to have been mutated. -locus_tag : Systematic gene number, eg SAS1670, Sty2412 etc.</p>
+</div>
+</div>
+<p>The list of keys and qualifiers accepted by EMBL in sequence/annotation submission files are listed at the following <a href="http://www3.ebi.ac.uk/Services/WebFeat/">web page</a>: (http://www3.ebi.ac.uk/Services/WebFeat/)</p>
+</div>
+</div>
+</section>
+<section id="viewing-plots-and-graphs" class="level4">
+<h4 class="anchored" data-anchor-id="viewing-plots-and-graphs">Viewing Plots and Graphs</h4>
+<p>Feature plots can be displayed by selecting a CDS feature then clicking <code>View</code> and <code>Feature Plots</code>. The window which appears shows plots predicting hydrophobicity, hydrophilicity and coiled-coil regions for the protein product of the selected CDS.</p>
+<p>In addition to looking at the fine detail of the annotated features it is also possible to look at the characteristics of the DNA covering the region displayed. This can be done by adding various plots to the display, showing different characteristics of the DNA. Some of the plots can be used to look at the protein coding potential of translation frames within the DNA, and others can be used to search for horizontally acquired DNA (such as GC frame plot).</p>
+<p>To view the graphs: Click on the <code>Graph</code> menu to see all those available and then tick the box for <code>GC Content (%)</code>. To adjust the smoothing of the graph you change the window size over which the points on the graph are calculated, using the slider shown below.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/artemis_5.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Viewing Plots and Graphs</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="viewing-and-exploring-bam-files-in-artemis" class="level4">
+<h4 class="anchored" data-anchor-id="viewing-and-exploring-bam-files-in-artemis">Viewing and exploring bam files in Artemis</h4>
+<p>Like we did with IGV, it is also very possible and maybe much intuitive to view <code>bam</code> files in Artemis. Let’s go ahead and load in our <code>G26832.sorted.aln.bam</code> file by following the instructions below.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+May require more time to load
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Please make sure you do not go to a zoomed-out view of Artemis, but stay at this level, as display of BAM files does take time to load!</p>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/artemis_6.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Loading bam files in Artemis</figcaption><p></p>
+</figure>
+</div>
+<p>You should see the BAM window appear as in the screen shot below. In the top panel of the window each little horizontal line represents a sequencing read. Notice that all the reads are blue which indicates that these are unique reads, whereas we would have seen alternating green reads representing “duplicated” reads that have been mapped to exactly the same position on the reference sequence. Remember we have removed duplicates during our trimming hence don’t expect to see it them here. <em>(To save space, if there are duplicated reads only one is shown, which means that there could be a large number of duplicated reads at a given position but the software only depicts one)</em>.</p>
+<p>If you click a read its mate pair will also be selected. Also note that if the cursor hovers over a read for long enough details of that read will appear in a small box. You can right-click in the bam view (the panel showing the coloured sequence reads) to see more options and explore them. Note that, if selected reads fall in a region of interest, being able to access some information easily can be really helpful.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/artemis_7.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Viewing and exploring bam files in Artemis</figcaption><p></p>
+</figure>
+</div>
+<p>There are a lot of quality checks you can perform with a loaded <code>bam</code> file especially if it has not been cleaned. You can explore these quality features with a raw <em>(unfiltered/untrimmed)</em> <code>bam</code> file. You can actually use several details relating to the mapping of a read to filter the reads from the BAM file that are shown in the window. To do this, right-click again over the stack plot window showing the reads and select <code>Filter Reads…</code>. A window will appear with many options for filtering.</p>
+</section>
+<section id="viewing-and-calling-out-snps" class="level4">
+<h4 class="anchored" data-anchor-id="viewing-and-calling-out-snps">Viewing and calling out SNPs</h4>
+<p>To view SNPs use your right mouse button to click in the BAM view window. Then in the popup menu click on <code>Show</code> and check the <code>SNP marks</code> box. SNPs in your data in comparison to the reference sequence are shown as red marks on the individual reads. In other words, the red marks appear on the stacked reads highlighting every base in a read that does not match the reference. When you zoom in you can see some SNPs that are present in all reads and appear as vertical red lines, whereas other SNPs are more sporadically distributed. The former are more likely to be true SNPs whereas the latter may be sequencing errors, although this would not always be true.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/artemis_8.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Viewing SNPs in Artemis</figcaption><p></p>
+</figure>
+</div>
+<p>Clearly there are many more features of Artemis which we will not have time to explain in detail. If you still have time, before getting on with the next section it might be worth browsing the menus. Hopefully you will find most of them easy to understand. You can always go back to this after the when you have enough time to explore. All the lessons we learnt in exploring the BAM file in IGV can also be explored in Artemis.</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 5.1.4.3:</em></strong> Viewing multiple BAM files in Artemis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You are not limited to viewing only one BAM file in Artemis, you can also view multiple BAM files at the same time. Remember that a BAM file is a processed set of aligned reads from (in this case) one bacterium aligned against a reference sequence. So in principle we can view multiple different bacterial isolates mapped against the same reference concurrently.</p>
+<p>Your task is to read in another BAM file generated from our mapping script and compare the two files.</p>
+<p>Do you see any striking differences? Make a short comparative report on what you see and present it to the class.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-31-contents" aria-controls="callout-31" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-31" class="callout-31-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>Right click in the BAM view window, select <code>Add BAM/CRAM ...</code> and load in the second <code>bam</code> file.</li>
+</ul>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the first instance Artemis reads all the new reads into the same window. This is useful if you have multiple sequencing runs for the same sample. But in this instance you may want to split the reads into separate windows so that we can view them independently. This is done in the next step.</p>
+</div>
+</div>
+<ul>
+<li>First, clone the BAM view window. Right-click over the BAM window and select ‘Clone window’.</li>
+</ul>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you right-click over the top BAM window and select BAM files you can individually select the files as desired. This means you can display each BAM file in its own window by de-selecting one or the other file.</p>
+</div>
+</div>
+<ul>
+<li>Now compare both sequences and produce your report.</li>
+</ul>
+<p>All participants will be given 3 minutes each and expected to present their findings in class.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 5.1.4.4:</em></strong> Repeat IGV and Artemis exploration on <em>Staphyloccocus aureus</em> genome
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You should be familiar with navigating your way through the IGV and Artemis genome browsers. You can use any preferred genome browser for this exercise.</p>
+<p>Try your hands on this using the <em>Staphylococcus aureus</em> genome present in the same <code>genome_browser</code> directory.</p>
+<ol type="1">
+<li><p>What is the full length of the <em>Staphylococcus aureus</em> genome?</p></li>
+<li><p>You saw earlier on the <code>rpob</code> gene in the MTB H37Rv geneome. Do you think this gene is also present in the <em>Staphylococcus aureus</em> genome? Go ahead and look for it and write down its exact position in the genome. How does it compare with that in the MTB H37Rv genome?</p></li>
+<li><p>Blast the <code>rpob</code> gene in NCBI and explore the first 1000 hits. List the number of species that share closely related <code>rpob</code> sequences with that of <em>Staphylococcus aureus</em> <code>rpob</code>?</p></li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-33-contents" aria-controls="callout-33" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-33" class="callout-33-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We will go through the solution in class. <!--FIXME: Add answer here--></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="variant-calling" class="level2">
+<h2 class="anchored" data-anchor-id="variant-calling">5.1.5 Variant calling</h2>
+<p>As you saw from the genome visualization tools, it may be tedious to generate a list of variants if you are working with several BAM files. Thankfully, there are command line tools that helps us achieve this purpose and even perform more advanced analysis on our BAM files, which have been developed by the same samtools development team. It isn’t called <code>samtools</code> this time, but rather <code>bcftools</code>, I guess the name originated from the output file format – <code>.bcf</code>.</p>
+<p><a href="https://github.com/samtools/bcftools"><code>bcftools</code></a> is a set of utilities for variant calling and that also manipulate variant calls in the Variant Call Format (<code>VCF</code>) and its binary counterpart <code>BCF</code>. All commands work transparently with both VCFs and BCFs, both uncompressed and BGZF-compressed.</p>
+<p>BCFtools is designed to work on a stream. It regards an input file “-” as the standard input (stdin) and outputs to the standard output (stdout). Several commands can thus be combined with Unix pipes</p>
+<p>You can check out their <a href="http://samtools.github.io/bcftools/howtos/publications.html">publications</a> and their <a href="http://samtools.github.io/bcftools/bcftools.html">manual page</a> to get more information.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Help
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do this to get the help information for bcftools</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Program: bcftools (Tools for variant calling and manipulating VCFs and BCFs)
+License: GNU GPLv3+, due to use of the GNU Scientific Library
+Version: 1.14 (using htslib 1.14)
+
+Usage:   bcftools [--version|--version-only] [--help] &lt;command&gt; &lt;argument&gt;
+
+Commands:
+
+ -- Indexing
+    index        index VCF/BCF files
+
+ -- VCF/BCF manipulation
+    annotate     annotate and edit VCF/BCF files
+    concat       concatenate VCF/BCF files from the same set of samples
+    convert      convert VCF/BCF files to different formats and back
+    isec         intersections of VCF/BCF files
+    merge        merge VCF/BCF files files from non-overlapping sample sets
+    norm         left-align and normalize indels
+    plugin       user-defined plugins
+    query        transform VCF/BCF into user-defined formats
+    reheader     modify VCF/BCF header, change sample names
+    sort         sort VCF/BCF file
+    view         VCF/BCF conversion, view, subset and filter VCF/BCF files
+
+ -- VCF/BCF analysis
+    call         SNP/indel calling
+    consensus    create consensus sequence by applying VCF variants
+    cnv          HMM CNV calling
+    csq          call variation consequences
+    filter       filter VCF/BCF files using fixed thresholds
+    gtcheck      check sample concordance, detect sample swaps and contamination
+    mpileup      multi-way pileup producing genotype likelihoods
+    polysomy     detect number of chromosomal copies
+    roh          identify runs of autozygosity (HMM)
+    stats        produce VCF/BCF stats
+
+ Most commands accept VCF, bgzipped VCF, and BCF with the file type detected
+ automatically even when streaming from a pipe. Indexed VCF and BCF will work
+ in all situations. Un-indexed VCF and BCF and streams will work in most but
+ not all situations.</code></pre>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Usage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The general format of running commands with the <code>bcftool</code> is:</p>
+<pre><code>bcftools [COMMAND] [OPTIONS]</code></pre>
+</div>
+</div>
+<p>For this workshop, we will explore only four of the commands. - bcftools mpileup - bcftools call - bcftools view - bcftools filter</p>
+<section id="bcftools-mpileup-call-and-view" class="level3">
+<h3 class="anchored" data-anchor-id="bcftools-mpileup-call-and-view"><a href="http://samtools.github.io/bcftools/bcftools.html">bcftools: mpileup, call and view</a></h3>
+<p><code>bcftools mpileup</code> – Generates VCF or BCF containing genotype likelihoods at each genomic position with coverage for one or multiple alignment (BAM or CRAM) files.</p>
+<p><code>bcftools call</code> – SNP/indel variant calling from VCF/BCF. To be used in conjunction with bcftools mpileup. This command replaces the former bcftools view caller.</p>
+<p><code>bcftools view</code> – subset and filter VCF or BCF files by position and filtering expression. Convert between VCF and BCF.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Help
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For specific help on any of the above tools use these commands:</p>
+<p>Do this to get the help information for bcftools mpileup</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> mpileup</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Do this to get the help information for bcftools call</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> call</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Do this to get the help information for bcftools view</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Usage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The general format of the commands are:</p>
+<p>for bcftools mpileup:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> mpileup [OPTIONS] <span class="at">-f</span> ref.fa in.bam [in2.bam […​]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>for bcftools call:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> call [OPTIONS] FILE</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>for bcftools view:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view [OPTIONS] file.vcf.gz [REGION […​]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>I am sure we are now very much aware and happy with the use of the pipe <code>|</code>. We will combine all three commands with <code>|</code> in order to speed up things.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+We do this by running the following command:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb45"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> mpileup <span class="at">--fasta-ref</span> MTB_H37Rv.fasta <span class="at">--min-BQ</span> 20 <span class="at">--annotate</span> FORMAT/AD,FORMAT/ADF,FORMAT/ADR,FORMAT/DP,FORMAT/SP,INFO/AD,INFO/ADF,INFO/ADR G26832.sorted.aln.bam <span class="kw">|</span> <span class="ex">bcftools</span> call <span class="at">--output-type</span> v <span class="at">--ploidy</span> 1 <span class="at">--multiallelic-caller</span> <span class="kw">|</span> <span class="ex">bcftools</span> view <span class="at">--output-file</span> G26832.vcf.gz <span class="at">--output-type</span> z</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[mpileup] 1 samples in 1 input files
+[mpileup] maximum number of reads per input file set to -d 250</code></pre>
+</div>
+</div>
+<p>Let’s briefly define each of the options we have used in the above command</p>
+
+<!--FIXME: Find a way to show the "--" correctly in the table below. You can consider using `--` -->
+<table class="table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Input option</th>
+<th style="text-align: left;">Input required</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">–fasta-ref</td>
+<td style="text-align: left;"><em>FILE</em></td>
+<td style="text-align: left;">The faidx-indexed reference file in the FASTA format. The file can be optionally compressed by bgzip. Reference is required by default unless the –no-reference option is set [null]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">–min-BQ</td>
+<td style="text-align: left;"><em>INT</em></td>
+<td style="text-align: left;">Caps the base quality to a maximum value [60]. This can be particularly useful on technologies that produce overly optimistic high qualities, leading to too many false positives or incorrect genotype assignments.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">–annotate</td>
+<td style="text-align: left;"><em>LIST</em></td>
+<td style="text-align: left;">Comma-separated list of FORMAT and INFO tags to output. (case-insensitive, the “FORMAT/” prefix is optional, and use “?” to list available annotations on the command line) [null]: <em>(see table below for the list of “FORMAT/” and “ÏNFO/” tags)</em></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">–output-type</td>
+<td style="text-align: left;"><em><code>b|u|z|v[0-9]</code></em></td>
+<td style="text-align: left;">Output compressed BCF (b), uncompressed BCF (u), compressed VCF (z), uncompressed VCF (v). Use the -Ou option when piping between bcftools subcommands to speed up performance by removing unnecessary compression/decompression and VCF←→BCF conversion. The compression level of the compressed formats (b and z) can be set by by appending a number between 0-9.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">–ploidy</td>
+<td style="text-align: left;"><em>ASSEMBLY[?]</em></td>
+<td style="text-align: left;">predefined ploidy, use list (or any other unused word) to print a list of all predefined assemblies. Append a question mark to print the actual definition.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">–multiallelic-caller</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">alternative model for multiallelic and rare-variant calling designed to overcome known limitations in -c calling model (conflicts with -c)</td>
+</tr>
+</tbody>
+</table>
+<p><strong><em>“FORMAT/” and “INFO/” tags</em></strong></p>
+<table class="table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 80%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Tag</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">FORMAT/AD</td>
+<td style="text-align: left;">.. Allelic depth (Number=R,Type=Integer)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FORMAT/ADF</td>
+<td style="text-align: left;">.. Allelic depths on the forward strand (Number=R,Type=Integer)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FORMAT/ADR</td>
+<td style="text-align: left;">.. Allelic depths on the reverse strand (Number=R,Type=Integer)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FORMAT/DP</td>
+<td style="text-align: left;">.. Number of high-quality bases (Number=1,Type=Integer)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FORMAT/SP</td>
+<td style="text-align: left;">.. Phred-scaled strand bias P-value (Number=1,Type=Integer)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FORMAT/SCR</td>
+<td style="text-align: left;">.. Number of soft-clipped reads (Number=1,Type=Integer)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">INFO/AD</td>
+<td style="text-align: left;">.. Total allelic depth (Number=R,Type=Integer)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">INFO/ADF</td>
+<td style="text-align: left;">.. Total allelic depths on the forward strand (Number=R,Type=Integer)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">INFO/ADR</td>
+<td style="text-align: left;">.. Total allelic depths on the reverse strand (Number=R,Type=Integer)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">INFO/SCR</td>
+<td style="text-align: left;">.. Number of soft-clipped reads (Number=1,Type=Integer)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FORMAT/DV</td>
+<td style="text-align: left;">.. Deprecated in favor of FORMAT/AD; Number of high-quality non-reference bases, (Number=1,Type=Integer)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FORMAT/DP4</td>
+<td style="text-align: left;">.. Deprecated in favor of FORMAT/ADF and FORMAT/ADR; Number of high-quality ref-forward, ref-reverse, alt-forward and alt-reverse bases (Number=4,Type=Integer)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FORMAT/DPR</td>
+<td style="text-align: left;">.. Deprecated in favor of FORMAT/AD; Number of high-quality bases for each observed allele (Number=R,Type=Integer)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">INFO/DPR</td>
+<td style="text-align: left;">.. Deprecated in favor of INFO/AD; Number of high-quality bases for each observed allele (Number=R,Type=Integer)</td>
+</tr>
+</tbody>
+</table>
+<p>You can have a quick look at the output file <strong>G26832.vcf.gz</strong> Note that, the output file is a compressed file. To view a compressed file we use <code>zcat</code>, and since we do not want to view the entire content of the file, we pipe it to head. Pipe <code>|</code> should be your friend by now. :)</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+quick look at first 42 lines
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">zcat</span> G26832.vcf.gz <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 42</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##fileformat=VCFv4.2
+##FILTER=&lt;ID=PASS,Description="All filters passed"&gt;
+##bcftoolsVersion=1.14+htslib-1.14
+##bcftoolsCommand=mpileup --fasta-ref MTB_H37Rv.fasta --min-BQ 20 --annotate FORMAT/AD,FORMAT/ADF,FORMAT/ADR,FORMAT/DP,FORMAT/SP,INFO/AD,INFO/ADF,INFO/ADR G26832.sorted.aln.bam
+##reference=file://MTB_H37Rv.fasta
+##contig=&lt;ID=NC_000962.3,length=4411532&gt;
+##ALT=&lt;ID=*,Description="Represents allele(s) other than observed."&gt;
+##INFO=&lt;ID=INDEL,Number=0,Type=Flag,Description="Indicates that the variant is an INDEL."&gt;
+##INFO=&lt;ID=IDV,Number=1,Type=Integer,Description="Maximum number of raw reads supporting an indel"&gt;
+##INFO=&lt;ID=IMF,Number=1,Type=Float,Description="Maximum fraction of raw reads supporting an indel"&gt;
+##INFO=&lt;ID=DP,Number=1,Type=Integer,Description="Raw read depth"&gt;
+##INFO=&lt;ID=VDB,Number=1,Type=Float,Description="Variant Distance Bias for filtering splice-site artefacts in RNA-seq data (bigger is better)",Version="3"&gt;
+##INFO=&lt;ID=RPBZ,Number=1,Type=Float,Description="Mann-Whitney U-z test of Read Position Bias (closer to 0 is better)"&gt;
+##INFO=&lt;ID=MQBZ,Number=1,Type=Float,Description="Mann-Whitney U-z test of Mapping Quality Bias (closer to 0 is better)"&gt;
+##INFO=&lt;ID=BQBZ,Number=1,Type=Float,Description="Mann-Whitney U-z test of Base Quality Bias (closer to 0 is better)"&gt;
+##INFO=&lt;ID=MQSBZ,Number=1,Type=Float,Description="Mann-Whitney U-z test of Mapping Quality vs Strand Bias (closer to 0 is better)"&gt;
+##INFO=&lt;ID=SCBZ,Number=1,Type=Float,Description="Mann-Whitney U-z test of Soft-Clip Length Bias (closer to 0 is better)"&gt;
+##INFO=&lt;ID=FS,Number=1,Type=Float,Description="Phred-scaled p-value using Fisher's exact test to detect strand bias"&gt;
+##INFO=&lt;ID=SGB,Number=1,Type=Float,Description="Segregation based metric."&gt;
+##INFO=&lt;ID=MQ0F,Number=1,Type=Float,Description="Fraction of MQ0 reads (smaller is better)"&gt;
+##FORMAT=&lt;ID=PL,Number=G,Type=Integer,Description="List of Phred-scaled genotype likelihoods"&gt;
+##FORMAT=&lt;ID=DP,Number=1,Type=Integer,Description="Number of high-quality bases"&gt;
+##FORMAT=&lt;ID=SP,Number=1,Type=Integer,Description="Phred-scaled strand bias P-value"&gt;
+##FORMAT=&lt;ID=AD,Number=R,Type=Integer,Description="Allelic depths (high-quality bases)"&gt;
+##FORMAT=&lt;ID=ADF,Number=R,Type=Integer,Description="Allelic depths on the forward strand (high-quality bases)"&gt;
+##FORMAT=&lt;ID=ADR,Number=R,Type=Integer,Description="Allelic depths on the reverse strand (high-quality bases)"&gt;
+##INFO=&lt;ID=AD,Number=R,Type=Integer,Description="Total allelic depths (high-quality bases)"&gt;
+##INFO=&lt;ID=ADF,Number=R,Type=Integer,Description="Total allelic depths on the forward strand (high-quality bases)"&gt;
+##INFO=&lt;ID=ADR,Number=R,Type=Integer,Description="Total allelic depths on the reverse strand (high-quality bases)"&gt;
+##FORMAT=&lt;ID=GT,Number=1,Type=String,Description="Genotype"&gt;
+##INFO=&lt;ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes for each ALT allele, in the same order as listed"&gt;
+##INFO=&lt;ID=AN,Number=1,Type=Integer,Description="Total number of alleles in called genotypes"&gt;
+##INFO=&lt;ID=DP4,Number=4,Type=Integer,Description="Number of high-quality ref-forward , ref-reverse, alt-forward and alt-reverse bases"&gt;
+##INFO=&lt;ID=MQ,Number=1,Type=Integer,Description="Average mapping quality"&gt;
+##bcftools_callVersion=1.14+htslib-1.14
+##bcftools_callCommand=call --output-type v --ploidy 1 --multiallelic-caller; Date=Mon Nov 14 15:29:39 2022
+##bcftools_viewVersion=1.14+htslib-1.14
+##bcftools_viewCommand=view --output-file G26832.vcf.gz --output-type z; Date=Mon Nov 14 15:29:39 2022
+#CHROM  POS     ID      REF     ALT     QUAL    FILTER  INFO    FORMAT  G26832.sorted.aln.bam
+NC_000962.3     1       .       T       .       284.59  .       DP=41;ADF=33;ADR=7;AD=40;MQSBZ=0;FS=0;MQ0F=0;AN=1;DP4=33,7,0,0;MQ=59        GT:DP:SP:ADF:ADR:AD     0:40:0:33:7:40
+NC_000962.3     2       .       T       .       284.59  .       DP=45;ADF=37;ADR=7;AD=44;MQSBZ=0;FS=0;MQ0F=0;AN=1;DP4=37,7,0,0;MQ=59        GT:DP:SP:ADF:ADR:AD     0:44:0:37:7:44
+NC_000962.3     3       .       G       .       284.59  .       DP=45;ADF=37;ADR=7;AD=44;MQSBZ=0;FS=0;MQ0F=0;AN=1;DP4=37,7,0,0;MQ=59        GT:DP:SP:ADF:ADR:AD     0:44:0:37:7:44 </code></pre>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 5.1.5.1:</em></strong> View only informative lines.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Write down a quick command that you will use to view only the informative lines starting from the <strong>#chrom</strong> line.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-41-contents" aria-controls="callout-41" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-41" class="callout-41-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The command below performs the requested task. <strong>NB.</strong> The -v, –invert-match option tells grep to select only non-matching lines.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">zcat</span> G26832.vcf.gz <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-v</span> <span class="st">"##"</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 10</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>#CHROM  POS     ID      REF     ALT     QUAL    FILTER  INFO    FORMAT  G26832.sorted.aln.bam
+NC_000962.3     1       .       T       .       284.59  .       DP=41;ADF=33;ADR=7;AD=40;MQSBZ=0;FS=0;MQ0F=0;AN=1;DP4=33,7,0,0;MQ=59GT:DP:SP:ADF:ADR:AD      0:40:0:33:7:40
+NC_000962.3     2       .       T       .       284.59  .       DP=45;ADF=37;ADR=7;AD=44;MQSBZ=0;FS=0;MQ0F=0;AN=1;DP4=37,7,0,0;MQ=59GT:DP:SP:ADF:ADR:AD      0:44:0:37:7:44
+NC_000962.3     3       .       G       .       284.59  .       DP=45;ADF=37;ADR=7;AD=44;MQSBZ=0;FS=0;MQ0F=0;AN=1;DP4=37,7,0,0;MQ=59GT:DP:SP:ADF:ADR:AD      0:44:0:37:7:44
+NC_000962.3     4       .       A       .       284.59  .       DP=46;ADF=38;ADR=7;AD=45;MQSBZ=0;FS=0;MQ0F=0;AN=1;DP4=38,7,0,0;MQ=59GT:DP:SP:ADF:ADR:AD      0:45:0:38:7:45
+NC_000962.3     5       .       C       .       284.59  .       DP=50;ADF=40;ADR=8;AD=48;MQSBZ=0;FS=0;MQ0F=0;AN=1;DP4=40,8,0,0;MQ=59GT:DP:SP:ADF:ADR:AD      0:48:0:40:8:48
+NC_000962.3     6       .       C       .       284.59  .       DP=51;ADF=41;ADR=8;AD=49;MQSBZ=0;FS=0;MQ0F=0;AN=1;DP4=41,8,0,0;MQ=59GT:DP:SP:ADF:ADR:AD      0:49:0:41:8:49
+NC_000962.3     7       .       G       .       284.59  .       DP=52;ADF=42;ADR=8;AD=50;MQSBZ=0;FS=0;MQ0F=0;AN=1;DP4=42,8,0,0;MQ=59GT:DP:SP:ADF:ADR:AD      0:50:0:42:8:50
+NC_000962.3     8       .       A       .       284.59  .       DP=52;ADF=42;ADR=8;AD=50;MQSBZ=0;FS=0;MQ0F=0;AN=1;DP4=42,8,0,0;MQ=59GT:DP:SP:ADF:ADR:AD      0:50:0:42:8:50
+NC_000962.3     9       .       T       .       284.59  .       DP=52;ADF=42;ADR=8;AD=50;MQSBZ=0;FS=0;MQ0F=0;AN=1;DP4=42,8,0,0;MQ=59GT:DP:SP:ADF:ADR:AD      0:50:0:42:8:50</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 5.1.5.2:</em></strong> Count number of INDELS
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Write down a quick command that you will use to count only the insertions and deletions (INDELS) present in our <code>.vcf</code> file.</p>
+<p>How many INDELS do you find?</p>
+<p>Go ahead and list the first 9 INDELS.</p>
+<details>
+<summary>
+Hint
+</summary>
+There is a flag called ‘INDEL’
+</details>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-44-contents" aria-controls="callout-44" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-44" class="callout-44-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The command below counts the number of INDELS.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">zcat</span> G26832.vcf.gz <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"INDEL"</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>95</code></pre>
+</div>
+</div>
+</div>
+<p>The command below lists the first 9 lines containing INDELS.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb53"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">zcat</span> G26832.vcf.gz <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"INDEL"</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 10</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##INFO=&lt;ID=INDEL,Number=0,Type=Flag,Description="Indicates that the variant is an INDEL."&gt;
+NC_000962.3     27518   .       TAAAAA  TAAAA   228.359 .       INDEL;IDV=88;IMF=0.926316;DP=95;ADF=0,47;ADR=4,36;AD=4,83;VDB=0.7912;SGB=-0.693147;RPBZ=-4.01107;MQBZ=0;MQSBZ=0;SCBZ=-2.34859;FS=0;MQ0F=0;AC=1;AN=1;DP4=0,4,47,36;MQ=60 GT:PL:DP:SP:ADF:ADR:AD  1:255,0:87:14:0,47:4,36:4,83
+NC_000962.3     47138   .       CTTT    CTT     225.417 .       INDEL;IDV=92;IMF=0.948454;DP=97;ADF=0,49;ADR=0,37;AD=0,86;VDB=0.657263;SGB=-0.693147;RPBZ=-0.661043;MQBZ=0;MQSBZ=0;SCBZ=-2.85007;FS=0;MQ0F=0;AC=1;AN=1;DP4=0,0,49,37;MQ=60     GT:PL:DP:SP:ADF:ADR:AD   1:255,0:86:0:0,49:0,37:0,86
+NC_000962.3     49233   .       AGGG    AGG     225.417 .       INDEL;IDV=81;IMF=0.94186;DP=86;ADF=0,44;ADR=0,36;AD=0,80;VDB=0.00122889;SGB=-0.693147;RPBZ=-3.73886;MQBZ=0;MQSBZ=0;SCBZ=-2.06091;FS=0;MQ0F=0;AC=1;AN=1;DP4=0,0,44,36;MQ=60     GT:PL:DP:SP:ADF:ADR:AD   1:255,0:80:0:0,44:0,36:0,80
+NC_000962.3     55553   .       CCG     CCGTCG  228.31  .       INDEL;IDV=46;IMF=0.647887;DP=71;ADF=5,21;ADR=2,25;AD=7,46;VDB=0.0134748;SGB=-0.693147;RPBZ=1.91017;MQBZ=0;MQSBZ=0;BQBZ=-4.33586;SCBZ=-3.44435;FS=0;MQ0F=0;AC=1;AN=1;DP4=5,2,21,25;MQ=60 GT:PL:DP:SP:ADF:ADR:AD  1:255,0:53:6:5,21:2,25:7,46
+NC_000962.3     125830  .       GAAAA   GAAAAA  228.416 .       INDEL;IDV=67;IMF=0.8375;DP=80;ADF=1,28;ADR=2,36;AD=3,64;VDB=0.730354;SGB=-0.693147;RPBZ=-3.82272;MQBZ=0;MQSBZ=0;SCBZ=-4.61458;FS=0;MQ0F=0;AC=1;AN=1;DP4=1,2,28,36;MQ=60 GT:PL:DP:SP:ADF:ADR:AD  1:255,0:67:0:1,28:2,36:3,64
+NC_000962.3     131174  .       TGG     TGGG    228.424 .       INDEL;IDV=87;IMF=0.977528;DP=89;ADF=0,46;ADR=1,39;AD=1,85;VDB=0.0036349;SGB=-0.693147;RPBZ=-0.152335;MQBZ=0;MQSBZ=0;SCBZ=0.265603;FS=0;MQ0F=0;AC=1;AN=1;DP4=0,1,46,39;MQ=60    GT:PL:DP:SP:ADF:ADR:AD   1:255,0:86:0:0,46:1,39:1,85
+NC_000962.3     175277  .       GC      GCC     228.38  .       INDEL;IDV=67;IMF=0.943662;DP=71;ADF=2,24;ADR=1,39;AD=3,63;VDB=0.0525057;SGB=-0.693147;RPBZ=-1.65917;MQBZ=0;MQSBZ=0;SCBZ=0;FS=0;MQ0F=0;AC=1;AN=1;DP4=2,1,24,39;MQ=60     GT:PL:DP:SP:ADF:ADR:AD  1:255,0:66:3:2,24:1,39:3,63
+NC_000962.3     234496  .       C       CGT     228.391 .       INDEL;IDV=78;IMF=0.896552;DP=87;ADF=2,46;ADR=2,31;AD=4,77;VDB=0.617617;SGB=-0.693147;RPBZ=-1.63117;MQBZ=0;MQSBZ=0;SCBZ=-4.37836;FS=0;MQ0F=0;AC=1;AN=1;DP4=2,2,46,31;MQ=60      GT:PL:DP:SP:ADF:ADR:AD   1:255,0:81:0:2,46:2,31:4,77
+NC_000962.3     330711  .       GCACCATGAACCATCTGGCGT   G       228.424 .       INDEL;IDV=66;IMF=0.825;DP=80;ADF=1,34;ADR=0,32;AD=1,66;VDB=3.86599e-10;SGB=-0.693147;RPBZ=-5.86754;MQBZ=0;MQSBZ=0;SCBZ=-8.45738;FS=0;MQ0F=0;AC=1;AN=1;DP4=1,0,34,32;MQ=60       GT:PL:DP:SP:ADF:ADR:AD  1:255,0:67:0:1,34:0,32:1,66</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="bcftools-filter" class="level3">
+<h3 class="anchored" data-anchor-id="bcftools-filter"><a href="http://samtools.github.io/bcftools/bcftools.html">bcftools filter</a></h3>
+<p><code>bcftools filter</code> – basically filters VCF files by applying fixed-threshold filters</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Help
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do this to get the help information for <code>bcftools filter</code></p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> filter</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>About:   Apply fixed-threshold filters.
+Usage:   bcftools filter [options] &lt;in.vcf.gz&gt;
+
+Options:
+    -e, --exclude EXPR             Exclude sites for which the expression is true (see man page for details)
+    -g, --SnpGap INT[:TYPE]        Filter SNPs within &lt;int&gt; base pairs of an indel (the default) or any combination of indel,mnp,bnd,other,overlap
+    -G, --IndelGap INT             Filter clusters of indels separated by &lt;int&gt; or fewer base pairs allowing only one to pass
+    -i, --include EXPR             Include only sites for which the expression is true (see man page for details
+    -m, --mode [+x]                "+": do not replace but add to existing FILTER; "x": reset filters at sites which pass
+        --no-version               Do not append version and command line to the header
+    -o, --output FILE              Write output to a file [standard output]
+    -O, --output-type u|b|v|z[0-9] u/b: un/compressed BCF, v/z: un/compressed VCF, 0-9: compression level [v]
+    -r, --regions REGION           Restrict to comma-separated list of regions
+    -R, --regions-file FILE        Restrict to regions listed in a file
+        --regions-overlap 0|1|2    Include if POS in the region (0), record overlaps (1), variant overlaps (2) [1]
+    -s, --soft-filter STRING       Annotate FILTER column with &lt;string&gt; or unique filter name ("Filter%d") made up by the program ("+")
+    -S, --set-GTs .|0              Set genotypes of failed samples to missing (.) or ref (0)
+    -t, --targets REGION           Similar to -r but streams rather than index-jumps
+    -T, --targets-file FILE        Similar to -R but streams rather than index-jumps
+        --targets-overlap 0|1|2    Include if POS in the region (0), record overlaps (1), variant overlaps (2) [0]
+        --threads INT              Use multithreading with &lt;int&gt; worker threads [0]</code></pre>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Usage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The general format of the command is:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> filter [OPTIONS] FILE</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>Before we run <code>bcftools filter</code> we will need to create an index of our <code>.vcf.gz</code> file. To do this, we will use the command <code>tabix</code>.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+tabix
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can check out it’s help function</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Help
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do this to get the help information for tabix</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tabix</span> <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Version: 1.14
+Usage:   tabix [OPTIONS] [FILE] [REGION [...]]
+
+Indexing Options:
+   -0, --zero-based           coordinates are zero-based
+   -b, --begin INT            column number for region start [4]
+   -c, --comment CHAR         skip comment lines starting with CHAR [null]
+   -C, --csi                  generate CSI index for VCF (default is TBI)
+   -e, --end INT              column number for region end (if no end, set INT to -b) [5]
+...</code></pre>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Usage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The general format of the command is:</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tabix</span> [OPTIONS] [FILE] [REGION [...]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>We will index our file by running the following command:</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tabix</span> <span class="at">-p</span> vcf <span class="at">-f</span> G26832.vcf.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You shouldn’t expect a message printed out on the screen.</p>
+<p>Just look out for the new file generated</p>
+<pre><code>G26832.vcf.gz.tbi</code></pre>
+</div>
+</div>
+<p>Now that we have our index file let’s go back to perform our filtering.</p>
+<p>We perform the filtering by running the following command:</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+bcftools filter
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb63"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> filter <span class="at">--output</span> G26832.filtered.vcf.gz <span class="at">--soft-filter</span> LowQual <span class="at">--exclude</span> <span class="st">"%QUAL&lt;25 || FORMAT/DP&lt;10 || MAX(FORMAT/ADF)&lt;2 || MAX(FORMAT/ADR)&lt;2 || MAX(FORMAT/AD)/SUM(FORMAT/DP)&lt;0.9 || MQ&lt;30 || MQ0F&gt;0.1"</span> <span class="at">--output-type</span> z G26832.vcf.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>busy</code></pre>
+<p><em>Don’t expect any print out on your terminal. The expected file <code>G26832.filtered.vcf.gz</code> should be created by now. Look out for it in your directory.</em></p>
+<p>The optional arguments we have used in the above command have the following meaning:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>option</th>
+<th>interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>--soft-filter</code></td>
+<td>Annotate FILTER column with the unique filter name LowQual</td>
+</tr>
+<tr class="even">
+<td><code>--exclude</code></td>
+<td>Exclude sites for which the expression is true see this <a href="http://samtools.github.io/bcftools/bcftools.html#expressions">link</a> for all the possible expressions</td>
+</tr>
+<tr class="odd">
+<td><code>--output-type z</code></td>
+<td>Specifies a compressed VCF output</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Can you think of any analysis we can use our <code>G26832.filtered.vcf.gz</code> file for?</p>
+<p>The last thing we will do is to try to generate a consensus sequence or an assembled genome from our <code>G26832.filtered.vcf.gz</code> file. We call this assembled genome a <strong>pseudogenome</strong>. Remember that the assembled genome will be coming from our mapped sequences and so will have the same number of genomic positions as our reference genome. Later in this course, we will see how to assemble a genome directly from the raw reads. We call this kind of assembly a <code>denovo</code> assembly.</p>
+<p>For now, let’s focus on getting our pseudogenome.</p>
+<p>There are various tools to do this but we will use a simple python script to archive this.</p>
+</section>
+</section>
+<section id="generating-a-consensus-sequence" class="level2">
+<h2 class="anchored" data-anchor-id="generating-a-consensus-sequence">5.1.6 Generating a consensus sequence</h2>
+<p>Our consensus sequence (pseudogenome) will be generated in a <code>fasta</code> file format.</p>
+<section id="parse-vcf-files-into-fasta-format" class="level3">
+<h3 class="anchored" data-anchor-id="parse-vcf-files-into-fasta-format">Parse <code>vcf</code> files into <code>fasta</code> format</h3>
+<p>We will run a simple python script to achieve this purpose. In your working directory, you will find a file named <code>vcf2pseudogenome.py</code>. This is a simple python script that will do the job for us.</p>
+<p>We can go ahead and execute that python script by running the command below:</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+execute python script
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb65"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> vcf2pseudogenome.py  <span class="at">-r</span> MTB_H37Rv.fasta <span class="at">-b</span> G26832.filtered.vcf.gz <span class="at">-o</span> G26832.fas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>10000
+20000
+30000
+40000
+50000
+60000
+70000
+...</code></pre>
+</div>
+</div>
+<!--FIXME: I don't know if my explanation to how the scripts function is accurate-->
+<p>You should now see another file generated in your directory called <code>G26832.fas</code>. What the python script did was to pick the variants called from the vcf file and replace them in the reference genome to call out the new file.</p>
+<p>Now let’s go ahead and have a look at the top five lines of the <code>G26832.fas</code> file with the command:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb67"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 5 G26832.fas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>&gt;G26832
+ttgaccgatgaccccggttcaggcttcaccacagtgtggaacgcggtcgtctccgaactt
+aacggcgaccctaaggttgacgacggacccagcagtgatgctaatctcagcgctccgctg
+acccctcagcaaagggcttggctcaatctcgtccagccattgaccatcgtcgaggggttt
+gctctgttatccgtgccgagcagctttgtccaaaacgaaatcgagcgccatctgcgggcc</code></pre>
+</div>
+</div>
+</div>
+<!-- FIXME: This set of codes does not apply to this course but worth exploring.
+
+## Cleaning FASTA Files
+
+To proceed with our analysis, we need a FASTA file containing _all_ of our consensus sequences.
+However, our `ncov2019-artic-nf` Nextflow workflow outputs _separate_ FASTA files for each sample and in individual directories. 
+We can see this by running (from within the `02-consensus/uk_illumina/` directory): 
+
+```bash
+$ ls results/consensus/qc_pass_climb_upload/uk/
+```
+
+Also, the workflow modifies our original sample names in the FASTA file, by adding information about the steps used in the analysis. 
+For example:
+
+```bash
+$ head -n 1 results/consensus/qc_pass_climb_upload/uk/ERR5761182/ERR5761182.primertrimmed.consensus.fa
+```
+
+```
+>Consensus_ERR5761182.primertrimmed.consensus_threshold_0.75_quality_20
+```
+
+What we want to do is clean these sample names, so that we end up with:
+
+```
+>ERR5761182
+```
+
+We also want to make sure to combine all the samples into a single FASTA file. 
+
+We can the command-line skills we acquired so far, in particular the use of the `cat` command to combine (or _concatenate_) the individual files and the `sed` command to replace text and clean our sample names. 
+Let's do this step by step.
+
+First, we can use the `*` _wildcard_ to combine all the FASTA files with the `cat` command:
+
+```bash
+$ cat results/consensus/qc_pass_climb_upload/uk/*/*.fa
+```
+
+Running this command will print all of the sequences on the screen!
+To see what happened a little better, we could _pipe_ this command to `less` to browse up-and-down through the file:
+
+```bash
+$ cat results/consensus/qc_pass_climb_upload/uk/*/*.fa | less
+```
+
+We could also check that we now have all our samples combined, we could pass the results to `grep` and search for the word `>`, which in the FASTA format indicates the sequence name:
+
+```bash
+$ cat results/consensus/qc_pass_climb_upload/uk/*/*.fa | grep ">" | wc -l
+```
+
+This should give us 7 as the result (which makes sense, since we have 7 samples). 
+
+We can now proceed with cleaning the names of the sequences, by using `sed`:
+
+```bash
+cat results/consensus/qc_pass_climb_upload/uk/*/*.fa | sed 's/Consensus_//' | sed 's/.primertrimmed.consensus_threshold_0.75_quality_20//' > results/consensus/clean_sequences.fa
+```
+
+Notice how we use two rounds of text replacement, first we replace the word `Consensus_` by an empty string, and then again `.primertrimmed.consensus_threshold_0.75_quality_20` with nothing. 
+
+We also make sure to redirect the result to a new file.
+
+
+:::exercise
+
+In this exercise we will create a clean FASTA file for the samples collected in India. 
+These are found in the `02-consensus/india_nanopore` directory, so make sure to change to that directory first (on our training machines you can do: `cd ~/Course_Materials/02-consensus/india_nanopore`)
+
+If we look at one of the files
+
+```bash
+$ head -n 1 results/consensus/qc_pass_climb_upload/india/india_barcode01/india_barcode01.consensus.fasta
+```
+
+```
+>india_barcode01/ARTIC/medaka MN908947.3
+```
+
+We want to clean the name of the sequences so that the result is:
+
+```
+>barcode01
+```
+
+- Use the tools `cat` and `sed` to construct a command that generates a new file called `results/consensus/clean_sequences.fa` containing all the sequences with "clean" sequence names. 
+
+<details><summary>Hint</summary>Remember the syntax for pattern replacement with `sed` is: `sed 's/replace this/with that/'`. Also remember that if you want to replace the character "/", you need to use the special _escape character_, for example: `sed 's/replace \/ slash//'`</details>
+
+<details><summary>Answer</summary>
+
+The complete code to achieve the desired outcome is:
+
+```bash
+cat results/consensus/qc_pass_climb_upload/india/*/*.fasta | sed 's/india_//' | sed 's/\/ARTIC\/medaka MN908947.3//' > results/consensus/clean_sequences.fa
+```
+
+Note that in order to replace the pattern `/ARTIC/medaka MN908947.3`, we needed to "_escape_" the `/` symbol by using `\/`.
+This is because `/` alone is used by `sed` to separate different parts of the command. 
+
+Look at the [section about pattern replacement](02-unix-sed.html) for a reminder of how the `sed` command works.
+
+</details>
+
+:::
+
+-->
+</section>
+<section id="disk-usage-ii-cleaning-up-after-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="disk-usage-ii-cleaning-up-after-analysis">Disk Usage II — Cleaning up after analysis</h3>
+<p>Now that we are done investigating our genomic sequences, let’s pause again and check the space of our current working directory.</p>
+<p>You can do this with the <strong>d</strong>isk <strong>u</strong>sage <code>du</code> command</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>How much disk space have you used since the start of the analysis? I’m sure it’s about 2.2G. Just from one set of reads, we have generated about 2G of data we may not need. Imaging if we had hundreds of samples. What files do you consider not necessary to keep? Let’s do some cleaning up. We will remove <code>rm</code> all files that we may not need for further analysis. Most of these files are intermediate files and can always be reproduced if we need to.</p>
+<section id="remove-all-.sam-files-if-not-needed" class="level4">
+<h4 class="anchored" data-anchor-id="remove-all-.sam-files-if-not-needed">remove all <code>.sam</code> files if not needed</h4>
+<div class="sourceCode" id="cb70"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>.sam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="remove-all-bam-files-if-not-needed" class="level4">
+<h4 class="anchored" data-anchor-id="remove-all-bam-files-if-not-needed">remove all <code>bam</code> files if not needed</h4>
+<div class="sourceCode" id="cb71"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>bam<span class="pp">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+</section>
+<section id="mapping-to-pseudogenome-bash-script-putting-it-all-together" class="level2">
+<h2 class="anchored" data-anchor-id="mapping-to-pseudogenome-bash-script-putting-it-all-together">5.1.7 Mapping to pseudogenome bash script: Putting it all together</h2>
+<p>Now let’s try this out! We will generate pseudogenomes and some quality statistics for three pairs of reads from Illumina paired-end sequencing. We will perform all the analysis above in one run while generating all the various files at each stage within the pipeline in tandem.</p>
+<section id="running-multiple-samples-with-a-simple-bash-script" class="level3">
+<h3 class="anchored" data-anchor-id="running-multiple-samples-with-a-simple-bash-script">Running multiple samples with a simple bash script</h3>
+<p>This is a pipeline to map short reads to a reference assembly. It outputs some quality statistics, does variant calling and produces a pseudogenome of each input sample.</p>
+<p>All the <code>fastq</code> files needed for this analysis are located in the current working <code>short_read_mapping_MTB</code> directory. You can have a look by simply running the below command to check out all the forward reads present in the current directory.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb72"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>R1.trim.fastq.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>G26831_R1.trim.fastq.gz  G26832_R1.trim.fastq.gz  G26854_R1.trim.fastq.gz</code></pre>
+</div>
+</div>
+</div>
+<p>Let’s have a look at the QC bash script we are going to run:</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> mappingTofasta.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Just like the script used in our previous lesson, this script also contains several commands, some are combined together using pipes. (UNIX pipes is a very powerful and elegant concept which allows us to feed the output of one command into the next command and avoid writing intermediate files. If you are not comfortable with UNIX or how scripts look like and how they work, consider revisiting the <a href="../02-unix_intro/">UNIX</a> tutorial or more specifically <a href="../../materials/02-unix_intro/2.9-bonus_shell_scripts.html">bonus shell script</a>.</p>
+<p>Now run the script to create the quality statistics and pseudogenomes (this may take a while):</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+mapping to fasta
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb75"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> mappingTofasta.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<!--FIXME: edit the mapping output below with the correct MAPPING tag-->
+<pre><code>#################################################################################
+#### loop bash script for running Mapping to generating pseudogenome fasta files ######
+#######################################################################################
+#               #
+#  ___   ____   #
+# / _ \ / ___|  #
+# | | | | |     #
+# | |_| | |___  #
+# \__\_\ \____| #
+#               #
+#               #
+#######################################################################################
+MTB_H37Rv.fasta exists and will be used in the next run in a second.
+ &lt;&lt;&lt;&lt;&lt;&lt;&lt;running bwa index&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+[bwa_index] Pack FASTA... 0.04 sec
+[bwa_index] Construct BWT for the packed sequence...
+[bwa_index] 0.98 seconds elapse.
+...</code></pre>
+</div>
+</div>
+<p>The script will produce all the intermediate and final files we have encountered in this session.</p>
+<p>Perform a simple <code>ls</code> command with the arguments <code>-lhrt</code> and view the most recent files created.</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lhrt</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Congratulations!!! You just created your first set of pseudogenomes using a bash script.</p>
+<hr>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 5.1.7.1:</em></strong> Advance Exercise: Reproducible Research Assessment
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let’s try to apply what we’ve learnt so far to see if we can reproduce the output figure below retrieved from a publication.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/staph_tree_0.jpeg" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">ST88 phylogeny and accessory genome analysis</figcaption><p></p>
+</figure>
+</div>
+<p>You can click <a href="https://peerj.com/articles/3047/">here</a> to read the abstract of the publication <a href="https://peerj.com/articles/3047/">Kpeli et. a., 2017 PeerJ</a></p>
+<p>In the publication, they state that they used comparative genomics to assess relatedness among 17 ST88 CA-MRSA isolates recovered from patients attending Buruli ulcer treatment centres in Ghana, three non-African ST88s and 15 other MRSA lineages from the current study and <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4567303/">Amissah et. al., 2015 PNTD</a>.</p>
+<p>Your task is simple. Each person will be provided with two pairs of sequencing reads – one from the above paper and the other from elsewhere.</p>
+<ol type="1">
+<li>Navigate to the <code>short_read_mapping_Staph</code> directory and activate the <code>mapping</code> environment. You have all you need for this exercise in this directory.</li>
+<li>Performs QC on the pair of genome and select the best genome</li>
+<li>Perform mapping analysis and generate a pseudogenome</li>
+<li>Upload your pseudogenome to the <a href="">dropbox folder</a> <!--FIXME: insert the dropbox link above--></li>
+</ol>
+<p><strong>NB.</strong> All the pseudogenomes would be concatenated to draw a tree at the end of the phylogenetic lesson.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-54-contents" aria-controls="callout-54" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-54" class="callout-54-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Change to the required working directory</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Desktop/workshop_files_Bact_Genomics_2023/05_mapping/short_read_mapping_Staph/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>run the qc analysis</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>run the mappingTofasta analysis</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="deactivate-mapping-environment" class="level2">
+<h2 class="anchored" data-anchor-id="deactivate-mapping-environment">5.1.8 Deactivate <code>mapping</code> environment</h2>
+<p>Now that we are done with all our analysis, let’s deactivate the <code>mapping</code> environment:</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="credit" class="level2">
+<h2 class="anchored" data-anchor-id="credit">5.1.9 Credit</h2>
+<p>Information on this page has been adapted and modified from the following source(s):</p>
+<ul>
+<li><p>https://github.com/cambiotraining/sars-cov-2-genomics</p></li>
+<li><p>https://bio-bwa.sourceforge.net/</p></li>
+<li><p>http://www.htslib.org/doc/samtools.html</p></li>
+<li><p>https://software.broadinstitute.org/software/igv/home</p></li>
+<li><p>https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3346182/</p></li>
+<li><p>https://github.com/sanger-pathogens/Artemis</p></li>
+<li><p>Wellcome Genome Campus Advanced Courses and Scientific Conferences 2017 - WORKING WITH PATHOGEN GENOMES Course Manual http://www.wellcome.ac.uk/advancedcourses</p></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../materials/04-sequence_qc/4.1-sequence_qc.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">4.1 Sequencing Quality Control</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../materials/06-assembly_annotation/6.1-assembly_annotation.html" class="pagination-link">
+        <span class="nav-page-text">6.1 Assembly and Annotation</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">Licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://creativecommons.org/images/deed/cc_icon_black_x2.png" class="img-fluid" width="25"> Dr Prince Asare and Dr Andries van Tonder</div>
+  </div>
+</footer>
+
+
+
+</body></html>

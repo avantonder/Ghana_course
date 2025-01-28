@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.112">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Andries van Tonder, Prince Asare">
+<meta name="dcterms.date" content="2025-01-28">
+
+<title>Introduction to Bacterial Genomics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university-of-cambridge-favicon.ico" rel="icon">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/NMIMR_Logo_whitebg.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./setup.html">Setup</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./materials.html">Materials</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./unix_cheat_sheet.html">Unix-Cheat-Sheet</a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/avantonder/Ghana_course"><i class="bi bi-github" role="img" aria-label="Introduction to bacterial genomics GitHub">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/NMIMR_UG"><i class="bi bi-twitter" role="img" aria-label="Noguchi Memorial Institute for Medical Research Twitter">
+</i> 
+ </a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Introduction to Bacterial Genomics</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Andries van Tonder, Prince Asare </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 28, 2025</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Introduction to Bacterial Genomics</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This course will teach you how to begin analysing whole genome sequencing data from bacterial isolates. We will introduce many of the software tools commonly used when analysing bacterial genomes and provide an outline of workflows such as quality control, short read mapping and phylogenetic tree inference. Along the way, you will gain foundational bioinformatic skills, including the use of the Unix command line and learn to write simple scripts to ensure your analysis is reproducible.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Learning Objectives:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this course, learners should be able to:</p>
+<ul>
+<li>Understand what the main technologies used for high throughput sequencing are.</li>
+<li>Use the Unix command line to navigate a filesystem, manipulate files, launch programs and write scripts for reproducible analysis.</li>
+<li>Recognise the structure of common sequence file formats in bioinformatics and run basic quality control tools on them.</li>
+<li>Use mapping tools to map short read sequence data to a reference genome, call variants and visualize the results of the mapping process.</li>
+<li>Understand how to create a <em>de novo</em> assembly, assess the quality of the assembly and annotate the genome using a pre-compiled database of annotations.</li>
+<li>Manage and install bioinformatics software using <em>Conda</em> and set up <em>Nextflow</em> workflows.</li>
+<li>Use Nextflow pipelines from the nf-core community and map sequence data from several isolates to a reference genome with the bactmap pipeline.</li>
+<li>Understand the different approaches to constructing a phylogenetic tree as well build and visualize a phylogeny.</li>
+<li>Run different genotyping tools to predict characteristics such as serotypes and antimicrobial resistance.</li>
+<li>Understand what high performance computing is and how this can be used to analyse large numbers of genomes efficiently and quickly.</li>
+</ul>
+</div>
+</div>
+<section id="target-audience" class="level3">
+<h3 class="anchored" data-anchor-id="target-audience">Target Audience</h3>
+<p>This course is aimed at life scientists interested in the bioinformatic analysis of bacterial genomes.</p>
+</section>
+<section id="prerequisites" class="level3">
+<h3 class="anchored" data-anchor-id="prerequisites">Prerequisites</h3>
+<p>We assume no prior bioinformatics experience or experience with the tools introduced in this course. An elementary knowledge of molecular and bacterial biology is assumed (concepts such as: DNA, RNA, SNPs).</p>
+</section>
+</section>
+<section id="authors" class="level2">
+<h2 class="anchored" data-anchor-id="authors">Authors</h2>
+<p>About the authors:</p>
+<ul>
+<li><strong>Andries van Tonder</strong> <a href="https://orcid.org/0000-0002-4380-5250" target="_blank"><i class="fa-brands fa-orcid" style="color:#a6ce39"></i></a> <a href="https://github.com/avantonder" target="_blank"><i class="fa-brands fa-github" style="color:#4078c0"></i></a><br>
+<em>Affiliation</em>: Department of Veterinary Medicine, University of Cambridge<br>
+<em>Roles</em>: writing - original draft; conceptualisation; coding</li>
+<li><strong>Prince Asare</strong> <a href="https://orcid.org/0000-0003-0673-5967" target="_blank"><i class="fa-brands fa-orcid" style="color:#a6ce39"></i></a> <a href="https://github.com/princeasregh" target="_blank"><i class="fa-brands fa-github" style="color:#4078c0"></i></a><br>
+<em>Affiliation</em>: Noguchi Memorial Institute for Medical Research, University of Ghana<br>
+<em>Roles</em>: writing - original draft; conceptualisation; coding</li>
+</ul>
+</section>
+<section id="citation" class="level2">
+<h2 class="anchored" data-anchor-id="citation">Citation</h2>
+<p>You can cite these materials as:</p>
+<p>Asare P and van Tonder A. (2023) “Introduction to bacterial genomics”, https://avantonder.github.io/Ghana_course/</p>
+<p>Or in BibTeX format:</p>
+<pre><code>@Misc{,
+  author = {Asare, Prince and van Tonder, Andries},
+  title = {avantonder.github.io/Ghana_course/: Introduction to bacterial genomics},
+  month = {January},
+  year = {2023},
+  url = {https://avantonder.github.io/Ghana_course/},
+}</code></pre>
+</section>
+<section id="acknowledgements" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>These materials have been developed as a collaboration between the <a href="https://www.vet.cam.ac.uk/">Department of Veterinary Medicine</a> at the University of Cambridge and the <a href="https://noguchi.org.gh/">Noguchi Memorial Institute for Medical Research</a> at the University of Ghana.</p>
+<p>We also thank the wider community for publicly sharing training resources, including:</p>
+<ul>
+<li>The excellent training courses put together by University of <a href="https://github.com/cambiotraining/">Cambridge Bioinformatics Training Facility</a></li>
+<li>The <a href="https://carpentries.org/">Carpentries</a> project</li>
+</ul>
+</section>
+</div>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">Licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://creativecommons.org/images/deed/cc_icon_black_x2.png" class="img-fluid" width="25"> Dr Prince Asare and Dr Andries van Tonder</div>
+  </div>
+</footer>
+
+
+
+</body></html>

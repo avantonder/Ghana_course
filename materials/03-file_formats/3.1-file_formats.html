@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.112">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3.1 Common File Formats</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../materials/04-sequence_qc/4.1-sequence_qc.html" rel="next">
+<link href="../../materials/02-unix_intro/2.9-bonus_shell_scripts.html" rel="prev">
+<link href="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university-of-cambridge-favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/NMIMR_Logo_whitebg.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../setup.html">Setup</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../materials.html" aria-current="page">Materials</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../unix_cheat_sheet.html">Unix-Cheat-Sheet</a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/avantonder/Ghana_course"><i class="bi bi-github" role="img" aria-label="Introduction to bacterial genomics GitHub">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/NMIMR_UG"><i class="bi bi-twitter" role="img" aria-label="Noguchi Memorial Institute for Medical Research Twitter">
+</i> 
+ </a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">3.1 Common File Formats</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials.html" class="sidebar-item-text sidebar-link">Materials</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">1. Introduction to WGS</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro_wgs/1.1-intro_wgs.html" class="sidebar-item-text sidebar-link">1.1 Introduction to Whole Genome Sequencing (WGS)</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">2. Introduction to Unix</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.1-unix_overview.html" class="sidebar-item-text sidebar-link">2.1 The Unix Shell</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.2-files_directories.html" class="sidebar-item-text sidebar-link">2.2 Navigating Files and Directories</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.3-text_manipulation.html" class="sidebar-item-text sidebar-link">2.3 Text Manipulation</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.4-combining_commands.html" class="sidebar-item-text sidebar-link">2.4 Combining Commands</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.5-using_remote_resources.html" class="sidebar-item-text sidebar-link">2.5 Using remote resources</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.6-vscode_overview.html" class="sidebar-item-text sidebar-link">2.6 Visual Studio Code</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.7-bonus_find_and_grep.html" class="sidebar-item-text sidebar-link">2.7 <em>Bonus</em> : Finding Things</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.8-bonus_loops.html" class="sidebar-item-text sidebar-link">2.8 <em>Bonus</em>: Loops</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.9-bonus_shell_scripts.html" class="sidebar-item-text sidebar-link">2.9 <em>Bonus</em>: Shell Scripts</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">3. Common File Formats</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-file_formats/3.1-file_formats.html" class="sidebar-item-text sidebar-link active">3.1 Common File Formats</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">4. Sequencing QC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-sequence_qc/4.1-sequence_qc.html" class="sidebar-item-text sidebar-link">4.1 Sequencing Quality Control</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">5. Short Read Mapping</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-short_read_mapping/5.1-short_read_mapping.html" class="sidebar-item-text sidebar-link">5.1 Short Read Mapping</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">6. Assembly and Annotation</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/06-assembly_annotation/6.1-assembly_annotation.html" class="sidebar-item-text sidebar-link">6.1 Assembly and Annotation</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">7. Software Management</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/07-software_management/7.1-software_management.html" class="sidebar-item-text sidebar-link">7.1 Managing Software</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">8. Workflow Managers</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.1-workflow_managers.html" class="sidebar-item-text sidebar-link">8.1 Workflow Managers</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.2-nfcore.html" class="sidebar-item-text sidebar-link">8.2 nf-core pipelines</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">9. The nf-core/bactmap Pipeline</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.1-bactmap_run.html" class="sidebar-item-text sidebar-link">9.1 The nf-core/bactmap pipeline</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.2-bactmap_results.html" class="sidebar-item-text sidebar-link">9.2 nf-core/bactmap Results</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">10. Introduction to Phylogenetics</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/10-intro_phylogenetics/10.1-intro_phylogenetics.html" class="sidebar-item-text sidebar-link">10.1 Introduction to Phylogenetics</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">11. Bacterial Genotyping and AMR prediction</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/11-genotyping/11.1-genotyping.html" class="sidebar-item-text sidebar-link">11.1 Bacterial Genotyping and Drug Resistance Prediction</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">12. Introduction to HPC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/12-intro_hpc/12.1-intro_hpc.html" class="sidebar-item-text sidebar-link">12.1 Introduction to High Performance Computing</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">3.1.1 Background</a></li>
+  <li><a href="#csv-and-tsv" id="toc-csv-and-tsv" class="nav-link" data-scroll-target="#csv-and-tsv">3.1.2 CSV and TSV</a></li>
+  <li><a href="#fasta" id="toc-fasta" class="nav-link" data-scroll-target="#fasta">3.1.3 FASTA</a>
+  <ul class="collapse">
+  <li><a href="#specific-filename-extensions" id="toc-specific-filename-extensions" class="nav-link" data-scroll-target="#specific-filename-extensions">Specific filename extensions</a></li>
+  </ul></li>
+  <li><a href="#fast5" id="toc-fast5" class="nav-link" data-scroll-target="#fast5">3.1.4 FAST5</a></li>
+  <li><a href="#fastq" id="toc-fastq" class="nav-link" data-scroll-target="#fastq">3.1.5 FASTQ</a></li>
+  <li><a href="#sam-bam-and-cram" id="toc-sam-bam-and-cram" class="nav-link" data-scroll-target="#sam-bam-and-cram">3.1.6 SAM, BAM and CRAM</a>
+  <ul class="collapse">
+  <li><a href="#samtools" id="toc-samtools" class="nav-link" data-scroll-target="#samtools">SAMtools</a></li>
+  <li><a href="#sam-format" id="toc-sam-format" class="nav-link" data-scroll-target="#sam-format">SAM format</a></li>
+  <li><a href="#bam-and-cram" id="toc-bam-and-cram" class="nav-link" data-scroll-target="#bam-and-cram">BAM and CRAM</a></li>
+  <li><a href="#what-information-is-in-sam-bam" id="toc-what-information-is-in-sam-bam" class="nav-link" data-scroll-target="#what-information-is-in-sam-bam">What Information is in SAM &amp; BAM</a></li>
+  </ul></li>
+  <li><a href="#vcf" id="toc-vcf" class="nav-link" data-scroll-target="#vcf">3.7 VCF</a>
+  <ul class="collapse">
+  <li><a href="#the-columns-of-a-vcf" id="toc-the-columns-of-a-vcf" class="nav-link" data-scroll-target="#the-columns-of-a-vcf">The columns of a VCF</a></li>
+  </ul></li>
+  <li><a href="#bed" id="toc-bed" class="nav-link" data-scroll-target="#bed">3.1.8 BED</a></li>
+  <li><a href="#gff" id="toc-gff" class="nav-link" data-scroll-target="#gff">3.1.9 GFF</a>
+  <ul class="collapse">
+  <li><a href="#general-gff3-structure" id="toc-general-gff3-structure" class="nav-link" data-scroll-target="#general-gff3-structure">General GFF3 structure</a></li>
+  </ul></li>
+  <li><a href="#newick" id="toc-newick" class="nav-link" data-scroll-target="#newick">3.1.10 NEWICK</a></li>
+  <li><a href="#credit" id="toc-credit" class="nav-link" data-scroll-target="#credit">3.1.11 Credit</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">3.1 Common File Formats</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p><strong>Teaching: 20 min</strong> || <strong>Exercises: 10 min</strong></p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Questions:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>What are the various file formats I may encounter while carrying out my bioinformatics analysis</li>
+<li>What information do I get from each file type</li>
+<li>Which file type should I look for specifically to address my needs</li>
+</ul>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Learning Objectives:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>To know and identify the various file formats used in bioinformatics</li>
+<li>To know which file type to select to address appropriate needs</li>
+</ul>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Key Points:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>There are several file types generated along a bioinformatics pipeline. Each containing varying depth of information on the sequence.</li>
+<li>The common file types I may encounter in this course are:
+<ul>
+<li>CSV and TSV</li>
+<li>FASTA</li>
+<li>FAST5</li>
+<li>FASTQ</li>
+<li>SAM, BAM and CRAM</li>
+<li>VCF</li>
+<li>BED</li>
+<li>GFF</li>
+<li>NEWICK</li>
+</ul></li>
+<li>The various file formats are usually designed to allow for processing tools to easily parse the data</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">3.1.1 Background</h2>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+What is a file format?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A <strong>file format</strong> is a way for computers (and humans) to standardize how data is organized.</p>
+</div>
+</div>
+<p>In this chapter, our aim will be to go over the most common bioinformatics file formats you will come across. We will however not go into much details, but to simply help you become familiarized with the different file types that you may encounter in the course and are frequently used to store biological data.</p>
+<p>The heading of each file format links to a wiki page with more details about the format.</p>
+<p>Generally, files can be classified into two categories: text files and binary files.</p>
+<ul>
+<li><p><strong>Text files</strong> can be opened with standard text editors, and manipulated using command-line tools (such as <code>head</code>, <code>less</code>, <code>grep</code>, <code>cat</code>, etc.). However, many of the standard files listed in this page can be opened with specific software that displays their content in a more user-friendly way. For example, the NEWICK format is used to store phylogenetic trees and, although it can be opened in a text editor, it is better used with a software such as <em>FigTree</em> to visualise the tree as a graph. Very often, text files may be <strong>compressed</strong> to save storage space. A common compression format used in bioinformatics is <em>gzip</em> which has extension <code>.gz</code>. Many bioinformatic tools support compressed files. For example, FASTQ files (used to store NGS sequencing data) are often compressed with format <code>.fq.gz</code>.</p></li>
+<li><p><strong>Binary files</strong> are often used to store data more efficiently. This helps improves efficiency for computers and are usually in a non-human readable binary format. You’ll see some binary files have a corresponding “index” file which is useful for searching. Typically, specific tools need to be used with those files. For example, the BAM format is used to store sequences aligned to a reference genome and can be manipulated with dedicated software such as <code>samtools</code>.</p></li>
+</ul>
+<p>More generally, the <code>extensions</code> <em>(last set of letters after the final <code>.</code> in a file name)</em> your find in file types are also used to indicate which algorithm/program can be used to open the file.</p>
+</section>
+<section id="csv-and-tsv" class="level2">
+<h2 class="anchored" data-anchor-id="csv-and-tsv">3.1.2 <a href="https://en.wikipedia.org/wiki/Comma-separated_values#Example">CSV</a> and <a href="https://en.wikipedia.org/wiki/Tab-separated_values#Example">TSV</a></h2>
+<p><strong>CSV</strong> stands for <strong>C</strong>omma-<strong>S</strong>eparated <strong>V</strong>alues</p>
+<p><strong>TSV</strong> on the other hand stands for <strong>T</strong>ab-<strong>S</strong>eparated <strong>V</strong>alues</p>
+<p><strong>CSV</strong> and <strong>TSV</strong> are text files. They store tabular data in a text file with the file extensions: <code>.csv</code> and <code>.tsv</code> respectively. It is also possible to store them with <code>.txt</code> extension and the data wll work normally. As the names suggest, for <strong>CSV</strong> files there is a <em>comma</em> <code>,</code> between each value, whereas for <strong>TSV</strong> files there is a <em>tab</em> between each value.</p>
+<!--FIXME: replace this with a more relevant one if necessary-->
+<p>Below is a sample <code>.csv</code> text. You will see this being used more frequently in other chapters.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<pre><code>sample,fastq_1,fastq_2
+TBNmA041,/Genomes/TBNmA041_R1.fastq.gz,/Genomes/TBNmA041_R2.fastq.gz
+TBNmA050,/Genomes/TBNmA050_R1.fastq.gz,/Genomes/TBNmA050_R2.fastq.gz
+TBNmA064,/Genomes/TBNmA064_R1.fastq.gz,/Genomes/TBNmA064_R2.fastq.gz
+TBNmA067,/Genomes/TBNmA067_R1.fastq.gz,/Genomes/TBNmA067_R2.fastq.gz
+TBNmA074,/Genomes/TBNmA074_R1.fastq.gz,/Genomes/TBNmA074_R2.fastq.gz
+TBNmA077,/Genomes/TBNmA077_R1.fastq.gz,/Genomes/TBNmA077_R2.fastq.gz</code></pre>
+</div>
+</div>
+</div>
+<p>The simplicity of these formats allows researchers to easily exchange data among computers, a term known as portability.</p>
+<p>These files can be opened with spreadsheet programs (such as <em>Microsoft Excel</em>). They can also be created from spreadsheet programs by going to <kbd>File &gt; Save As…</kbd> and select “CSV (Comma delimited)” or “Text (Tab delimited)” as the file format.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/csv.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">A <code>.csv</code> file opened separately with <em>excel</em> (upper) and a <em>text editor</em> (lower)</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="fasta" class="level2">
+<h2 class="anchored" data-anchor-id="fasta">3.1.3 <a href="https://en.wikipedia.org/wiki/FASTA">FASTA</a></h2>
+<p>FASTA (pronounced “fast-A”) format is a simple type of format that bioinformaticians use to represent either DNA or protein sequences. <strong>FASTA</strong> files are therefore text files and stores nucleotide or amino acid sequences. It is written in text format, allowing for processing tools to easily parse the data. Within the basic FASTA file, there are two lines per sequence</p>
+<ul>
+<li><ol type="1">
+<li>the identifier (comments, annotations)</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>the sequence itself</li>
+</ol></li>
+</ul>
+<p>The top line holds information pertaining to the sequence below. It is preceded by with a <code>&gt;</code>. Without this informative first line, we just have a raw format. As a general rule, it is recommended that each line of sequence be shorter than 80 characters. The file extensions for <strong>FASTA</strong> are <code>.fa</code> or <code>.fas</code> or <code>.fasta</code></p>
+<p>A FASTA file containing a single nucleotide sequence might look like this:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<pre><code>&gt;G26832_filtered: example fasta sequence
+ttgaccgatgaccccggttcaggcttcaccacagtgtggaacgcggtcgtctccgaactt
+aacggcgaccctaaggttgacgacggacccagcagtgatgctaatctcagcgctccgctg
+acccctcagcaaagggcttggctcaatctcgtccagccattgaccatcgtcgaggggttt
+gctctgttatccgtgccgagcagctttgtccaaaacgaaatcgagcgccatctgcgggcc
+ccgattaccgacgctctcagccgccgactcggacatcagatccaactcggggtccgcatc</code></pre>
+</div>
+</div>
+</div>
+<p>… and one containing a protein sequence may look like this:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<pre><code>&gt;PROTEIN_SEQUENCE_1
+MTEITAAMVKELRESTGAGMMDCKNALSETNGDFDKAVQLLREKGLGKAAKKADRLAAEG
+LVSVKVSDDFTIAAMRPSYLSYEDLDMTFVENEYKALVAELEKENEERRRLKDPNKPEHK
+IPQFASRKQLSDAILKEAEEKIKEELKAQGKPEKIWDNIIPGKMNSFIADNSQLDSKLTL
+MGQFYVMDDKKTVEQVIAEKEKEFGGKIKIVEFICFEVGEGLEKKTEDFAAEVAAQL</code></pre>
+</div>
+</div>
+</div>
+<section id="specific-filename-extensions" class="level3">
+<h3 class="anchored" data-anchor-id="specific-filename-extensions">Specific filename extensions</h3>
+<p>The generic form of FASTA file has the <code>.fas</code> extension. For more specific types, we can use the following:</p>
+<table class="table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 25%">
+<col style="width: 58%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Extension</th>
+<th style="text-align: left;">Meaning</th>
+<th style="text-align: left;">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">fna</td>
+<td style="text-align: left;">FASTA nucleic acid</td>
+<td style="text-align: left;">Used generically to specify nucleic acids</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ffn</td>
+<td style="text-align: left;">FASTA nucleotide coding regions</td>
+<td style="text-align: left;">Contains coding regions for a genome</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">faa</td>
+<td style="text-align: left;">FASTA amino acid</td>
+<td style="text-align: left;">Contains amino acid sequences. A multiple protein fasta file can have the more specific extension mpfa</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">frn</td>
+<td style="text-align: left;">FASTA non-coding RNA</td>
+<td style="text-align: left;">Contains non-coding RNA regions for a genome, in DNA alphabet e.g.&nbsp;tRNA, rRNA</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="fast5" class="level2">
+<h2 class="anchored" data-anchor-id="fast5">3.1.4 <a href="https://github.com/mw55309/EG_MinION_2016/blob/master/02_Data_Extraction_QC.md">FAST5</a></h2>
+<p><strong>FAST5</strong> is a binary file. More specifically, it is a Hierarchical Data Format (HDF5) file. used by Nanopore platforms to store the called sequences (in FASTQ format) as well as the raw electrical signal data from the pore. It’s file extension is <code>.fast5</code>.</p>
+</section>
+<section id="fastq" class="level2">
+<h2 class="anchored" data-anchor-id="fastq">3.1.5 <a href="https://en.wikipedia.org/wiki/FASTQ_format">FASTQ</a></h2>
+<p>The FASTA format is extremely simple with just two lines per sequence — the first is for the description, the other for the raw sequence. As this format is nicely simple, it does not tell us the <strong>Q</strong>uality of each nucleotide or protein. Your guess is as good as mine, yes! the <strong>Q</strong> in <strong>FASTQ</strong> (pronounced “fast-Q”) stands for the <strong>Q</strong>uality of each nucleotide or amino acid in a sequence. <strong>FASTQ</strong> is therefore a text file, but often compressed with <em>gzip</em> and stores sequences and their quality scores. The quality score is encoded with a single ASCII character. The file extensions for <strong>FASTQ</strong> are <code>.fq</code> or <code>.fastq</code> (compressed as <code>.fq.gz</code> or <code>.fastq.gz</code>) Just like the FASTA, the first line in a <strong>FASTQ</strong> file contains the sequence identifier with an optional description, however, the line begins with an <code>@</code> character rather than a <code>&gt;</code> character.</p>
+<p>A FASTQ file containing a single sequence might look like any of these:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<pre><code>@VH00616:1:AAAM55THV:1:1101:65456:1000 2:N:0:CAGCAATCGT+ATACATCACA
+GTATCGAGCTGGGATCGGCCGCGGATCTAGACGGTCTGCTGGCCCGGATGCGGGCGACCGACATTCACGT
++
+CCCCCCCCCCCCCCCCCCCCCCCCCCCC;CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC</code></pre>
+</div>
+</div>
+</div>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<pre><code>@VH00616:1:AAAM55THV:1:1101:58564:1038 2:N:0:CAGCAATCGT+ATACATCACA
+GTGTCAATGAACGCGCTTGGTGTGGCCCAACCGCATTCGGACGCCACGGACGTGACGTCGTGGCGCTCGG
++
+!''*((((***+))%%%++)(%%%%).1***-+*''))**55CCF&gt;&gt;&gt;&gt;&gt;&gt;CCCCCCC65)**55CCF&gt;&gt;</code></pre>
+</div>
+</div>
+</div>
+<p>The second line contains the actual sequences of the read which is separated from the fourth (<strong>Q</strong>uality) line by a <code>+</code> on the third line.</p>
+<p>The fourth line encodes the quality scores per each base call. This line must have the same length as the sequence in line 2</p>
+<p>The byte representing quality runs from 0x21 (lowest quality; ‘!’ in ASCII) to 0x7e (highest quality; ‘~’ in ASCII). Here are the quality value characters in left-to-right increasing order of quality (ASCII):</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<pre><code>!"#$%&amp;'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]
+^_`abcdefghijklmnopqrstuvwxyz{|}~</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="sam-bam-and-cram" class="level2">
+<h2 class="anchored" data-anchor-id="sam-bam-and-cram">3.1.6 <a href="https://en.wikipedia.org/wiki/SAM_(file_format)">SAM</a>, <a href="https://en.wikipedia.org/wiki/Binary_Alignment_Map">BAM</a> and <a href="https://en.wikipedia.org/wiki/CRAM_(file_format)">CRAM</a></h2>
+<p>Before we talk about SAM, BAM and CRAM, we must discuss the software, SAMtools, from which these formats originate.</p>
+<section id="samtools" class="level3">
+<h3 class="anchored" data-anchor-id="samtools">SAMtools</h3>
+<p>SAMtools is a suite of utilities that allow for efficient post-processing of short DNA sequence read alignments. The program includes several command line programs such as view, sort, and index that allow for next-generation sequence data processing. You will come across this in later chapters.</p>
+</section>
+<section id="sam-format" class="level3">
+<h3 class="anchored" data-anchor-id="sam-format">SAM format</h3>
+<p>The name <strong>SAM</strong> comes from <strong>S</strong>equence <strong>A</strong>lignment/<strong>M</strong>AP. It is a text file with the file extensions <code>.sam</code>. In addition to regular sequence reads, SAM includes alignment data that link short reads to a reference sequence. This makes SAM files the choice of format when visualizing short read sequences in genome browsers such as IGV (Integrated Genome Viewer).</p>
+</section>
+<section id="bam-and-cram" class="level3">
+<h3 class="anchored" data-anchor-id="bam-and-cram">BAM and CRAM</h3>
+<p><strong>BAM</strong> refers to <strong>B</strong>inary <strong>A</strong>lignment <strong>M</strong>ap. As the name suggest, its a binary file. It is same as a SAM file but compressed in binary form with the file extension <code>.bam</code>. The SAM format is simple to parse, generate and check for errors. However, its large file size (usually in GB on average) gets in the way of efficiency. Thus, researchers found a way to compress it into a binary format without losing the ability to manipulate it. BAM contains indexable representation of nucleotide sequence alignments, allowing for intensive data processing in production pipelines.</p>
+<p>CRAM is a restructured version of its binary version, with column-orientation.</p>
+</section>
+<section id="what-information-is-in-sam-bam" class="level3">
+<h3 class="anchored" data-anchor-id="what-information-is-in-sam-bam">What Information is in SAM &amp; BAM</h3>
+<p>SAM files and BAM files contain the same information, but in a different format. Both SAM &amp; BAM files contain an optional header section (beginning with the <code>@</code> symbol) followed by the alignment section.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Illustration of the composition of a <code>SAM</code> file
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<pre><code>@SQ     SN:MTB_anc      LN:4411532
+@PG     ID:bwa  PN:bwa  VN:0.7.17-r1188 CL:bwa mem -t 4 MTB_ANC_unwrapped.fasta G26832_R1.fastq.gz G26832_R2.fastq.gz
+D00535:103:CD2W4ANXX:8:2209:4278:1980   73      MTB_anc 4112828 60      101M    =       4112828 0       CCCGATCGGGTGAGATCACGAAGCCGGTGCCCTCCAACACTTTCTGGCATCTGGGTGCCAGGCTGCGGATTTTGACGACACTTGGCTCGGTGGCCGCCACC     B@BB=EBB/EG/01?DB:E/9/9EGG/EB9@FG09:110=CDGGCC11:CFFE@BCG=CE1F0BF9EG//B0@@/9/C&gt;//;F000E09CDDDDD/.CDDG     NM:i:0  MD:Z:101        AS:i:101        XS:i:0</code></pre>
+</div>
+</div>
+<p>The header section may contain information about the entire file and additional information for alignments. The alignments then associate themselves with specific header information.</p>
+<p>The alignment section contains the information for each sequence about where/how it aligns to the reference genome.</p>
+<p>Alignment sections have 11 mandatory fields, as well as a variable number of optional fields</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Col</th>
+<th style="text-align: left;">Field</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Brief description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">QNAME</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">Query template NAME</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">FLAG</td>
+<td style="text-align: left;">Int</td>
+<td style="text-align: left;">bitwise FLAG</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">RNAME</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">References sequence NAME</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">POS</td>
+<td style="text-align: left;">Int</td>
+<td style="text-align: left;">1- based leftmost mapping POSition</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">MAPQ</td>
+<td style="text-align: left;">Int</td>
+<td style="text-align: left;">MAPping Quality</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">CIGAR</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">CIGAR string</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">RNEXT</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">Ref. name of the mate/next read</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">PNEXT</td>
+<td style="text-align: left;">Int</td>
+<td style="text-align: left;">Position of the mate/next read</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">TLEN</td>
+<td style="text-align: left;">Int</td>
+<td style="text-align: left;">observed Template LENgth</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">SEQ</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">segment SEQuence</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">11</td>
+<td style="text-align: left;">QUAL</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">ASCII of Phred-scaled base QUALity+33</td>
+</tr>
+</tbody>
+</table>
+<p>The bitwise FLAG, provides the following information: * are there multiple fragments? * are all fragments properly aligned? * is this fragment unmapped? * is the next fragment unmapped? * is this query the reverse strand? * is the next fragment the reverse strand? * is this the 1st fragment? * is this the last fragment? * is this a secondary alignment? * did this read fail quality controls? * is this read a PCR or optical duplicate?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/sam_bam.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Overview of the contents of a SAM/BAM file</figcaption><p></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="vcf" class="level2">
+<h2 class="anchored" data-anchor-id="vcf">3.7 <a href="https://en.wikipedia.org/wiki/Variant_Call_Format">VCF</a></h2>
+<p><strong>VCF</strong> stands for <strong>V</strong>ariant <strong>C</strong>alling <strong>F</strong>ormat. As you may already guess from the name, yes!, it is a text file but often compressed with <em>gzip</em> that stores gene sequence variations (SNP/Indel variants). It’s file extension is <code>.vcf</code>. It contains a header with metadata preceded by a <code>##</code> string. Best practices with VCF files recommend describing INFO, FILTER, and FORMAT entries used in the body within the header.</p>
+<p>Following the header is the body, made up of 8 mandatory tab separated columns, one for each identifier and an unlimited number of optional columns that may be used to record other information about the sample(s). When additional columns are used, the first optional column is used to describe the format of the data in the columns that follow.</p>
+<section id="the-columns-of-a-vcf" class="level3">
+<h3 class="anchored" data-anchor-id="the-columns-of-a-vcf">The columns of a VCF</h3>
+<table class="table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 69%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;">Brief description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">CHROM</td>
+<td style="text-align: left;">The name of the sequence (typically a chromosome) on which the variation is being called. This sequence is usually known as ‘the reference sequence’, i.e.&nbsp;the sequence against which the given sample varies.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">POS</td>
+<td style="text-align: left;">The 1-based position of the variation on the given sequence.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">ID</td>
+<td style="text-align: left;">The identifier of the variation, e.g.&nbsp;a dbSNP rs identifier, or if unknown a “.”. Multiple identifiers should be separated by semi-colons without white-space.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">REF</td>
+<td style="text-align: left;">The reference base (or bases in the case of an indel) at the given position on the given reference sequence.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">ALT</td>
+<td style="text-align: left;">The list of alternative alleles at this position.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">QUAL</td>
+<td style="text-align: left;">A quality score associated with the inference of the given alleles.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">FILTER</td>
+<td style="text-align: left;">A flag indicating which of a given set of filters the variation has failed or PASS if all the filters were passed successfully.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">INFO</td>
+<td style="text-align: left;">An extensible list of key-value pairs (fields) describing the variation. See below for some common fields. Multiple fields are separated by semicolons with optional values in the format: <key>=<data>[,data].</data></key></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">FORMAT</td>
+<td style="text-align: left;">An (optional) extensible list of fields for describing the samples. See below for some common fields.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">+</td>
+<td style="text-align: left;">SAMPLEs</td>
+<td style="text-align: left;">For each (optional) sample described in the file, values are given for the fields listed in FORMAT.</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+A typical content of a <code>VCF</code> file
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<pre><code>##fileformat=VCFv4.2
+##FILTER=&lt;ID=PASS,Description="All filters passed"&gt;
+##bcftoolsVersion=1.14+htslib-1.14
+##bcftoolsCommand=mpileup --fasta-ref MTB_ANC_unwrapped.fasta --min-BQ 20 --annotate FORMAT/AD,FORMAT/ADF,FORMAT/ADR,FORMAT/DP,FORMAT/SP,INFO/AD,INFO/ADF,INFO/ADR G26832_sorted.bam
+##reference=file://MTB_ANC_unwrapped.fasta
+##contig=&lt;ID=MTB_anc,length=4411532&gt;
+##ALT=&lt;ID=*,Description="Represents allele(s) other than observed."&gt;
+##INFO=&lt;ID=INDEL,Number=0,Type=Flag,Description="Indicates that the variant is an INDEL."&gt;
+##INFO=&lt;ID=IDV,Number=1,Type=Integer,Description="Maximum number of raw reads supporting an indel"&gt;
+##INFO=&lt;ID=IMF,Number=1,Type=Float,Description="Maximum fraction of raw reads supporting an indel"&gt;
+##INFO=&lt;ID=DP,Number=1,Type=Integer,Description="Raw read depth"&gt;
+##INFO=&lt;ID=VDB,Number=1,Type=Float,Description="Variant Distance Bias for filtering splice-site artefacts in RNA-seq data (bigger is better)",Version="3"&gt;
+##INFO=&lt;ID=RPBZ,Number=1,Type=Float,Description="Mann-Whitney U-z test of Read Position Bias (closer to 0 is better)"&gt;
+##INFO=&lt;ID=MQBZ,Number=1,Type=Float,Description="Mann-Whitney U-z test of Mapping Quality Bias (closer to 0 is better)"&gt;
+##INFO=&lt;ID=BQBZ,Number=1,Type=Float,Description="Mann-Whitney U-z test of Base Quality Bias (closer to 0 is better)"&gt;
+##INFO=&lt;ID=MQSBZ,Number=1,Type=Float,Description="Mann-Whitney U-z test of Mapping Quality vs Strand Bias (closer to 0 is better)"&gt;
+##INFO=&lt;ID=SCBZ,Number=1,Type=Float,Description="Mann-Whitney U-z test of Soft-Clip Length Bias (closer to 0 is better)"&gt;
+##INFO=&lt;ID=FS,Number=1,Type=Float,Description="Phred-scaled p-value using Fisher's exact test to detect strand bias"&gt;
+##INFO=&lt;ID=SGB,Number=1,Type=Float,Description="Segregation based metric."&gt;
+##INFO=&lt;ID=MQ0F,Number=1,Type=Float,Description="Fraction of MQ0 reads (smaller is better)"&gt;
+##FORMAT=&lt;ID=PL,Number=G,Type=Integer,Description="List of Phred-scaled genotype likelihoods"&gt;
+##FORMAT=&lt;ID=DP,Number=1,Type=Integer,Description="Number of high-quality bases"&gt;
+##FORMAT=&lt;ID=SP,Number=1,Type=Integer,Description="Phred-scaled strand bias P-value"&gt;
+##FORMAT=&lt;ID=AD,Number=R,Type=Integer,Description="Allelic depths (high-quality bases)"&gt;
+##FORMAT=&lt;ID=ADF,Number=R,Type=Integer,Description="Allelic depths on the forward strand (high-quality bases)"&gt;
+##FORMAT=&lt;ID=ADR,Number=R,Type=Integer,Description="Allelic depths on the reverse strand (high-quality bases)"&gt;
+##INFO=&lt;ID=AD,Number=R,Type=Integer,Description="Total allelic depths (high-quality bases)"&gt;
+##INFO=&lt;ID=ADF,Number=R,Type=Integer,Description="Total allelic depths on the forward strand (high-quality bases)"&gt;
+##INFO=&lt;ID=ADR,Number=R,Type=Integer,Description="Total allelic depths on the reverse strand (high-quality bases)"&gt;
+##FORMAT=&lt;ID=GT,Number=1,Type=String,Description="Genotype"&gt;
+##INFO=&lt;ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes for each ALT allele, in the same order as listed"&gt;
+##INFO=&lt;ID=AN,Number=1,Type=Integer,Description="Total number of alleles in called genotypes"&gt;
+##INFO=&lt;ID=DP4,Number=4,Type=Integer,Description="Number of high-quality ref-forward , ref-reverse, alt-forward and alt-reverse bases"&gt;
+##INFO=&lt;ID=MQ,Number=1,Type=Integer,Description="Average mapping quality"&gt;
+##bcftools_callVersion=1.14+htslib-1.14
+##bcftools_callCommand=call --output-type v --ploidy 1 --multiallelic-caller; Date=Fri Nov  4 10:38:43 2022
+##bcftools_viewVersion=1.14+htslib-1.14
+##bcftools_viewCommand=view --output-file G26832.vcf.gz --output-type z; Date=Fri Nov  4 10:38:43 2022
+#CHROM  POS     ID      REF     ALT     QUAL    FILTER  INFO    FORMAT  G26832_sorted.bam
+MTB_anc 1       .       T       .       284.59  .       DP=64;ADF=49;ADR=11;AD=60;MQSBZ=0;FS=0;MQ0F=0;AN=1;DP4=49,11,0,0;MQ=59  GT:DP:SP:ADF:ADR:AD       0:60:0:49:11:60
+MTB_anc 2       .       T       .       284.59  .       DP=68;ADF=50;ADR=11;AD=61;MQSBZ=0;FS=0;MQ0F=0;AN=1;DP4=50,11,0,0;MQ=59  GT:DP:SP:ADF:ADR:AD       0:61:0:50:11:61
+MTB_anc 3       .       G       .       284.59  .       DP=68;ADF=49;ADR=11;AD=60;MQSBZ=0;FS=0;MQ0F=0;AN=1;DP4=49,11,0,0;MQ=59  GT:DP:SP:ADF:ADR:AD       0:60:0:49:11:60
+...</code></pre>
+</div>
+</div>
+<p><strong>NB.</strong> You may have come across a <code>BCF</code> file. <strong>B</strong>inary <strong>C</strong>all <strong>F</strong>ormat (BCF) is a binary representation of VCF, containing the same information in binary format for improved performance.</p>
+</section>
+</section>
+<section id="bed" class="level2">
+<h2 class="anchored" data-anchor-id="bed">3.1.8 <a href="https://en.wikipedia.org/wiki/BED_(file_format)">BED</a></h2>
+<p><strong>BED</strong> stands for <strong>B</strong>rowser <strong>E</strong>xtensible <strong>D</strong>ata. It’s a text file that stores coordinates of genomic regions and has the file extension <code>.bed</code>. ìt has a tabs-delimited file format that allows users to define how data lines of an annotation track are displayed. One of the advantages of this format is the manipulation of coordinates instead of nucleotide sequences, which optimizes the power and computation time when comparing all or part of genomes.</p>
+<p>BED files can have up to 12 columns, but only three are required for the UCSC browser, Galaxy browser and bedtools: <strong>chrom</strong> - Name of chromosome - chr5, chrX, chr2_random. or scaffold - scaffold10671 <strong>chromStart</strong> - Starting position of chrom. - First base starts at 0. <strong>chromEnd</strong> - Ending position. - This value does not get displayed. For example, the first 20 bases would have chromStart value of 0 to and chromEnd value of 20.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+A typical content of a <code>BED3</code> file
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<pre><code>NC_002945.4 2751    2755
+NC_002945.4 10447   10467
+NC_002945.4 13457   13470
+NC_002945.4 31969   31970
+NC_002945.4 86804   86805
+NC_002945.4 86808   86809
+NC_002945.4 86818   86819
+NC_002945.4 89105   89107
+NC_002945.4 94892   94896</code></pre>
+</div>
+</div>
+</section>
+<section id="gff" class="level2">
+<h2 class="anchored" data-anchor-id="gff">3.1.9 <a href="https://en.wikipedia.org/wiki/General_feature_format">GFF</a></h2>
+<p><strong>GFF</strong> stands for <strong>G</strong>eneral <strong>F</strong>eature <strong>F</strong>ormat (also called gene-finding format, generic feature format). It’s a text file that stores gene coordinates and other features and has the file extension <code>.gff</code>. It is used to describe genes and other features of DNA, RNA and protein sequences.</p>
+<p>GFF is an extension of a basic file with the name, start and end parameters (NSE). For example, an NSE (Chromosome2,2000,4000) specifies two kilobases found on chromosome 2. GFF allows the annotation of these segments and it consists of one line per feature, each containing 9 columns of data. Each column is separated by a tab, making it a tabs-delimited file. It uses a header region with a <code>##</code> string to include metadata.</p>
+<section id="general-gff3-structure" class="level3">
+<h3 class="anchored" data-anchor-id="general-gff3-structure">General GFF3 structure</h3>
+<table class="table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 73%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Position index</th>
+<th style="text-align: left;">Position name</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">seqid</td>
+<td style="text-align: left;">The name of the sequence where the feature is located.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">source</td>
+<td style="text-align: left;">Keyword identifying the source of the feature, like a program (e.g.&nbsp;Augustus or RepeatMasker) or an organization (like TAIR).</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">type</td>
+<td style="text-align: left;">The feature type name, like “gene” or “exon”. In a well structured GFF file, all the children features always follow their parents in a single block (so all exons of a transcript are put after their parent “transcript” feature line and before any other parent transcript line). In GFF3, all features and their relationships should be compatible with the standards released by the Sequence Ontology Project.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">start</td>
+<td style="text-align: left;">Genomic start of the feature, with a 1-base offset. This is in contrast with other 0-offset half-open sequence formats, like BED.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">end</td>
+<td style="text-align: left;">Genomic end of the feature, with a 1-base offset. This is the same end coordinate as it is in 0-offset half-open sequence formats, like BED.[citation needed]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">score</td>
+<td style="text-align: left;">Numeric value that generally indicates the confidence of the source in the annotated feature. A value of “.” (a dot) is used to define a null value.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">strand</td>
+<td style="text-align: left;">Single character that indicates the strand of the feature; it can assume the values of “+” (positive, or 5’-&gt;3’), “-”, (negative, or 3’-&gt;5’), “.” (undetermined).</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">phase</td>
+<td style="text-align: left;">phase of CDS features; it can be either one of 0, 1, 2 (for CDS features) or “.” (for everything else). See the section below for a detailed explanation.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">attributes</td>
+<td style="text-align: left;">All the other information pertaining to this feature. The format, structure and content of this field is the one which varies the most between the three competing file formats.</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+A typical content of a <code>GFF3</code> file
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<pre><code>##gff-version 3
+##feature-ontology https://github.com/The-Sequence-Ontology/SO-Ontologies/blob/v3.1/so.obo
+# Annotated with Bakta
+# Software: v1.5.0
+# Database: v4.0
+# DOI: 10.1099/mgen.0.000685
+# URL: github.com/oschwengers/bakta
+##sequence-region contig_1 1 321788
+contig_1    Bakta   region  1   321788  .   +   .   ID=contig_1;Name=contig_1
+contig_1    Prodigal    CDS 15  272 .   +   0   ID=BDKKDL_00005;Name=hypothetical protein;locus_tag=BDKKDL_00005;product=hypothetical protein
+contig_1    Prodigal    CDS 224 613 .   +   0   ID=BDKKDL_00010;Name=PE-PGRS family protein;locus_tag=BDKKDL_00010;product=PE-PGRS family protein;Dbxref=RefSeq:WP_003914742.1,SO:0001217,UniParc:UPI00019015A7,UniRef:UniRef100_A0A7U9K5X7,UniRef:UniRef50_A0A7U9K5X7,UniRef:UniRef90_A0A7U9K5X7
+contig_1    Prodigal    CDS 1164    1568    .   +   0   ID=BDKKDL_00015;Name=Uncharacterized protein Rv2742A;locus_tag=BDKKDL_00015;product=Uncharacterized protein Rv2742A;Dbxref=GO:0005886,GO:0016021,RefSeq:WP_003912838.1,SO:0001217,UniParc:UPI00005EE738,UniRef:UniRef100_P0DMQ8,UniRef:UniRef50_P0DMQ8,UniRef:UniRef90_P0DMQ8
+contig_1    Prodigal    CDS 1565    2377    .   -   0   ID=BDKKDL_00020;Name=Putative envelope-preserving system protein Rv2743c;locus_tag=BDKKDL_00020;product=Putative envelope-preserving system protein Rv2743c;Dbxref=GO:0016021,RefSeq:WP_003414026.1,SO:0001217,UniParc:UPI00000D0F36,UniRef:UniRef100_I6YA50,UniRef:UniRef50_I6YA50,UniRef:UniRef90_I6YA50
+...</code></pre>
+</div>
+</div>
+<p>You may have come across a <code>GTF</code> file. The <strong>GTF</strong> (<strong>G</strong>ene <strong>T</strong>ransfer <strong>F</strong>ormat) file type shares the same format as <strong>GFF</strong> files, though it is used to define gene and transcript-related features exclusively.</p>
+</section>
+</section>
+<section id="newick" class="level2">
+<h2 class="anchored" data-anchor-id="newick">3.1.10 <a href="https://en.wikipedia.org/wiki/Newick_format">NEWICK</a></h2>
+<p>The <strong>NEWICK</strong> format is a text file usually with the file extensions: <code>.tree</code> or <code>.treefile</code>. It is a way of representing graph-theoretical trees with edge lengths using parentheses and commas. It stores phylogenetic trees including nodes names and edge lengths.</p>
+<p>The following tree:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/NewickExample.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Newick Format Example tree</figcaption><p></p>
+</figure>
+</div>
+<p>could be represented in Newick format in several ways</p>
+<pre><code>(,,(,));                               no nodes are named
+(A,B,(C,D));                           leaf nodes are named
+(A,B,(C,D)E)F;                         all nodes are named
+(:0.1,:0.2,(:0.3,:0.4):0.5);           all but root node have a distance to parent
+(:0.1,:0.2,(:0.3,:0.4):0.5):0.0;       all have a distance to parent
+(A:0.1,B:0.2,(C:0.3,D:0.4):0.5);       distances and leaf names (popular)
+(A:0.1,B:0.2,(C:0.3,D:0.4)E:0.5)F;     distances and all names
+((B:0.2,(C:0.3,D:0.4)E:0.5)F:0.1)A;    a tree rooted on a leaf node (rare)</code></pre>
+<p>Below is the newick tree data of the first tree you will ever build in this course</p>
+<p><strong>Myfirsttree.tree</strong> <!--FIXME: Replace this tree with the actual tree for the course--></p>
+<pre><code>(TBNmA399:0.008270245,TBNmA464:0.007078265,((TBNmA217:0.009068723,((TBNmA361:0.008676792,TBNmA250:0.007952614)0.882:0.000644627,((ERX467883:0.019205883,(((TBNmA286:0.008210194,(TBNmA162:0.000672847,(TBNmA432:0.000681896,TBNmA437:0.000906203)0.520:0.000000005)1.000:0.007987255)0.963:0.009745124,ERX4639416:0.031087096)0.760:0.002127560,(ERX4639417:0.014406021,TBNmA120:0.017392319)0.983:0.003844014)0.561:0.000000005)0.733:0.000446004,(((((ERX2675537:0.037328220,(ERX2822389:0.035236770,((NC_002945.4:0.085788912,(TBNmA403:0.003585076,TBNmA265:0.005594965)1.000:0.077815900)1.000:0.045871008,(ERX4639418:0.021865797,(((TBNmA389:0.011858464,(TBNmA343:0.010603912,TBNmA187:0.010539288)0.887:0.001097047)1.000:0.025977064,((TBNmA041:0.023722379,((TBNmA271:0.001127595,((TBNmA452:0.008680633,TBNmA077:0.009375017)1.000:0.005680396,(TBNmA123:0.010406082,(TBNmA085:0.011381506,TBNmA064:0.009800991)0.946:0.001327826)0.996:0.003589739)0.988:0.009195987)0.881:0.002561916,((((TBNmA327:0.000000005,TBNmA345:0.000224666)1.000:0.012329485,(TBNmA321:0.000975869,TBNmA322:0.001858213)1.000:0.009131999)1.000:0.008206124,((TBNmA382:0.007331542,(TBNmA365:0.005435424,(TBNmA306:0.006093690,TBNmA117:0.007030120)0.543:0.000000005)0.771:0.000000005)0.998:0.002534799,(ERX1275306:0.007758780,(TBNmA050:0.004680429,(TBNmA191:0.006984201,(TBNmA412:0.007273051,TBNmA258:0.009516111)0.823:0.000000005)0.909:0.000672574)0.880:0.000492079)0.976:0.001602252)1.000:0.005254102)1.000:0.008769376,(TBNmA121:0.013273022,(TBNmA280:0.005420607,(TBNmA190:0.005355244,TBNmA428:0.005210953)0.870:0.000000005)0.972:0.002255197)1.000:0.017861767)0.707:0.000136299)0.884:0.000659873)1.000:0.004134566,(TBNmA257:0.002984847,(TBNmA377:0.000000005,(TBNmA362:0.000000005,TBNmA357:0.000000005)0.881:0.000000005)0.944:0.001325432)1.000:0.025946471)0.976:0.000000005)1.000:0.017127738,(ERX512130:0.009550754,(TBNmA394:0.001180640,TBNmA331:0.001151751)1.000:0.006179602)1.000:0.034250718)0.163:0.000000005)0.189:0.000110233)0.987:0.002076210)0.823:0.000755449)1.000:0.009140266,ERX467856:0.036035736)0.667:0.000000005,((TBNmA110:0.017454586,((ERX1749324:0.012028354,TBNmA262:0.011318248)0.985:0.004246403,(TBNmA348:0.012534351,TBNmA067:0.011426344)1.000:0.005264503)0.816:0.000000005)1.000:0.016810353,(TBNmA393:0.032119007,(TBNmA074:0.012340989,(ERX467886:0.000000005,ERX467895:0.000000005)1.000:0.012723309)1.000:0.018036487)0.707:0.001395736)0.999:0.004644168)0.872:0.000000005,(TBNmA395:0.025760081,((TBNmA351:0.011266183,TBNmA266:0.008431616)1.000:0.011565390,(TBNmA383:0.014217025,(TBNmA447:0.003756605,(TBNmA305:0.003438150,TBNmA435:0.004132593)0.993:0.002834680)1.000:0.006652517)1.000:0.009294668)0.858:0.000767446)1.000:0.008991216)0.708:0.000000005,TBNmA384:0.029259232)1.000:0.014945411)1.000:0.014745950)0.681:0.000000005)0.009:0.000000005,((TBNmA124:0.004508430,(TBNmA460:0.008309784,(TBNmA125:0.003377088,TBNmA195:0.005663590)0.953:0.001124832)0.751:0.000219064)0.897:0.000448976,TBNmA290:0.006384894)0.388:0.000000005)0.624:0.000000005);</code></pre>
+</section>
+<section id="credit" class="level2">
+<h2 class="anchored" data-anchor-id="credit">3.1.11 Credit</h2>
+<p>Information on this page has been adapted and modified from the following source(s):</p>
+<ul>
+<li><p>Credit: https://github.com/cambiotraining/sars-cov-2-genomics</p></li>
+<li><p>https://snipcademy.com/sequence-file-formats</p></li>
+<li><p>https://en.wikipedia.org/wiki</p></li>
+<li><p>Wellcome Genome Campus Advanced Courses and Scientific Conferences 2017 - WORKING WITH PATHOGEN GENOMES Course Manual http://www.wellcome.ac.uk/advancedcourses</p></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../materials/02-unix_intro/2.9-bonus_shell_scripts.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2.9 <em>Bonus</em>: Shell Scripts</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../materials/04-sequence_qc/4.1-sequence_qc.html" class="pagination-link">
+        <span class="nav-page-text">4.1 Sequencing Quality Control</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">Licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://creativecommons.org/images/deed/cc_icon_black_x2.png" class="img-fluid" width="25"> Dr Prince Asare and Dr Andries van Tonder</div>
+  </div>
+</footer>
+
+
+
+</body></html>

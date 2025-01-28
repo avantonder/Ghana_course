@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.112">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2.8 Bonus: Loops</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../materials/02-unix_intro/2.9-bonus_shell_scripts.html" rel="next">
+<link href="../../materials/02-unix_intro/2.7-bonus_find_and_grep.html" rel="prev">
+<link href="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university-of-cambridge-favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/NMIMR_Logo_whitebg.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../setup.html">Setup</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../materials.html" aria-current="page">Materials</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../unix_cheat_sheet.html">Unix-Cheat-Sheet</a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/avantonder/Ghana_course"><i class="bi bi-github" role="img" aria-label="Introduction to bacterial genomics GitHub">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/NMIMR_UG"><i class="bi bi-twitter" role="img" aria-label="Noguchi Memorial Institute for Medical Research Twitter">
+</i> 
+ </a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">2.8 <em>Bonus</em>: Loops</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials.html" class="sidebar-item-text sidebar-link">Materials</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">1. Introduction to WGS</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro_wgs/1.1-intro_wgs.html" class="sidebar-item-text sidebar-link">1.1 Introduction to Whole Genome Sequencing (WGS)</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">2. Introduction to Unix</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.1-unix_overview.html" class="sidebar-item-text sidebar-link">2.1 The Unix Shell</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.2-files_directories.html" class="sidebar-item-text sidebar-link">2.2 Navigating Files and Directories</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.3-text_manipulation.html" class="sidebar-item-text sidebar-link">2.3 Text Manipulation</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.4-combining_commands.html" class="sidebar-item-text sidebar-link">2.4 Combining Commands</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.5-using_remote_resources.html" class="sidebar-item-text sidebar-link">2.5 Using remote resources</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.6-vscode_overview.html" class="sidebar-item-text sidebar-link">2.6 Visual Studio Code</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.7-bonus_find_and_grep.html" class="sidebar-item-text sidebar-link">2.7 <em>Bonus</em> : Finding Things</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.8-bonus_loops.html" class="sidebar-item-text sidebar-link active">2.8 <em>Bonus</em>: Loops</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-unix_intro/2.9-bonus_shell_scripts.html" class="sidebar-item-text sidebar-link">2.9 <em>Bonus</em>: Shell Scripts</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">3. Common File Formats</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-file_formats/3.1-file_formats.html" class="sidebar-item-text sidebar-link">3.1 Common File Formats</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">4. Sequencing QC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-sequence_qc/4.1-sequence_qc.html" class="sidebar-item-text sidebar-link">4.1 Sequencing Quality Control</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">5. Short Read Mapping</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-short_read_mapping/5.1-short_read_mapping.html" class="sidebar-item-text sidebar-link">5.1 Short Read Mapping</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">6. Assembly and Annotation</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/06-assembly_annotation/6.1-assembly_annotation.html" class="sidebar-item-text sidebar-link">6.1 Assembly and Annotation</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">7. Software Management</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/07-software_management/7.1-software_management.html" class="sidebar-item-text sidebar-link">7.1 Managing Software</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">8. Workflow Managers</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.1-workflow_managers.html" class="sidebar-item-text sidebar-link">8.1 Workflow Managers</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/08-workflow_managers/8.2-nfcore.html" class="sidebar-item-text sidebar-link">8.2 nf-core pipelines</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">9. The nf-core/bactmap Pipeline</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.1-bactmap_run.html" class="sidebar-item-text sidebar-link">9.1 The nf-core/bactmap pipeline</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/09-bactmap/9.2-bactmap_results.html" class="sidebar-item-text sidebar-link">9.2 nf-core/bactmap Results</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">10. Introduction to Phylogenetics</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/10-intro_phylogenetics/10.1-intro_phylogenetics.html" class="sidebar-item-text sidebar-link">10.1 Introduction to Phylogenetics</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">11. Bacterial Genotyping and AMR prediction</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/11-genotyping/11.1-genotyping.html" class="sidebar-item-text sidebar-link">11.1 Bacterial Genotyping and Drug Resistance Prediction</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">12. Introduction to HPC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/12-intro_hpc/12.1-intro_hpc.html" class="sidebar-item-text sidebar-link">12.1 Introduction to High Performance Computing</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">2.8.1 Background</a></li>
+  <li><a href="#the-for-loop" id="toc-the-for-loop" class="nav-link" data-scroll-target="#the-for-loop">2.8.2 The <code>for</code> loop</a>
+  <ul class="collapse">
+  <li><a href="#dealing-with-spaces-in-names" id="toc-dealing-with-spaces-in-names" class="nav-link" data-scroll-target="#dealing-with-spaces-in-names">Dealing with Spaces in Names</a></li>
+  <li><a href="#backing-up-files-with-cp" id="toc-backing-up-files-with-cp" class="nav-link" data-scroll-target="#backing-up-files-with-cp">backing up files with <code>cp</code></a></li>
+  <li><a href="#nelles-pipeline-processing-files" id="toc-nelles-pipeline-processing-files" class="nav-link" data-scroll-target="#nelles-pipeline-processing-files">Nelle’s Pipeline: Processing Files</a></li>
+  <li><a href="#performing-a-dry-run" id="toc-performing-a-dry-run" class="nav-link" data-scroll-target="#performing-a-dry-run">Performing a Dry Run</a></li>
+  <li><a href="#nested-loops" id="toc-nested-loops" class="nav-link" data-scroll-target="#nested-loops">Nested loops</a></li>
+  </ul></li>
+  <li><a href="#credit" id="toc-credit" class="nav-link" data-scroll-target="#credit">2.8.3 Credit</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">2.8 <em>Bonus</em>: Loops</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p><strong>Teaching: 40 min</strong> || <strong>Exercises: 10 min</strong></p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Questions:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>How can I perform the same actions on many different files?</li>
+</ul>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Learning Objectives:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Write a loop that applies one or more commands separately to each file in a set of files.</li>
+<li>Trace the values taken on by a loop variable during execution of the loop.</li>
+<li>Explain the difference between a variable’s name and its value.</li>
+<li>Explain why spaces and some punctuation characters shouldn’t be used in file names.</li>
+<li>Demonstrate how to see what commands have recently been executed.</li>
+<li>Re-run recently executed commands without retyping them.</li>
+</ul>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Key Points:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>A <code>for</code> loop repeats commands once for everything in a list.</li>
+<li>Every <code>for</code> loop needs a variable to refer to the thing it is currently operating on.</li>
+<li>Use <code>$name</code> to expand a variable (i.e., get its value). <code>${name}</code> can also be used.</li>
+<li>Do not use spaces, quotes, or wildcard characters such as ’*’ or ‘?’ in filenames, as it complicates variable expansion.</li>
+<li>Give files consistent names that are easy to match with wildcard patterns to make it easy to select them for looping.</li>
+<li>Use the up-arrow key to scroll up through previous commands to edit and repeat them.</li>
+<li>Use <code>Ctrl-R</code> to search through the previously entered commands.</li>
+<li>Use <code>history</code> to display recent commands, and <code>!number</code> to repeat a command by number.</li>
+<li>You can use the <code>echo</code> command to do a <em>dry-run</em> of the commands in the loop to check what they would do, but without actually running them.</li>
+<li>Two other commands that can be useful when looping through files are:
+<ul>
+<li><code>dirname</code> to extract the directory name from a path.</li>
+<li><code>basename</code> to extract the file name from a path. Using <code>basename  &lt;path&gt;  &lt;suffix&gt;</code> will return the file name <em>without the specified suffix</em> (this is useful to extract the file name without the extension).</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">2.8.1 Background</h2>
+<p><strong>Loops</strong> are a programming construct which allow us to repeat a command or set of commands for each item in a list. As such they are key to productivity improvements through automation. Similar to wildcards and tab completion, using loops also reduces the amount of typing required (and hence reduces the number of typing mistakes).</p>
+<p>Suppose we have several hundred genome data files named <code>basilisk.dat</code>, <code>minotaur.dat</code>, and <code>unicorn.dat</code>. For this example, we’ll use the <code>02_unix_intro/creatures</code> sub-directory which only has three example files, but the principles can be applied to many more files at once.</p>
+<p>The structure of these files is the same: the common name, classification, and updated date are presented on the first three lines, with DNA sequences on the following lines. Let’s look at the files:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 5 basilisk.dat minotaur.dat unicorn.dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We would like to print out the classification for each species, which is given on the second line of each file. For each file, we would need to execute the command <code>head -n 2</code> and pipe this to <code>tail -n 1</code>. We’ll use a loop to solve this problem, but first let’s look at the general form of a loop.</p>
+</section>
+<section id="the-for-loop" class="level2">
+<h2 class="anchored" data-anchor-id="the-for-loop">2.8.2 The <code>for</code> loop</h2>
+<p>The general synthax for the <code>for</code> loop is:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> thing <span class="kw">in</span> list_of_things</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">operation_using</span> <span class="va">$thing</span>    <span class="co"># Indentation within the loop is not required, but aids legibility</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>and we can apply this to our example like this:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> filename <span class="kw">in</span> basilisk.dat minotaur.dat unicorn.dat</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span> <span class="at">-n</span> 2 <span class="va">$filename</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-n</span> 1</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>CLASSIFICATION: basiliscus vulgaris
+CLASSIFICATION: bos hominus
+CLASSIFICATION: equus monoceros</code></pre>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Follow the Prompt
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The shell prompt changes from <code>$</code> to <code>&gt;</code> and back again as we were typing in our loop. The second prompt, <code>&gt;</code>, is different to remind us that we haven’t finished typing a complete command yet. A semicolon, <code>;</code>, can be used to separate two commands written on a single line.</p>
+</div>
+</div>
+<p>When the shell sees the keyword <code>for</code>, it knows to repeat a command (or group of commands) once for each item in a list. Each time the loop runs (called an iteration), an item in the list is assigned in sequence to the <strong>variable</strong>, and the commands inside the loop are executed, before moving on to the next item in the list. Inside the loop, we call for the variable’s value by putting <code>$</code> in front of it. The <code>$</code> tells the shell interpreter to treat the variable as a variable name and substitute its value in its place, rather than treat it as text or an external command.</p>
+<p>In this example, the list is three filenames: <code>basilisk.dat</code>, <code>minotaur.dat</code>, and <code>unicorn.dat</code>. Each time the loop iterates, it will assign a file name to the variable <code>filename</code> and run the <code>head</code> command. The first time through the loop, <code>$filename</code> is <code>basilisk.dat</code>. The interpreter runs the command <code>head</code> on <code>basilisk.dat</code> and pipes the first two lines to the <code>tail</code> command, which then prints the second line of <code>basilisk.dat</code>. For the second iteration, <code>$filename</code> becomes <code>minotaur.dat</code>. This time, the shell runs <code>head</code> on <code>monotaur.dat</code> and pipes the first two lines to the <code>tail</code> command, which then prints the second line of <code>monotaur.dat</code>. For the third iteration, <code>$filename</code> becomes <code>unicorn.dat</code>, so the shell runs the <code>head</code> command on that file, and <code>tail</code> on the output of that. Since the list was only three items, the shell exits the <code>for</code> loop.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Same Symbols, Different Meanings
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Here we see <code>&gt;</code> being used as a shell prompt, whereas <code>&gt;</code> is also used to redirect output. Similarly, <code>$</code> is used as a shell prompt, but, as we saw earlier, it is also used to ask the shell to get the value of a variable.</p>
+<p>If the <em>shell</em> prints <code>&gt;</code> or <code>$</code> then it expects you to type something, and the symbol is a prompt.</p>
+<p>If <em>you</em> type <code>&gt;</code> or <code>$</code> yourself, it is an instruction from you that the shell should redirect output or get the value of a variable.</p>
+</div>
+</div>
+<p>When using variables it is also possible to put the names into curly braces to clearly delimit the variable name: <code>$filename</code> is equivalent to <code>${filename}</code>, but is different from <code>${file}name</code>. You may find this notation in other people’s programs.</p>
+<p>We have called the variable in this loop <code>filename</code> in order to make its purpose clearer to human readers. The shell itself doesn’t care what the variable is called; if we wrote this loop as:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> x <span class="kw">in</span> basilisk.dat minotaur.dat unicorn.dat</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span> <span class="at">-n</span> 2 <span class="va">$x</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-n</span> 1</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>or:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> temperature <span class="kw">in</span> basilisk.dat minotaur.dat unicorn.dat</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span> <span class="at">-n</span> 2 <span class="va">$temperature</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-n</span> 1</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>it would work exactly the same way.</p>
+<p><em>Don’t do this.</em> Programs are only useful if people can understand them, so meaningless names (like <code>x</code>) or misleading names (like <code>temperature</code>) increase the odds that the program won’t do what its readers think it does.</p>
+<p>In the above examples, the variables (thing, filename, x and temperature) could have been given any other name, as long as it is meaningful to both the person writing the code and the person reading it.</p>
+<p>Also note that loops can be used for other things than filenames, like a list of numbers or a subset of data.</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.8.2.1:</em></strong> Write your own loop
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>How would you write a loop that echoes all 10 numbers from 0 to 9? Solution</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> loop_variable <span class="kw">in</span> 0 1 2 3 4 5 6 7 8 9</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">$loop_variable</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>0
+1
+2
+3
+4
+5
+6
+7
+8
+9</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.8.2.2:</em></strong> Variables in Loops
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This exercise refers to the <code>02_unix_intro/molecules</code> sub-directory. <code>ls</code> gives the following output:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<pre><code>cubane.pdb  ethane.pdb  methane.pdb  octane.pdb  pentane.pdb  propane.pdb</code></pre>
+</div>
+</div>
+</div>
+<p>What is the output of the following code?</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> datafile <span class="kw">in</span> <span class="pp">*</span>.pdb</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ls</span> <span class="pp">*</span>.pdb</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, what is the output of the following code?</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> datafile <span class="kw">in</span> <span class="pp">*</span>.pdb</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ls</span> <span class="va">$datafile</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Why do these two loops give different outputs?</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The first code block gives the same output on each iteration through the loop. Bash expands the wildcard <code>*.pdb</code> within the loop body (as well as before the loop starts) to match all files ending in <code>.pdb</code> and then lists them using <code>ls</code>. The expanded loop would look like this:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> datafile <span class="kw">in</span> cubane.pdb ethane.pdb methane.pdb octane.pdb pentane.pdb</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">propane.pdb</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ls</span> cubane.pdb ethane.pdb methane.pdb octane.pdb pentane.pdb  propane.pdb</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>cubane.pdb  ethane.pdb  methane.pdb  octane.pdb  pentane.pdb  propane.pdb
+cubane.pdb  ethane.pdb  methane.pdb  octane.pdb  pentane.pdb  propane.pdb
+cubane.pdb  ethane.pdb  methane.pdb  octane.pdb  pentane.pdb  propane.pdb
+cubane.pdb  ethane.pdb  methane.pdb  octane.pdb  pentane.pdb  propane.pdb
+cubane.pdb  ethane.pdb  methane.pdb  octane.pdb  pentane.pdb  propane.pdb
+cubane.pdb  ethane.pdb  methane.pdb  octane.pdb  pentane.pdb  propane.pdb</code></pre>
+</div>
+</div>
+</div>
+<p>The second code block lists a different file on each loop iteration. The value of the <code>datafile</code> variable is evaluated using <code>$datafile</code>,and then listed using <code>ls</code>.</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<pre><code>cubane.pdb
+ethane.pdb
+methane.pdb
+octane.pdb
+pentane.pdb
+propane.pdb</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.8.2.3:</em></strong> Limiting Sets of Files
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What would be the output of running the following loop in the <code>02_unix_intro/molecules</code> sub-directory?</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> filename <span class="kw">in</span> c<span class="pp">*</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ls</span> <span class="va">$filename</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li>No files are listed.</li>
+<li>All files are listed.</li>
+<li>Only <code>cubane.pdb</code>, <code>octane.pdb</code> and <code>pentane.pdb</code> are listed.</li>
+<li>Only <code>cubane.pdb</code> is listed.</li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>4 is the correct answer. <code>*</code> matches zero or more characters, so any file name starting with the letter c, followed by zero or more other characters will be matched.</p>
+</div>
+</div>
+</div>
+<p>How would the output differ from using this command instead?</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> filename <span class="kw">in</span> <span class="pp">*</span>c<span class="pp">*</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ls</span> <span class="va">$filename</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li>The same files would be listed.</li>
+<li>All the files are listed this time.</li>
+<li>No files are listed this time.</li>
+<li>The files <code>cubane.pdb</code> and <code>octane.pdb</code> will be listed.</li>
+<li>Only the file <code>octane.pdb</code> will be listed.</li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>4 is the correct answer. <code>*</code> matches zero or more characters, so file name with zero or more characters before a letter c and zero or more characters after the letter c will be matched.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.8.2.4:</em></strong> Saving to a File in a Loop - Part One
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the <code>02_unix_intro/molecules</code> sub-directory, what is the effect of this loop?</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> alkanes <span class="kw">in</span> <span class="pp">*</span>.pdb</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">$alkanes</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span> <span class="va">$alkanes</span> <span class="op">&gt;</span> alkanes.pdb</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li>Prints <code>cubane.pdb</code>, <code>ethane.pdb</code>, <code>methane.pdb</code>, <code>octane.pdb</code>, <code>pentane.pdb</code> and <code>propane.pdb</code>, and the text from <code>propane.pdb</code> will be saved to a file called <code>alkanes.pdb</code>.</li>
+<li>Prints <code>cubane.pdb</code>, <code>ethane.pdb</code>, and <code>methane.pdb</code>, and the text from all three files would be concatenated and saved to a file called <code>alkanes.pdb</code>.</li>
+<li>Prints <code>cubane.pdb</code>, <code>ethane.pdb</code>, <code>methane.pdb</code>, <code>octane.pdb</code>, and <code>pentane.pdb</code>, and the text from <code>propane.pdb</code> will be saved to a file called <code>alkanes.pdb</code>.</li>
+<li>None of the above.</li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>The text from each file in turn gets written to the <code>alkanes.pdb</code> file. However, the file gets overwritten on each loop iteration, so the final content of <code>alkanes.pdb</code> is the text from the <code>propane.pdb</code> file.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.8.2.5:</em></strong> Saving to a File in a Loop - Part Two
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Also in the <code>02_unix_intro/molecules</code> sub-directory, what would be the output of the following loop?</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> datafile <span class="kw">in</span> <span class="pp">*</span>.pdb</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span> <span class="va">$datafile</span> <span class="op">&gt;&gt;</span> all.pdb</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li>All of the text from <code>cubane.pdb</code>, <code>ethane.pdb</code>, <code>methane.pdb</code>, <code>octane.pdb</code>, and <code>pentane.pdb</code> would be concatenated and saved to a file called <code>all.pdb</code>.</li>
+<li>The text from <code>ethane.pdb</code> will be saved to a file called <code>all.pdb</code>.</li>
+<li>All of the text from <code>cubane.pdb</code>, <code>ethane.pdb</code>, <code>methane.pdb</code>, <code>octane.pdb</code>, <code>pentane.pdb</code> and <code>propane.pdb</code> would be concatenated and saved to a file called <code>all.pdb</code>.</li>
+<li>All of the text from <code>cubane.pdb</code>, <code>ethane.pdb</code>, <code>methane.pdb</code>, <code>octane.pdb</code>, <code>pentane.pdb</code> and <code>propane.pdb</code> would be printed to the screen and saved to a file called <code>all.pdb</code>.</li>
+</ol>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>3 is the correct answer. <code>&gt;&gt;</code> appends to a file, rather than overwriting it with the redirected output from a command. Given the output from the <code>cat</code> command has been redirected, nothing is printed to the screen.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Let’s continue with our example in the <code>02_unix_intro/creatures</code> sub-directory. Here’s a slightly more complicated loop:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> filename <span class="kw">in</span> <span class="pp">*</span>.dat</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">$filename</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span> <span class="at">-n</span> 100 <span class="va">$filename</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-n</span> 20</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The shell starts by expanding <code>*.dat</code> to create the list of files it will process. The <strong>loop body</strong> then executes two commands for each of those files. The first command, <code>echo</code>, prints its command-line arguments to standard output. For example:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> hello there</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>prints:</p>
+<pre><code>hello there</code></pre>
+</div>
+</div>
+</div>
+<p>In this case, since the shell expands <code>$filename</code> to be the name of a file, <code>echo $filename</code> prints the name of the file. Note that we can’t write this as:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> filename <span class="kw">in</span> <span class="pp">*</span>.dat</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">$filename</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span> <span class="at">-n</span> 100 <span class="va">$filename</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-n</span> 20</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>because then the first time through the loop, when <code>$filename</code> expanded to <code>basilisk.dat</code>, the shell would try to run <code>basilisk.dat</code> as a program. Finally, the <code>head</code> and <code>tail</code> combination selects lines 81-100 from whatever file is being processed (assuming the file has at least 100 lines).</p>
+<section id="dealing-with-spaces-in-names" class="level3">
+<h3 class="anchored" data-anchor-id="dealing-with-spaces-in-names">Dealing with Spaces in Names</h3>
+<p>Spaces are used to separate the elements of the list that we are going to loop over. If one of those elements contains a space character, we need to surround it with quotes, and do the same thing to our loop variable. Suppose our data files are named:</p>
+<pre><code>red dragon.dat
+purple unicorn.dat</code></pre>
+<p>To loop over these files, we would need to add double quotes like this:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> filename <span class="kw">in</span> <span class="st">"red dragon.dat"</span> <span class="st">"purple unicorn.dat"</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span> <span class="at">-n</span> 100 <span class="st">"</span><span class="va">$filename</span><span class="st">"</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-n</span> 20</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>It is simpler to avoid using spaces (or other special characters) in filenames.</p>
+<p>The files above don’t exist, so if we run the above code, the <code>head</code> command will be unable to find them, however the error message returned will show the name of the files it is expecting:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="callout-warning callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Error
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<pre><code>head: cannot open ‘red dragon.dat’ for reading: No such file or directory
+head: cannot open ‘purple unicorn.dat’ for reading: No such file or directory</code></pre>
+</div>
+</div>
+<p>Try removing the quotes around <code>$filename</code> in the loop above to see the effect of the quote marks on spaces. Note that we get a result from the loop command for <code>unicorn.dat</code> when we run this code in the <code>creatures</code> directory:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<pre><code>head: cannot open ‘red’ for reading: No such file or directory
+head: cannot open ‘dragon.dat’ for reading: No such file or directory
+head: cannot open ‘purple’ for reading: No such file or directory
+CGGTACCGAA
+AAGGGTCGCG
+CAAGTGTTCC
+...</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="backing-up-files-with-cp" class="level3">
+<h3 class="anchored" data-anchor-id="backing-up-files-with-cp">backing up files with <code>cp</code></h3>
+<p>We would like to modify each of the files in <code>02_unix_intro/creatures</code>, but also save a version of the original files, naming the copies <code>original-basilisk.dat</code> and <code>original-unicorn.dat</code>. We can’t use:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="pp">*</span>.dat original-<span class="pp">*</span>.dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>because that would expand to:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> basilisk.dat minotaur.dat unicorn.dat original-<span class="pp">*</span>.dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This wouldn’t back up our files, instead we get an error:</p>
+<div class="callout-warning callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Error
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<pre><code>cp: target `original-*.dat' is not a directory</code></pre>
+</div>
+</div>
+<p>This problem arises when <code>cp</code> receives more than two inputs. When this happens, it expects the last input to be a directory where it can copy all the files it was passed. Since there is no directory named <code>original-*.dat</code> in the <code>creatures</code> directory we get an error.</p>
+<p>Instead, we can use a loop:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> filename <span class="kw">in</span> <span class="pp">*</span>.dat</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cp</span> <span class="va">$filename</span> original-<span class="va">$filename</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This loop runs the <code>cp</code> command once for each filename. The first time, when <code>$filename</code> expands to <code>basilisk.dat</code>, the shell executes:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> basilisk.dat original-basilisk.dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The second time, the command is:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> minotaur.dat original-minotaur.dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The third and last time, the command is:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> unicorn.dat original-unicorn.dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Since the <code>cp</code> command does not normally produce any output, it’s hard to check that the loop is doing the correct thing. However, we learned earlier how to print strings using <code>echo</code>, and we can modify the loop to use <code>echo</code> to print our commands without actually executing them. As such we can check what commands <em>would be</em> run in the unmodified loop.</p>
+<p>The following diagram shows what happens when the modified loop is executed, and demonstrates how the judicious use of <code>echo</code> is a good debugging technique.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/shell_script_for_loop_flow_chart.svg" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption"><code>For</code> Loop in Action</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="nelles-pipeline-processing-files" class="level3">
+<h3 class="anchored" data-anchor-id="nelles-pipeline-processing-files">Nelle’s Pipeline: Processing Files</h3>
+<p>Nelle is now ready to process her data files using <code>goostats</code> — a shell script written by her supervisor. This calculates some statistics from a protein sample file, and takes two arguments:</p>
+<ol type="1">
+<li>an input file (containing the raw data)</li>
+<li>an output file (to store the calculated statistics)</li>
+</ol>
+<p>Since she’s still learning how to use the shell, she decides to build up the required commands in stages. Her first step is to make sure that she can select the right input files — remember, these are ones whose names end in ‘A’ or ‘B’, rather than ‘Z’. Starting from her home directory, Nelle types:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> north-pacific-gyre/2012-07-03</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> datafile <span class="kw">in</span> NENE<span class="pp">*</span>[AB].txt</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">$datafile</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>NENE01729A.txt
+NENE01729B.txt
+NENE01736A.txt
+...
+NENE02043A.txt
+NENE02043B.txt</code></pre>
+</div>
+</div>
+</div>
+<p>Her next step is to decide what to call the files that the <code>goostats</code> analysis program will create. Prefixing each input file’s name with ‘stats’ seems simple, so she modifies her loop to do that:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> datafile <span class="kw">in</span> NENE<span class="pp">*</span>[AB].txt</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">$datafile</span> stats-<span class="va">$datafile</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>NENE01729A.txt stats-NENE01729A.txt
+NENE01729B.txt stats-NENE01729B.txt
+NENE01736A.txt stats-NENE01736A.txt
+...
+NENE02043A.txt stats-NENE02043A.txt
+NENE02043B.txt stats-NENE02043B.txt</code></pre>
+</div>
+</div>
+</div>
+<p>She hasn’t actually run <code>goostats</code> yet, but now she’s sure she can select the right files and generate the right output filenames.</p>
+<p>Typing in commands over and over again is becoming tedious, though and Nelle is worried about making mistakes, so instead of re-entering her loop, she presses the up arrow. In response, the shell redisplays the whole loop on one line (using semi-colons to separate the pieces):</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> datafile <span class="kw">in</span> NENE<span class="pp">*</span>[AB].txt<span class="kw">;</span> <span class="cf">do</span> <span class="bu">echo</span> <span class="va">$datafile</span> stats-<span class="va">$datafile</span><span class="kw">;</span> <span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Using the left arrow key, Nelle backs up and changes the command <code>echo</code> to <code>bash goostats</code>:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> datafile <span class="kw">in</span> NENE<span class="pp">*</span>[AB].txt<span class="kw">;</span> <span class="cf">do</span> <span class="fu">bash</span> goostats <span class="va">$datafile</span> stats-<span class="va">$datafile</span><span class="kw">;</span> <span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When she presses <kbd>Enter</kbd>, the shell runs the modified command. However, nothing appears to happen — there is no output. After a moment, Nelle realizes that since her script doesn’t print anything to the screen any longer, she has no idea whether it is running, much less how quickly. She kills the running command by typing <code>Ctrl-C</code>, uses up-arrow to repeat the command, and edits it to read:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> datafile <span class="kw">in</span> NENE<span class="pp">*</span>[AB].txt<span class="kw">;</span> <span class="cf">do</span> <span class="bu">echo</span> <span class="va">$datafile</span><span class="kw">;</span> <span class="fu">bash</span> goostats <span class="va">$datafile</span> stats-<span class="va">$datafile</span><span class="kw">;</span> <span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Beginning and End
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We can move to the beginning of a line in the shell by typing <code>Ctrl-a</code> and to the end using <code>Ctrl-e</code>.</p>
+</div>
+</div>
+<p>When she runs her program now, it produces one line of output every five seconds or so:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<pre><code>NENE01729A.txt
+NENE01729B.txt
+NENE01736A.txt</code></pre>
+</div>
+</div>
+</div>
+<p>1518 times 5 seconds, divided by 60, tells her that her script will take about two hours to run. As a final check, she opens another terminal window, goes into <code>north-pacific-gyre/2012-07-03</code>, and uses <code>cat stats-NENE01729B.txt</code> to examine one of the output files. It looks good, so she decides to get some coffee and catch up on her reading.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Those Who Know History Can Choose to Repeat It
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Another way to repeat previous work is to use the <code>history</code> command to get a list of the last few hundred commands that have been executed, and then to use <code>!123</code> (where ‘123’ is replaced by the command number) to repeat one of those commands. For example, if Nelle types this:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="bu">history</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-n</span> 5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>  456  ls -l NENE0*.txt
+  457  rm stats-NENE01729B.txt.txt
+  458  bash goostats NENE01729B.txt stats-NENE01729B.txt
+  459  ls -l NENE0*.txt
+  460  history</code></pre>
+</div>
+</div>
+</div>
+<p>then she can re-run <code>goostats</code> on <code>NENE01729B.txt</code> simply by typing <code>!458</code>.</p>
+</div>
+</div>
+<p>:::::</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Other History Commands
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There are a number of other shortcut commands for getting at the history. - <code>Ctrl-R</code> enters a history search mode ‘reverse-i-search’ and finds the most recent command in your history that matches the text you enter next. Press <code>Ctrl-R</code> one or more additional times to search for earlier matches. - <code>!!</code> retrieves the immediately preceding command (you may or may not find this more convenient than using the up-arrow) - <code>!$</code> retrieves the last word of the last command. That’s useful more often than you might expect: after <code>bash goostats NENE01729B.txt stats-NENE01729B.txt</code>, you can type <code>less !$</code> to look at the file <code>stats-NENE01729B.txt</code>, which is quicker than doing up-arrow and editing the command-line.</p>
+</div>
+</div>
+</section>
+<section id="performing-a-dry-run" class="level3">
+<h3 class="anchored" data-anchor-id="performing-a-dry-run">Performing a Dry Run</h3>
+<p>A loop is a way to do many things at once — or to make many mistakes at once if it does the wrong thing. One way to check what a loop <em>would</em> do is to <code>echo</code> the commands it would run instead of actually running them. Suppose we want to preview the commands the following loop will execute without actually running those commands:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> <span class="pp">*</span>.pdb</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">analyze</span> <span class="va">$file</span> <span class="op">&gt;</span> analyzed-<span class="va">$file</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.8.2.6:</em></strong> Dry run with <code>echo</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What is the difference between the two loops below, and which one would we want to run?</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Version 1</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> <span class="pp">*</span>.pdb</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> analyze <span class="va">$file</span> <span class="op">&gt;</span> analyzed-<span class="va">$file</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Version 2</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> <span class="pp">*</span>.pdb</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">"analyze </span><span class="va">$file</span><span class="st"> &gt; analyzed-</span><span class="va">$file</span><span class="st">"</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-22" class="callout-22-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The second version is the one we want to run. This prints to screen everything enclosed in the quote marks, expanding the loop variable name because we have prefixed it with a dollar sign.</p>
+<p>The first version redirects the output from the command <code>echo analyze $file</code> to a file, <code>analyzed-$file</code>. A series of files is generated: <code>analyzed-cubane.pdb</code>, <code>analyzed-ethane.pdb</code> etc.</p>
+<p>Try both versions for yourself to see the output! Be sure to open the <code>analyzed-*.pdb</code> files to view their contents.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="nested-loops" class="level3">
+<h3 class="anchored" data-anchor-id="nested-loops">Nested loops</h3>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.8.2.7:</em></strong> Nested Loops
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Suppose we want to set up up a directory structure to organize some experiments measuring reaction rate constants with different compounds <em>and</em> different temperatures. What would be the result of the following code:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> species <span class="kw">in</span> cubane ethane methane</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> temperature <span class="kw">in</span> 25 30 37 40</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">do</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mkdir</span> <span class="va">$species</span>-<span class="va">$temperature</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">done</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-24" class="callout-24-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We have a nested loop, i.e.&nbsp;contained within another loop, so for each species in the outer loop, the inner loop (the nested loop) iterates over the list of temperatures, and creates a new directory for each combination.</p>
+<p>Try running the code for yourself to see which directories are created!</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Alternate solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-25" class="callout-25-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We can modify the code so that our command is quoted in an <code>echo</code> command: <code>echo "mkdir $MOLECULE-$TEMP"</code>.<br>
+This would be the output:</p>
+<pre><code>mkdir cubane-25
+mkdir cubane-30
+mkdir cubane-37
+mkdir cubane-40
+mkdir ethane-25
+mkdir ethane-30
+mkdir ethane-37
+mkdir ethane-40
+mkdir methane-25
+mkdir methane-30
+mkdir methane-37
+mkdir methane-40</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Exercise 2.8.2.8:</em></strong> Creating a <code>.csv</code> Input File
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>This is an (optional) advanced exercise.</strong></p>
+<p>Let’s consider the files in the <code>02_unix_intro/sequencing</code> directory (note: it’s not important if you don’t know what sequencing is!). This directory contains the results of an experiment where several samples were processed in two runs of the sequencing machine (<code>run1/</code> and <code>run2/</code>). For each sample, there are two input files, which have suffix <code>_1.fq.gz</code> and <code>_2.fq.gz</code>.</p>
+<p>The researcher analysing these files needs to produce a CSV file, which will be used as input to a pipeline, and the format of this file should be:</p>
+<pre><code>sample,input1,input2
+sampleA,run1/sampleA_1.fq.gz,run1/sampleA_2.fq.gz
+sampleB,run1/sampleB_1.fq.gz,run1/sampleB_2.fq.gz
+sampleC,run1/sampleC_1.fq.gz,run1/sampleC_2.fq.gz
+sampleD,run1/sampleD_1.fq.gz,run1/sampleD_2.fq.gz
+sampleE,run2/sampleE_1.fq.gz,run2/sampleE_2.fq.gz
+sampleF,run2/sampleF_1.fq.gz,run2/sampleF_2.fq.gz</code></pre>
+<p>Write a script that produces this file.</p>
+<details>
+<summary>
+<strong>Hints - don’t hesitate to look at these tips, it’s a challenging exercise!. Don’t worry if you don’t understand anything, you will learn more about <a href="../../materials/02-unix_intro/2.9-bonus_shell_scripts.html">scripts</a> in the <a href="../../materials/02-unix_intro/2.9-bonus_shell_scripts.html">next chapter</a></strong>
+</summary>
+<ul>
+<li>Use a for loop to iterate through each sample (remember that each sample has two input files).</li>
+<li>You can combine multiple wildcards in a path, for example <code>ls run*/*_1.fq.gz</code> would list all files in folders starting with the word “run” and all files within those folders ending in “_1.fq.gz”.</li>
+<li>The command <code>dirname</code> can be used to extract the directory name from a path. For example: <code>dirname run1/sampleA_1.fq.gz</code> would return “run1” as the result.</li>
+<li>Conversely, the command <code>basename</code> can be used to extract the name of a file from a path. For example: <code>basename run1/sampleA_1.fq.gz</code> would return “sampleA_1.fq.gz”. Further, you can also remove a suffix at the end of the name by passing it as a second argument to basename: <code>basename  run1/sampleA_1.fq.gz  _1.fq.gz</code> would only return “sampleA”.</li>
+<li>You can store the result of a command in a variable with the syntax <code>NAME=$(command)</code>. For example, <code>DIR=$(dirname run1/sampleA_1.fq.gz)</code> would create a variable called <code>$DIR</code> storing the result of the command, i.e.&nbsp;“run1”.</li>
+</ul>
+</details>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-27-contents" aria-controls="callout-27" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><em>Solution:</em></strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-27" class="callout-27-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Based on all the hints given, here is a script that would achieve the desired result:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co"># first create a file with the CSV header (column names)</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"sample,input1,input2"</span> <span class="op">&gt;</span> samplesheet.csv</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="co"># for each file ending with `_1.fq.gz` (so we only process each sample once)</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> FILE <span class="kw">in</span> run<span class="pp">*</span>/<span class="pp">*</span>_1.fq.gz</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># extract the directory name of the file</span></span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>  <span class="va">DIR</span><span class="op">=</span><span class="va">$(</span><span class="fu">dirname</span> <span class="va">$FILE)</span></span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># extract the prefix basename of the file</span></span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>  <span class="va">BASE</span><span class="op">=</span><span class="va">$(</span><span class="fu">basename</span> <span class="va">$FILE</span> _1.fq.gz<span class="va">)</span></span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># append the name of the sample, and each input file path</span></span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">"</span><span class="va">${BASE}</span><span class="st">,</span><span class="va">${DIR}</span><span class="st">/</span><span class="va">${BASE}</span><span class="st">_1.fq.gz,</span><span class="va">${DIR}</span><span class="st">/</span><span class="va">${BASE}</span><span class="st">_2.fq.gz"</span> <span class="op">&gt;&gt;</span> samplesheet.csv</span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This can be incredibly useful, especially for bioinformatic applications, when you may have to process hundreds of samples using standard pipelines. You will later find out the importance of this in <a href="../07-workflow_managers/01-workflow_managers.md">module 07</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="credit" class="level2">
+<h2 class="anchored" data-anchor-id="credit">2.8.3 Credit</h2>
+<p>Information on this page has been adapted and modified from the following source(s):</p>
+<ul>
+<li><p><em>Gabriel A. Devenyi (Ed.), Gerard Capes (Ed.), Colin Morris (Ed.), Will Pitchers (Ed.),Greg Wilson, Gerard Capes, Gabriel A. Devenyi, Christina Koch, Raniere Silva, Ashwin Srinath, … Vikram Chhatre. (2019, July). swcarpentry/shell-novice: Software Carpentry: the UNIX shell, June 2019 (Version v2019.06.1).</em></p></li>
+<li><p>https://github.com/cambiotraining/UnixIntro</p></li>
+<li><p>https://github.com/cambiotraining/unix-shell</p></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../materials/02-unix_intro/2.7-bonus_find_and_grep.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2.7 <em>Bonus</em> : Finding Things</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../materials/02-unix_intro/2.9-bonus_shell_scripts.html" class="pagination-link">
+        <span class="nav-page-text">2.9 <em>Bonus</em>: Shell Scripts</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">Licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://creativecommons.org/images/deed/cc_icon_black_x2.png" class="img-fluid" width="25"> Dr Prince Asare and Dr Andries van Tonder</div>
+  </div>
+</footer>
+
+
+
+</body></html>
