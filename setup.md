@@ -34,7 +34,7 @@ If you already have Miniconda or Anaconda installed, and you just want to upgrad
 conda update conda
 ```
 
-After updatiing conda, you can proceed to the instructions from number 8 to install mamba into the base environment from the conda-forge channel.
+After updating conda, you can proceed to the instructions from number 8 to install mamba into the base environment from the conda-forge channel.
 
 :::
 
@@ -276,7 +276,7 @@ This creates an environment called `qc` with the specified package versions and 
 Use the below command to install the packages in the `qc` environment:
 
 ```bash
-conda install pandas=1.4.3 -n qc -c conda-forge 
+mamba install pandas=1.4.3 -n qc -c conda-forge 
 ```
 
 We will activate and use this environment in [chapter 4](./materials/04-sequence_qc/4.1-sequence_qc.md) --- [Sequencing Quality Control](./materials/04-sequence_qc/4.1-sequence_qc.md).
@@ -408,7 +408,7 @@ This creates an environment called `qc` with the specified package versions and 
 Use the below command to install the packages in the `qc` environment:
 
 ```bash
-conda install pandas -n qc -c conda-forge 
+mamba install pandas -n qc -c conda-forge 
 ```
 
 We will activate and use this environment in [chapter 4](./materials/04-sequence_qc/4.1-sequence_qc.md) --- [Sequencing Quality Control](./materials/04-sequence_qc/4.1-sequence_qc.md).
@@ -430,7 +430,7 @@ This creates an environment called `mapping` with the specified package versions
 Use the below command to install the packages in the `mapping` environment:
 
 ```bash
-conda install pandas -n qc -c conda-forge 
+mamba install pandas -n mapping -c conda-forge 
 ```
 
 We will activate and use this environment in [chapter 5](./materials/05-short_read_mapping/5.1-short_read_mapping.md) --- [Short Read Mapping](./materials/05-short_read_mapping/5.1-short_read_mapping.md).
@@ -490,18 +490,18 @@ We will activate and use these environments in [chapter 11](./materials/11-genot
 
 
 :::{.callout-note}
-### Specify version of toool to install
+### Specify version of tool to install
 
 As you may see, all the tools installed have specified version numbers added to the tool names in the format `tool=version_numer`. This allows us to install the exact version of tools used for the training.
 
-For your personal use, if you wish to use the latest version of these tools, just omit specifying the version z-version_number` and the latest version of the tool will hopefully be installed.
+For your personal use, if you wish to use the latest version of these tools, just omit specifying the version `=version_number` and the latest version of the tool will hopefully be installed.
 :::
 
 :::::
 
 
 
-## Downloading databases
+## Downloading database
 
 ::::: {.panel-tabset group="os"}
 
@@ -520,7 +520,7 @@ Uncompress the database
 tar xvfz minikraken2_v1_8GB_201904.tgz 
 ```
 
-If the unzipped database is not same as the one use in the workshop, rename the it to match the workshop codes used using:
+If the unzipped database is not same as the one use in the workshop, rename it to match the workshop codes used using:
 
 ```bash
 mv <unzipped_database_name> minikraken2_v1_8GB
